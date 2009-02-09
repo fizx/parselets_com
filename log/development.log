@@ -1,9 +1,0 @@
-** ultrasphinx: configuration file not found for "development" environment
-** ultrasphinx: please run 'rake ultrasphinx:configure'
-** ultrasphinx: spelling support not available (raspell configuration raised "uninitialized constant Ultrasphinx::Spell::Aspell")
-** ultrasphinx: configuration file not found for "development" environment
-** ultrasphinx: please run 'rake ultrasphinx:configure'
-** ultrasphinx: spelling support not available (raspell configuration raised "uninitialized constant Ultrasphinx::Spell::Aspell")
-** ultrasphinx: configuration file not found for "development" environment
-** ultrasphinx: please run 'rake ultrasphinx:configure'
-** ultrasphinx: spelling support not available (raspell configuration raised "uninitialized constant Ultrasphinx::Spell::Aspell")
