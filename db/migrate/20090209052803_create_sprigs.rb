@@ -1,7 +1,8 @@
 class CreateSprigs < ActiveRecord::Migration
   def self.up
     create_table :sprigs do |t|
-      t.description :name
+      t.string :name
+      t.text :description
       t.text :code
       t.integer :user_id
       t.integer :version
