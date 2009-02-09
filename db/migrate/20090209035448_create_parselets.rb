@@ -6,6 +6,7 @@ class CreateParselets < ActiveRecord::Migration
       t.text :code
       t.string :pattern
       t.string :example_url
+      t.string :domain_id
       t.integer :user_id
       t.integer :version
       t.boolean :pattern_regex
