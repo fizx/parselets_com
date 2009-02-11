@@ -7,7 +7,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resources :sprigs
   map.resources :parselets
-
+  map.resources :domains
+  
   map.resource :session
 
   map.root :controller => "home"
