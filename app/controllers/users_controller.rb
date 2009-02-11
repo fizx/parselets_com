@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  
+  layout "simple"
   # render new.rhtml
   def new
     @user = User.new
