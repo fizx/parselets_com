@@ -8,6 +8,56 @@ div {
   padding:0;
 }
 
+div.tab{
+  float:left;
+  background-color:white;
+  padding: 3px 10px 3px 10px;
+  margin:0 15px 0 0;
+  position:relative;
+  top:5px;
+}
+
+textarea {
+  height:100px;
+}
+
+table {
+  width:750px;
+  border: 1px #eee solid;
+  margin-top:15px;
+}
+  
+td {
+  vertical-align: top;
+  padding: 5px 0px 15px 15px;
+}
+
+td.info{ 
+  padding-top: 20px;
+  font-size: small;
+  width: 100%;
+}
+
+th {
+  padding:5px 15px 5px 15px;
+  background-color: #eee;
+  text-align:left;
+}
+
+th.buttons{
+  text-align:right;
+}
+
+p {
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
 #user-nav {
   float:right;
   display: inline;

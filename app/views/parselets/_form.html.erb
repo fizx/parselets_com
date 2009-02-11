@@ -1,31 +1,74 @@
 <% form_for(@parselet) do |f| %>
   <%= f.error_messages %>
 
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </p>
-  <p>
-    <%= f.label :code %><br />
-    <%= f.text_area :code %>
-  </p>
-  <p>
-    <%= f.label :pattern %><br />
-    <%= f.text_field :pattern %>
-  </p>
-  <p>
-    <%= f.label :example_url %><br />
-    <%= f.text_field :example_url %>
-  </p>
-  <p>
-    <%= f.label :pattern_regex %><br />
-    <%= f.check_box :pattern_regex %>
-  </p>
-  <p>
-    <%= f.submit @parselet.new_record? ? "Create" : "Update" %>
-  </p>
+  <table cellpadding="5" cellspacing="0" border="0">
+    <tr>
+      <th>Basic info</th>
+      <th class="buttons"><%=submit_tag "Save"%></th>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :keyword %><br />
+        <%= f.text_field :name %>
+      </td>
+      <td class="info" width="100%">A short name to reference your parselet by.  It should be alphanumeric+underscore.</td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :description %><br />
+        <%= f.text_area :description %>
+      </td>
+      <td class="info">Human-readable description of the parselet, indexed by search. </td>
+    </tr>
+  </table>
+  
+  <table cellpadding="5" cellspacing="0" border="0">
+    <tr>
+      <th>Scope</th>
+      <th class="buttons"><%=submit_tag "Save"%></th>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :pattern %>
+        <%= f.check_box :pattern_regex %>
+        <%= f.label "regex?" %>
+        <br />
+        <%= f.text_field :pattern %>
+      </td>
+      <td class="info">A pattern that describes urls expected to match this parselet.  You can use simple patterns (use * for wildcard, pattern must match entire url), or perl-compatible regular expressions (use ^, $ to anchor if desired).</td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :example_url %><br />
+        <%= f.text_field :example_url %>
+      </td>
+      <td class="info">A url that will be used to validate, preview, etc. your parselet.  It must match the pattern.</td>
+    </tr>
+  </table>
+  
+  <table cellpadding="5" cellspacing="0" border="0">
+    <tr>
+      <th>Sprigs</th>
+      <th class="buttons"><input type="text" value="Search"> <input type="button" value="Add"></th>
+    </tr>
+    <tr>
+      <td colspan="2">
+        Sprigs are pre-defined sets of keys that represent commonly used data types.
+      </td>
+    </tr>
+  </table>
+  
+  <table cellpadding="5" cellspacing="0" border="0">
+    <tr>
+      <th>
+        <div class="tab">Friendly</div>
+        <div class="tab">Ruby</div>
+        <div class="tab">JSON/Python</div>
+      </th>
+      <th class="buttons"><%=submit_tag "Save"%></th>
+    </tr>
+    <tr>
+      <td><%= code_component(@parselet.code) %></td>
+    </tr>
+  </table>
 <% end %>
