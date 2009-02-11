@@ -16,6 +16,11 @@ class HomeControllerTest < ActionController::TestCase
     assert_select "div#notice", "hello world"
   end
   
+  def test_logo
+    get :index
+    assert_select "#logo", "parselets"
+  end
+  
   def test_content
     get :index
     TYPES.each do |method|

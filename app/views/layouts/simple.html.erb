@@ -1,13 +1,17 @@
 <html>
   <head>
+    <%=stylesheet_link_tag "site" %>
   </head>
   <body>
     <div id="header">
-      <%=render "/users/user_bar" %>
+      <div id="user-nav">
+        <%=render "/users/user_bar" %>
+      </div>
+      <div id="logo"><%=link_to "parselets", "/"%></div>
     </div>
     <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
     <div id="main">
-      <%=yield%>
+      <%=yield %>
     </div>
   </body>
 </html>

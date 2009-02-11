@@ -1,0 +1,39 @@
+body {
+  font-family:sans-serif;
+  margin:0;
+}
+
+div {
+  margin:0;
+  padding:0;
+}
+
+#user-nav {
+  float:right;
+  display: inline;
+  font-size:small;
+}
+
+#user-nav div {
+  display: inline;
+}
+
+#header {
+  padding:7px 15px 7px 15px;
+  background-color:#eee;
+  border-bottom:1px silver solid;
+}
+
+#notice {
+  padding:7px 15px 7px 15px;
+  background-color:#ffc;
+}
+
+#logo a{
+  font-weight:bold;
+  color:black;
+  text-decoration:none;
+}
+#main {
+  padding:15px;
+}

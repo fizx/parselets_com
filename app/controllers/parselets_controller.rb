@@ -1,4 +1,6 @@
 class ParseletsController < ApplicationController
+  layout "simple"
+  
   # GET /parselets
   # GET /parselets.xml
   def index

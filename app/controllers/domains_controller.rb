@@ -1,4 +1,6 @@
 class DomainsController < ApplicationController
+  layout "simple"
+  
   # GET /domains
   # GET /domains.xml
   def index

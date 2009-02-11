@@ -1,4 +1,6 @@
 class SprigsController < ApplicationController
+  layout "simple"
+  
   # GET /sprigs
   # GET /sprigs.xml
   def index
