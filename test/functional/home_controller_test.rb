@@ -11,6 +11,11 @@ class HomeControllerTest < ActionController::TestCase
     assert_routing "/", :controller => "home", :action => "index"
   end
   
+  def test_flash
+    get :index, nil, nil, :notice => "hello world"
+    assert_select "div#notice", "hello world"
+  end
+  
   def test_content
     get :index
     TYPES.each do |method|

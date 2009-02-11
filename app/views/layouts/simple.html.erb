@@ -5,6 +5,7 @@
     <div id="header">
       <%=render "/users/user_bar" %>
     </div>
+    <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
     <div id="main">
       <%=yield%>
     </div>
