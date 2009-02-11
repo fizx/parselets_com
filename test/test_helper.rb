@@ -39,15 +39,17 @@ end
 
 class ActionController::LoggedInTestCase < ActionController::TestCase
   
-  %w[get put post delete].each do |method|
-    alias_method "#{method}_without_session", method
+  unless @methods_defined
+    %w[get put post delete].each do |method|
+      alias_method "#{method}_without_session", method
     
-    class_eval <<-STR
-      def #{method}(action, parameters = nil, session = {}, flash = nil)
-        session[:user_id] ||= 1
-        #{method}_without_session(action, parameters, session, flash)
-      end
-    STR
+      class_eval <<-STR
+        def #{method}(action, parameters = nil, session = {}, flash = nil)
+          session[:user_id] ||= 1
+          #{method}_without_session(action, parameters, session, flash)
+        end
+      STR
+    end
+    @methods_defined = true
   end
-  
 end
