@@ -1,10 +1,10 @@
-<h3><%=link_to 'Domains' %></h3>
+<h3><%=link_to 'Domains', domains_path %></h3>
 <ol><%=render @domains %></ol>
-<h3><%=link_to 'Users' %></h3>
+<h3><%=link_to 'Users', users_path %></h3>
 <ol><%=render @users %></ol>
-<h3><%=link_to 'Sprigs' %></h3>
+<h3><%=link_to 'Sprigs', sprigs_path %> <%=link_to '+', new_sprig_path %></h3>
 <ol><%=render @sprigs %></ol>
-<h3><%=link_to 'Parselets' %></h3>
+<h3><%=link_to 'Parselets', parselets_path %> <%=link_to '+', new_parselet_path %></h3>
 <ol><%=render @parselets %></ol>
 
   <h4>Advantages of Using Parselets</h4>
