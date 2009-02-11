@@ -1,12 +1,18 @@
 require 'test_helper'
 
-class SprigsControllerTest < ActionController::TestCase
+class SprigsControllerTest < ActionController::LoggedInTestCase
+    
+  def test_redirected_without_login
+    get_without_session :new
+    assert_redirected_to new_session_url
+  end
+  
   test "should get index" do
     get :index
     assert_response :success
     assert_not_nil assigns(:sprigs)
   end
-
+    
   test "should get new" do
     get :new
     assert_response :success

@@ -1,6 +1,8 @@
 class SprigsController < ApplicationController
   layout "simple"
   
+  before_filter :login_required, :except => %w[index show]
+  
   # GET /sprigs
   # GET /sprigs.xml
   def index

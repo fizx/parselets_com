@@ -36,3 +36,18 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+class ActionController::LoggedInTestCase < ActionController::TestCase
+  
+  %w[get put post delete].each do |method|
+    alias_method "#{method}_without_session", method
+    
+    class_eval <<-STR
+      def #{method}(action, parameters = nil, session = {}, flash = nil)
+        session[:user_id] ||= 1
+        #{method}_without_session(action, parameters, session, flash)
+      end
+    STR
+  end
+  
+end
