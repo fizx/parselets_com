@@ -1,0 +1,13 @@
+<p>
+  <b>Name:</b>
+  <%=h @sprig.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @sprig.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_sprig_path(@sprig) %> |
+<%= link_to 'Back', sprigs_path %>
