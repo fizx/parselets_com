@@ -1,0 +1,33 @@
+<p>
+  <b>Name:</b>
+  <%=h @parselet.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @parselet.description %>
+</p>
+
+<p>
+  <b>Code:</b>
+  <%=h @parselet.code %>
+</p>
+
+<p>
+  <b>Pattern:</b>
+  <%=h @parselet.pattern %>
+</p>
+
+<p>
+  <b>Example url:</b>
+  <%=h @parselet.example_url %>
+</p>
+
+<p>
+  <b>Pattern regex:</b>
+  <%=h @parselet.pattern_regex %>
+</p>
+
+
+<%= link_to 'Edit', edit_parselet_path(@parselet) %> |
+<%= link_to 'Back', parselets_path %>
