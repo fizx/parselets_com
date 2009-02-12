@@ -7,7 +7,8 @@ class Parselet < ActiveRecord::Base
       find :all, :limit => n
     end
   
-    def tmp_from_params(params)
+    def tmp_from_params(params, command = nil)
+      apply_command!(params, command) unless command.blank?
       raise "wtf" unless params.is_a?(Hash)
       tmp = Parselet.new
       tmp.data = value_of params
@@ -15,6 +16,32 @@ class Parselet < ActiveRecord::Base
     end
 
   private
+  
+    def apply_command!(params, command)
+      path, i, command = command.split(",")
+      node = address_path(params, path, i)
+      case command
+      when "multify":
+        node["multi"] = "true"
+      when "unmultify":
+        node["multi"] = nil
+      when "unobjectify":
+        node["value"] = nil
+      when "objectify":
+        v = node["value"]
+        node["value"] = {
+          "0" => {
+            "key" => "",
+            "value" => v
+          }
+        }
+      end
+    end
+    
+    def address_path(params, path, i)
+      keys = path.scan(/\[([^\]\[]+)\]/).flatten + [i]
+      keys.inject(params){|memo, key| (memo || {})[key] }
+    end
 
     def value_of(data)
       case data

@@ -2,7 +2,8 @@
 <% add_key ||= emptyish(data) || data.values.none?(&:blank?)%>
 
 <% if root %>
-  <%=hidden_field_tag %>
+  <%=hidden_field_tag "#{path}-command", "" %>
+  <%=hidden_field_tag "#{path}-focus", "" %>
 <% end %>
 
 {
@@ -20,7 +21,9 @@
            when String, NilClass %>
           <% next if key.blank? %>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <%=value_field path, i, value %> or <%=link_to "multi" %> or <%=link_to "object" %>
+            <%=value_field path, i, value %>
+                  or <%=link_to_command "multi", "multify", path, i %>
+                  or <%=link_to_command "object", "objectify", path, i %>
         <% when Hash %>
           <%=render "code", :data => value, :path => "#{path}[#{i}][value]"%>
         <% when Array %>
@@ -29,7 +32,8 @@
             <% value = value.first %>
             <% case value 
                when String, NilClass %>
-                 <%=value_field path, i, value %> or <%=link_to "object" %>
+                 <%=value_field path, i, value %> 
+                        or <%=link_to_command "object", "objectify", path, i %>
             <% when Hash %>
                  <%=render "code", :data => value, :path => "#{path}[#{i}][value]"%>
             <% end %>

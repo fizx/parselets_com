@@ -9,6 +9,18 @@ class ParseletTest < ActiveSupport::TestCase
     assert_equal "{}", @parselet.code
     assert_equal Hash.new, @parselet.json
   end
+  
+  def test_tmp_from_params_command
+    command = "root,0,multify"
+    params = {"0" => {"key" => "title", "value" => "h1"}}
+    output = { "title" => ["h1"] }
+    assert_tmp_transform(params, output, command)
+    
+    command = "root,0,objectify"
+    params = {"0" => {"key" => "title", "value" => "h1"}}
+    output = { "title" => {"" => "h1"} }
+    assert_tmp_transform(params, output, command)
+  end
     
   def test_tmp_from_params
     assert Parselet.respond_to?(:tmp_from_params)
@@ -39,8 +51,8 @@ class ParseletTest < ActiveSupport::TestCase
     assert_tmp_transform(params, output)
   end
   
-  def assert_tmp_transform(input, output)
-    parselet = Parselet.tmp_from_params(input)
+  def assert_tmp_transform(input, output, command = nil)
+    parselet = Parselet.tmp_from_params(input, command)
     assert_kind_of Parselet, parselet
     assert_equal output, parselet.json
   end
