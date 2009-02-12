@@ -61,14 +61,18 @@
   <table cellpadding="5" cellspacing="0" border="0">
     <tr>
       <th>
-        <div class="tab">Friendly</div>
-        <div class="tab">Ruby</div>
-        <div class="tab">JSON/Python</div>
+        <div class="untab">Edit like: </div>
+        <div class="tab">Guided</div>
+        <div class="tab"><%=link_to "Ruby" %></div>
+        <div class="tab"><%=link_to "JSON/Python" %></div>
       </th>
-      <th class="buttons"><%=submit_tag "Save"%></th>
+      <th class="buttons">
+        <input type="button" value="Refresh" onclick="re_eval(this)" />
+        <%=submit_tag "Save"%>
+      </th>
     </tr>
     <tr>
-      <td><%= code_component(@parselet.code) %></td>
+      <td id="code_container"><%=render "code", :path => "root", :data => @parselet.json %></td>
     </tr>
   </table>
 <% end %>

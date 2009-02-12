@@ -1,6 +1,14 @@
 class ParseletsController < ApplicationController
   layout "simple"
   
+  def code
+    @parselet = Parselet.tmp_from_params(params[:root] || {})
+    render :update do |page|
+      page.replace_html "code_container", :partial => "code",
+        :locals => {:path => "root", :data => @parselet.json }
+    end
+  end
+  
   # GET /parselets
   # GET /parselets.xml
   def index

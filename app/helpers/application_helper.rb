@@ -1,7 +1,4 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   
-  def code_component(*args)
-    "code goes here"
-  end
 end

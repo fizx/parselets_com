@@ -17,8 +17,33 @@ div.tab{
   top:5px;
 }
 
+div.untab{
+  float:left;
+  padding: 3px 10px 3px 10px;
+  margin:0 15px 0 0;
+  position:relative;
+  top:5px;
+}
+
+#code_container div {
+  margin: 2px 0 2px 0;
+}
+
 textarea {
   height:100px;
+}
+
+blockquote {
+  margin: 0 0 0 15px;
+  padding:0;
+}
+
+input.key {
+  width: 100px;
+}
+
+.subtle {
+  color: #999;
 }
 
 table {
