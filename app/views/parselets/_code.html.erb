@@ -1,11 +1,12 @@
+<% json ||= nil %>
 <% root = !(path =~ /\[/ ) %>
 <% add_key ||= emptyish(data) || data.values.none?(&:blank?)%>
 
 <% if root %>
   <%=hidden_field_tag "#{path}-command", "" %>
-  <%=hidden_field_tag "#{path}-focus", "" %>
 <% end %>
 
+<tt>
 {
   <span class="subtle"> # object
     <% if !root %>
@@ -20,27 +21,51 @@
         <% case value 
            when String, NilClass %>
           <% next if key.blank? %>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <%=space(key)%>
             <%=value_field path, i, value %>
-                  or <%=link_to_command "multi", "multify", path, i %>
-                  or <%=link_to_command "object", "objectify", path, i %>
+            <%=menu%>
+                  <!-- [ <%=link_to_command "multi", "multify", path, i %> ]
+                  [ <%=link_to_command "object", "objectify", path, i %> ] -->
         <% when Hash %>
+          [ <%=link_to_command "multi", "multify", path, i %> ]
           <%=render "code", :data => value, :path => "#{path}[#{i}][value]"%>
         <% when Array %>
-          [
-            <%=multi_field path, i %>
-            <% value = value.first %>
-            <% case value 
-               when String, NilClass %>
-                 <%=value_field path, i, value %> 
-                        or <%=link_to_command "object", "objectify", path, i %>
-            <% when Hash %>
-                 <%=render "code", :data => value, :path => "#{path}[#{i}][value]"%>
-            <% end %>
+          [ <span class="subtle">
+            # multi 
+            <%=menu%>
+            <!-- [ <%=link_to_command "single", "unmultify", path, i %> ] -->
+          </span>
+            <blockquote>
+              <%=multi_field path, i %>
+              <% value = value.first %>
+              <% case value 
+                 when String, NilClass %>
+                   <%=value_field path, i, value %> 
+                   <%=menu%>
+                          <!-- [ <%=link_to_command "object", "objectify", path, i %> ] -->
+              <% when Hash %>
+                   <%=render "code", :data => value, :path => "#{path}[#{i}][value]"%>
+              <% end %>
+            </blockquote>
           ]
         <% end %>
       </div>  
     <% end%>
-    <% if add_key %><div><%=key_field path, data.length, "" %>: &larr; add a key</div><% end %>
+    <% if add_key %><div><%=auto_key_field path, data.length %>: &larr; add a key</div><% end %>
   </blockquote> 
 }
+</tt>
+
+
+<% if root %>
+  <script>
+    var field = $('parselet_form').getInputs('text').find(function(e){ 
+        return e.name.startsWith("root") && $F(e) == ""; 
+      });
+    var alt_field = $('parselet_form').getInputs('text').find(function(e){ 
+        return e.name.startsWith("root") && $F(e) == "" && e.className == "key-auto"; 
+      });
+    field = field || alt_field;
+    field && field.focus();
+  </script>
+<% end %>

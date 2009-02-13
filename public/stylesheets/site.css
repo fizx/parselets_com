@@ -38,7 +38,7 @@ blockquote {
   padding:0;
 }
 
-input.key {
+input.key, input.key-auto {
   width: 100px;
 }
 

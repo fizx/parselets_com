@@ -1,3 +1,4 @@
+require "json"
 class ParseletsController < ApplicationController
   layout "simple"
   
@@ -5,7 +6,7 @@ class ParseletsController < ApplicationController
     @parselet = Parselet.tmp_from_params(params[:root] || {}, params["root-command"])
     render :update do |page|
       page.replace_html "code_container", :partial => "code",
-        :locals => {:path => "root", :data => @parselet.json }
+        :locals => {:path => "root", :data => @parselet.json, :json => JSON.generate(params[:root]) }
     end
   end
   
