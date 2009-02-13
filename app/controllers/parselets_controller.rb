@@ -3,10 +3,20 @@ class ParseletsController < ApplicationController
   layout "simple"
   
   def code
-    @parselet = Parselet.tmp_from_params(params[:root] || {}, params["root-command"])
+    @editor_type = params["editor_helpful"].blank? ? "simple" : "helpful"
+    
+    if params[:root]  
+      @parselet = Parselet.tmp_from_params(params[:root] || {}, params["root-command"])
+    else
+      @parselet = Parselet.new
+      @parselet.code = params[:code]
+    end
+    
     render :update do |page|
       page.replace_html "code_container", :partial => "code",
-        :locals => {:path => "root", :data => @parselet.json, :json => JSON.generate(params[:root]) }
+        :locals => {:path => "root", 
+                    :data => @parselet.json, 
+                    :editor_type => @editor_type }
     end
   end
   

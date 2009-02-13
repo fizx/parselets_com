@@ -1,0 +1,37 @@
+<% root = !(path =~ /\[/ ) %>
+<% add_key ||= emptyish(data) || data.values.none?(&:blank?)%>
+
+<tt>
+<% if root %>
+<%=menu({}, path, false) %> 
+<% end %>
+{
+  <blockquote>
+    <% data.each_with_index do |(key, value), i|%>
+      <div>
+		<%=key_field path, i, key, value %>:
+        <% case value 
+           when String, NilClass %>
+          <% next if key.blank? %>
+            <%=value_field path, i, value %>
+        <% when Hash %>
+          <%=render "code", :data => value, :path => "#{path}[#{i}][value]"%>
+        <% when Array %>
+          [ <span class="subtle">
+          </span>
+            <%=multi_field path, i %>
+            <% value = value.first %>
+            <% case value 
+               when String, NilClass %>
+                 <%=value_field path, i, value %> 
+            <% when Hash %>
+                 <%=render "code", :data => value, :path => "#{path}[#{i}][value]"%>
+            <% end %>
+          ]
+        <% end %>
+      </div>  
+    <% end%>
+    <% if add_key %><div><%=key_field path, data.length %>: &larr; add a key</div><% end %>
+  </blockquote> 
+}
+</tt>

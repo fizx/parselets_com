@@ -61,18 +61,18 @@
   <table cellpadding="5" cellspacing="0" border="0">
     <tr>
       <th>
-        <div class="untab">Edit like: </div>
-        <div class="tab">Guided</div>
-        <div class="tab"><%=link_to "Ruby" %></div>
-        <div class="tab"><%=link_to "JSON/Python" %></div>
+		<%=hidden_field_tag "editor_helpful", "true"%>
+		<%=hidden_field_tag "root-command", "" %>
+        <div class="tab"><%=link_to_function "Helpful", "helpful(true)", :class => "selected", :id => "hyes" %></div>
+        <div class="tab"><%=link_to_function "Simple", "helpful(false)", :id => "hno" %></div>
       </th>
       <th class="buttons">
-        <input type="button" value="Refresh" onclick="re_eval(this)" />
+        <input type="button" value="Refresh" onclick="re_eval(this)" id="arbitrary" />
         <%=submit_tag "Save"%>
       </th>
     </tr>
     <tr>
-      <td id="code_container"><%=render "code", :path => "root", :data => @parselet.json %></td>
+      <td id="code_container"><%=render "code", :editor_type => "helpful", :path => "root", :data => @parselet.json %></td>
     </tr>
   </table>
 <% end %>

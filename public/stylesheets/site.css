@@ -8,6 +8,52 @@ div {
   padding:0;
 }
 
+.down {
+  text-decoration:none;
+	font-size: small;
+}
+.x {
+	position:absolute;
+	left: 189px;
+	font-family: sans-serif;
+	text-decoration:none;
+	color:#000;
+}
+
+ul.menu {
+	position:absolute;
+	top:15px;
+	left:-5px;
+	width:200px;
+	border:1px silver solid;
+	border-bottom:0px;
+	background-color:#eee;
+	margin:0;
+	padding:0;
+	list-style:none;
+	z-index:2;
+}
+
+a.selected {
+	color:black;
+	text-decoration:none;
+}
+
+ul.menu li {
+	margin:0;
+	list-style:none;
+	border-bottom:1px silver solid;
+}
+
+ul.menu li a {
+	display:block;
+	padding:3px;
+}
+
+ul.menu li a:hover {
+	background-color: #fff;
+}
+
 div.tab{
   float:left;
   background-color:white;
@@ -40,6 +86,12 @@ blockquote {
 
 input.key, input.key-auto {
   width: 100px;
+	font-family: monospace;
+}
+
+input.value {
+	width:350px;
+	font-family: monospace;
 }
 
 .subtle {
