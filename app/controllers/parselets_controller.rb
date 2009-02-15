@@ -17,6 +17,7 @@ class ParseletsController < ApplicationController
         :locals => {:path => "root", 
                     :data => @parselet.json, 
                     :editor_type => @editor_type }
+      page << "$('root-command').value = ''"
     end
   end
   

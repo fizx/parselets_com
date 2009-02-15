@@ -20,13 +20,15 @@ class Parselet < ActiveRecord::Base
     def apply_command!(params, command)
       path, i, command = command.split(",")
       node = address_path(params, path, i)
-      case command
+      case command      
+      when "delete":
+        node && node["deleted"] = "true"
       when "multify":
-        node["multi"] = "true"
+        node && node["multi"] = "true"
       when "unmultify":
-        node["multi"] = nil
+        node && node["multi"] = nil
       when "unobjectify":
-        node["value"] = nil
+        node && node["value"] = nil
       when "objectify":
         v = node["value"]
         node["value"] = {
@@ -55,7 +57,7 @@ class Parselet < ActiveRecord::Base
           val = value_of(pair["value"])
           val = [val]           if pair["multi"] == "true"
           val = []              if val == [nil]
-          memo[pair["key"]] = val
+          memo[pair["key"]] = val unless pair["deleted"] == "true"
           memo
         end
       end
@@ -63,8 +65,13 @@ class Parselet < ActiveRecord::Base
   end
   extend ClassMethods
   
+  def code=(str)
+    OrderedJSON.parse(str)
+    self[:code] = str
+  end
+  
   def code
-    self[:code] || "{}"
+    self[:code].blank? ? "{}" : self[:code]
   end
   
   def json

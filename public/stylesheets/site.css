@@ -48,6 +48,7 @@ ul.menu li {
 ul.menu li a {
 	display:block;
 	padding:3px;
+	text-decoration: none;
 }
 
 ul.menu li a:hover {

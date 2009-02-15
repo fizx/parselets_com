@@ -16,20 +16,20 @@ module ParseletsHelper
     is_obj = [value].flatten[0].is_a?(Hash)
     items = []
     
-    items << link_to_command("add sprig", "sprig", path, name) 
+    # items << link_to_command("add sprig", "sprig", path, name) 
     
     unless is_root
     
       if is_arr 
-        items << link_to_command("to single value", "unmultify", path, name) 
+        items << link_to_command("multi-valued", "unmultify", path, name, :checked) 
       else
-        items << link_to_command("to multiple values", "multify", path, name)
+        items << link_to_command("multi-valued", "multify", path, name, :unchecked)
       end
     
       if is_obj
-        items << link_to_command("to string", "unobjectify", path, name) 
+        items << link_to_command("object", "unobjectify", path, name, :checked) 
       else
-        items << link_to_command("to object", "objectify", path, name)
+        items << link_to_command("object", "objectify", path, name, :unchecked)
       end
     
       items << link_to_command("delete", "delete", path, name)    
@@ -62,8 +62,15 @@ module ParseletsHelper
     "&nbsp;" * [(10 - str.length), 0].max
   end
   
-  def link_to_command(text, command, path, i)
-    link_to_function text, "$('root-command').value='#{path},#{i},#{command}';re_eval()"
+  def link_to_command(text, command, path, i, check = nil)
+    cmd = "$('root-command').value='#{path},#{i},#{command}';re_eval()"
+    box = case check
+          when :checked:   %[<input type=checkbox checked="checked" onclick="#{cmd}"/>]
+          when :unchecked: %[<input type=checkbox onclick="#{cmd}"/>]
+          else;            %[<input type=checkbox style="visibility:hidden"/>]
+          end
+    
+    link_to_function(box + " " + text, cmd)
   end
   
   def emptyish(hash)

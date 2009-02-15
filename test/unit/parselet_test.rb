@@ -10,6 +10,16 @@ class ParseletTest < ActiveSupport::TestCase
     assert_equal Hash.new, @parselet.json
   end
   
+  def test_code_verifies_json
+    assert_raises(OrderedJSON::ParseError) do
+      @parselet.code = "asfd"
+    end
+    assert_raises(OrderedJSON::ParseError) do
+      @parselet.code = ""
+    end
+    @parselet.code = "{}"
+  end
+  
   def test_tmp_from_params_command
     command = "root,0,multify"
     params = {"0" => {"key" => "title", "value" => "h1"}}
@@ -19,6 +29,12 @@ class ParseletTest < ActiveSupport::TestCase
     command = "root,0,objectify"
     params = {"0" => {"key" => "title", "value" => "h1"}}
     output = { "title" => {"" => "h1"} }
+    assert_tmp_transform(params, output, command)
+    
+    
+    command = "root,0,multify"
+    params = {"0" => {"key" => "title", "value" => "h1", "deleted" => "true"}}
+    output = { }
     assert_tmp_transform(params, output, command)
   end
     
