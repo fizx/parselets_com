@@ -11,13 +11,16 @@ class ParseletTest < ActiveSupport::TestCase
   end
   
   def test_code_verifies_json
-    assert_raises(OrderedJSON::ParseError) do
+    assert_raises(ActiveRecord::RecordInvalid) do
       @parselet.code = "asfd"
+      @parselet.save!
     end
-    assert_raises(OrderedJSON::ParseError) do
-      @parselet.code = ""
+    assert_raises(ActiveRecord::RecordInvalid) do
+      @parselet.code = "asfd"
+      @parselet.save!
     end
     @parselet.code = "{}"
+    @parselet.save!
   end
   
   def test_tmp_from_params_command

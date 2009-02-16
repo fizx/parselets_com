@@ -9,13 +9,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090209053526) do
+ActiveRecord::Schema.define(:version => 20090216002219) do
 
   create_table "domains", :force => true do |t|
     t.string   "name"
     t.text     "variations"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "parselet_versions", :force => true do |t|
+    t.integer  "parselet_id"
+    t.integer  "version"
+    t.string   "name"
+    t.text     "description"
+    t.text     "code"
+    t.string   "pattern"
+    t.string   "example_url"
+    t.string   "domain_id"
+    t.integer  "user_id"
+    t.boolean  "pattern_regex"
+    t.datetime "deleted_at"
+    t.datetime "updated_at"
+    t.string   "match_groups"
   end
 
   create_table "parselets", :force => true do |t|
@@ -31,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20090209053526) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "match_groups"
   end
 
   create_table "sprig_usages", :force => true do |t|
@@ -39,6 +56,17 @@ ActiveRecord::Schema.define(:version => 20090209053526) do
     t.integer  "parselet_id"
     t.integer  "parselet_version_id"
     t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sprig_versions", :force => true do |t|
+    t.integer  "sprig_id"
+    t.integer  "version"
+    t.string   "name"
+    t.text     "description"
+    t.text     "code"
+    t.integer  "user_id"
+    t.datetime "deleted_at"
     t.datetime "updated_at"
   end
 

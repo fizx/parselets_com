@@ -1,7 +1,7 @@
 require "rubygems"
 require "ordered_json"
 require "digest/md5"
-class Parselet < ActiveRecord::Base
+class Parselet < ActiveRecord::Base  
   module ClassMethods
     def top(n = 5)
       find :all, :limit => n
@@ -13,6 +13,17 @@ class Parselet < ActiveRecord::Base
       tmp = Parselet.new
       tmp.data = value_of params
       tmp
+    end
+    
+    def validates_example_url_matches_pattern
+      validates_each(:pattern) do |record, name, value|
+        unless record.pattern_regex?
+          value = '\A' + Regexp.escape(value).gsub("\\*", "(.*?)") + '\Z'
+        end
+        unless record.example_url =~ Regexp.new(value)
+          record.errors.add :example_url, "doesn't match the pattern."
+        end
+      end
     end
 
   private
@@ -57,17 +68,31 @@ class Parselet < ActiveRecord::Base
           val = value_of(pair["value"])
           val = [val]           if pair["multi"] == "true"
           val = []              if val == [nil]
-          memo[pair["key"]] = val unless pair["deleted"] == "true"
+          unless pair["deleted"] == "true" || (pair["key"].blank? && val.blank?)
+            memo[pair["key"]] = val 
+          end
           memo
         end
       end
     end
   end
-  extend ClassMethods
   
-  def code=(str)
-    OrderedJSON.parse(str)
-    self[:code] = str
+  extend ClassMethods
+  include CustomValidations
+  
+  acts_as_versioned
+  acts_as_paranoid
+  
+  validates_uniqueness_of :name
+  validates_format_of :name, :with => /\A[a-z0-9\-_]*\Z/, :message => "contains invalid characters"
+  validates_presence_of :name, :description, :code, :pattern, :example_url, :user_id
+  validates_json :code
+  validates_example_url_matches_pattern
+  
+  after_save :create_domain
+  
+  def create_domain
+    Domain.create_from_url(example_url)
   end
   
   def code

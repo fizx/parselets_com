@@ -1,21 +1,15 @@
 require "json"
 class ParseletsController < ApplicationController
   layout "simple"
+  before_filter :login_required, :except => %w[index show]
   
   def code
     @editor_type = params["editor_helpful"].blank? ? "simple" : "helpful"
-    
-    if params[:root]  
-      @parselet = Parselet.tmp_from_params(params[:root] || {}, params["root-command"])
-    else
-      @parselet = Parselet.new
-      @parselet.code = params[:code]
-    end
-    
+    data = json_from_params
     render :update do |page|
       page.replace_html "code_container", :partial => "code",
         :locals => {:path => "root", 
-                    :data => @parselet.json, 
+                    :data => data, 
                     :editor_type => @editor_type }
       page << "$('root-command').value = ''"
     end
@@ -63,6 +57,7 @@ class ParseletsController < ApplicationController
   # POST /parselets.xml
   def create
     @parselet = Parselet.new(params[:parselet])
+    @parselet.code = code_from_params
 
     respond_to do |format|
       if @parselet.save
@@ -80,6 +75,7 @@ class ParseletsController < ApplicationController
   # PUT /parselets/1.xml
   def update
     @parselet = Parselet.find(params[:id])
+    @parselet.code = code_from_params
 
     respond_to do |format|
       if @parselet.update_attributes(params[:parselet])
@@ -103,5 +99,17 @@ class ParseletsController < ApplicationController
       format.html { redirect_to(parselets_url) }
       format.xml  { head :ok }
     end
+  end
+protected
+  
+  def code_from_params
+    params[:root] ?
+      Parselet.tmp_from_params(params[:root] || {}, params["root-command"]).code :
+      params[:code]
+  end
+  
+  def json_from_params
+    tmp = code_from_params 
+    tmp && OrderedJSON.parse(tmp)
   end
 end

@@ -14,4 +14,13 @@ class ApplicationController < ActionController::Base
   # Uncomment this to filter the contents of submitted sensitive data parameters
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
+  
+  around_filter :user_scope
+  
+protected
+  def user_scope
+    Parselet.send :with_scope, :create => {:user_id => current_user && current_user.id} do
+      yield
+    end
+  end
 end

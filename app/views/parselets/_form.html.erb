@@ -29,6 +29,13 @@
     </tr>
     <tr>
       <td>
+        <%= f.label :example_url %><br />
+        <%= f.text_field :example_url %>
+      </td>
+      <td class="info">A url that will be used to validate, preview, etc. your parselet.  It must match the pattern.</td>
+    </tr>
+    <tr>
+      <td>
         <%= f.label :pattern %>
         <%= f.check_box :pattern_regex %>
         <%= f.label "regex?" %>
@@ -36,13 +43,6 @@
         <%= f.text_field :pattern %>
       </td>
       <td class="info">A pattern that describes urls expected to match this parselet.  You can use simple patterns (use * for wildcard, pattern must match entire url), or perl-compatible regular expressions (use ^, $ to anchor if desired).</td>
-    </tr>
-    <tr>
-      <td>
-        <%= f.label :example_url %><br />
-        <%= f.text_field :example_url %>
-      </td>
-      <td class="info">A url that will be used to validate, preview, etc. your parselet.  It must match the pattern.</td>
     </tr>
   </table>
   
