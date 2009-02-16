@@ -83,6 +83,17 @@ class Parselet < ActiveRecord::Base
   acts_as_versioned
   acts_as_paranoid
   
+  is_indexed :fields => ["name", "description"],
+    :include => [
+      {:association_name => 'user', :field => 'login'},
+      {:association_name => 'domain', :field => 'variations'}
+    ],
+    :conditions => "parselets.deleted_at IS NULL AND user_id IS NOT NULL",
+    :order => "parselets.updated_at DESC", :delta => true
+  
+  belongs_to :user
+  belongs_to :domain
+  
   validates_uniqueness_of :name
   validates_format_of :name, :with => /\A[a-z0-9\-_]*\Z/, :message => "contains invalid characters"
   validates_presence_of :name, :description, :code, :pattern, :example_url, :user_id
@@ -92,7 +103,7 @@ class Parselet < ActiveRecord::Base
   after_save :create_domain
   
   def create_domain
-    Domain.create_from_url(example_url)
+    Domain.from_url(example_url)
   end
   
   def code
