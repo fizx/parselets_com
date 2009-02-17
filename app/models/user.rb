@@ -5,6 +5,10 @@ class User < ActiveRecord::Base
     def top(n = 5)
       find :all, :limit => n
     end
+    
+    def find_by_key(key)
+      find_by_login(key)
+    end
   end
   extend ClassMethods
   

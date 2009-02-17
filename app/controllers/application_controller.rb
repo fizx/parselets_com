@@ -16,8 +16,28 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password
   
   around_filter :user_scope
+  around_filter :dynamic_scope
   
 protected
+  def dynamic_scope
+    scope = [:user, :domain].inject({}) do |scope, key|
+      puts Kernel.const_get(key.to_s.classify).inspect
+      if params[key] 
+        model = Kernel.const_get(key.to_s.classify).find_by_key(params[key])
+        scope[:conditions] ||= {}
+        scope[:conditions]["#{key}_id".intern] = model && model.id
+      end
+      scope
+    end
+    puts scope.inspect
+    
+    Parselet.send(:with_scope, :find => scope) do
+      Sprig.send(:with_scope, :find => scope) do
+        yield
+      end
+    end
+  end
+  
   def user_scope
     Parselet.send :with_scope, :create => {:user_id => current_user && current_user.id} do
       yield
