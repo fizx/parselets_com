@@ -100,10 +100,10 @@ class Parselet < ActiveRecord::Base
   validates_json :code
   validates_example_url_matches_pattern
   
-  after_save :create_domain
+  before_save :create_domain
   
   def create_domain
-    Domain.from_url(example_url)
+    self.domain = Domain.from_url(example_url)
   end
   
   def code

@@ -7,15 +7,23 @@ class Domain < ActiveRecord::Base
     
     def from_url(url)
       host = URI.parse(url).host
-      find_or_create(:name => host)
+      find_or_create_by_name(host)
+    end
+    
+    def find_by_key(key)
+      find_by_name(key)
     end
   end
   extend ClassMethods
   
-  has_many :domains
+  has_many :parselets
   validates_presence_of :name
   before_save :create_variations
   is_indexed :fields => %w[name variations], :delta => true
+
+  def key
+    self[:name]
+  end
   
   def create_variations
     self.variations = "www.#{name}".split(".").power_set.map{|e| e.join(".") }.join(" ")

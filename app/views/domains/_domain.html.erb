@@ -1,1 +1,5 @@
-<li><%=link_to domain.name, @domain%></li>
+<li>
+	<%=link_to domain.name, domain%>
+	--
+	<%=link_to "#{domain.parselets.count} parselets", parselets_path(:domain => domain.key)%>
+</li>
