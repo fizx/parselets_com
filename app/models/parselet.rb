@@ -102,6 +102,10 @@ class Parselet < ActiveRecord::Base
   
   before_save :create_domain
   
+  def description
+    "world"
+  end
+  
   def create_domain
     self.domain = Domain.from_url(example_url)
   end

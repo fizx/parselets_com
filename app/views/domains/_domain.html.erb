@@ -1,5 +1,10 @@
 <li>
-	<%=link_to domain.name, domain%>
-	--
+	<h4><%=link_to domain.name, domain%> 
+	<small>(
 	<%=link_to "#{domain.parselets.count} parselets", parselets_path(:domain => domain.key)%>
+	)</small>
+	</h4>
+	<ol>
+		<%=render domain.parselets.first(3) %>
+	</ol>
 </li>

@@ -15,4 +15,8 @@ class User < ActiveRecord::Base
   has_many :sprigs
   has_many :parselets
   is_indexed :fields => %w[login name], :delta => true
+  
+  def key
+    self[:login]
+  end
 end
