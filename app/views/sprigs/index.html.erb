@@ -1,22 +1,2 @@
-<h1>Listing sprigs</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-  </tr>
-
-<% for sprig in @sprigs %>
-  <tr>
-    <td><%=h sprig.name %></td>
-    <td><%=h sprig.description %></td>
-    <td><%= link_to 'Show', sprig %></td>
-    <td><%= link_to 'Edit', edit_sprig_path(sprig) %></td>
-    <td><%= link_to 'Destroy', sprig, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New sprig', new_sprig_path %>
+<ol><%=render @sprigs%></ol>
+<%=will_paginate @sprigs %>

@@ -18,8 +18,8 @@ class ParseletsController < ApplicationController
   # GET /parselets
   # GET /parselets.xml
   def index
-    @parselets = Parselet.find(:all)
-
+    @parselets = Parselet.paginate :page => params[:page]
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @parselets }

@@ -1,5 +1,15 @@
 class UsersController < ApplicationController
   layout "simple"
+  
+  def index
+    @users = User.paginate :page => params[:page]
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @users }
+    end
+  end
+  
   # render new.rhtml
   def new
     @user = User.new

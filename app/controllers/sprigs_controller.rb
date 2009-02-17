@@ -6,7 +6,7 @@ class SprigsController < ApplicationController
   # GET /sprigs
   # GET /sprigs.xml
   def index
-    @sprigs = Sprig.find(:all)
+    @sprigs = Sprig.paginate :page => params[:page]
 
     respond_to do |format|
       format.html # index.html.erb
