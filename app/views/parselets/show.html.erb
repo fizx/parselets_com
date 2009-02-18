@@ -1,33 +1,43 @@
-<p>
-  <b>Name:</b>
-  <%=h @parselet.name %>
-</p>
+<div style="float:right;background-color:#eee;border:1px silver solid;padding:10px;width:400px">
+	<h3>API helper</h3>
+	<h4>Url parameters</h4>
+	<p>-- none --</p>
+	<h4>Output type</h4>
+	<select>
+		<option>human-readable</option>
+		<option>json</option>
+		<option>xml</option>
+	</select>
+	
 
-<p>
-  <b>Description:</b>
-  <%=h @parselet.description %>
-</p>
+	<h4>Versioning</h4>
+	<select>
+		<option>latest by me</option>
+		<option>latest by me or parselets auto-fix</option>
+		<option>latest by me or my friends</option>
+		<option>latest working</option>
+		
+	</select>
+	
+	<h4>Use this url: </h4>
+	<a href="#">http://localhost:3000/parselets/16?output=json</a>
+	</p>
+</div>
 
-<p>
-  <b>Code:</b>
-  <%=h @parselet.code %>
-</p>
+<h1><%=h @parselet.name %> by <%=link_to @parselet.user.login, @parselet.user%></h1>
+<h2>Working/broken/unknown</h2>
+<h3><%=h @parselet.description %></h3>
+<h4> Works on sites that match <%=h @parselet.pattern %>, <br />like <%=link_to h(@parselet.example_url), @parselet.example_url%></h4>
 
-<p>
-  <b>Pattern:</b>
-  <%=h @parselet.pattern %>
-</p>
+<h4>Code: <%= link_to 'Edit', edit_parselet_path(@parselet) %></h4>
+<div style="background-color:#eee;border:1px silver solid;padding:10px;width:400px">
+  <pre><%= @parselet.pretty_code %></pre>
+</div>
 
-<p>
-  <b>Example url:</b>
-  <%=h @parselet.example_url %>
-</p>
+<h4>Sample output:</h4>
+<div style="background-color:#eee;border:1px silver solid;padding:10px;width:400px">
+  	<pre>{
+	"title": "Kyle Maxwell"
+}</pre>
+</div>
 
-<p>
-  <b>Pattern regex:</b>
-  <%=h @parselet.pattern_regex %>
-</p>
-
-
-<%= link_to 'Edit', edit_parselet_path(@parselet) %> |
-<%= link_to 'Back', parselets_path %>

@@ -114,6 +114,10 @@ class Parselet < ActiveRecord::Base
     self[:code].blank? ? "{}" : self[:code]
   end
   
+  def pretty_code
+    OrderedJSON.pretty_dump(OrderedJSON.parse(code))
+  end
+  
   def json
     OrderedJSON.parse(code)
   end
