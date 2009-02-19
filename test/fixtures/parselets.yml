@@ -8,7 +8,6 @@ one:
   example_url: MyString
   user_id: 1
   version: 1
-  pattern_regex: false
   deleted_at: 2009-02-08 19:54:48
 
 two:
@@ -19,5 +18,4 @@ two:
   example_url: MyString
   user_id: 1
   version: 1
-  pattern_regex: false
   deleted_at: 2009-02-08 19:54:48

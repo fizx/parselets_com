@@ -1,18 +1,22 @@
-<h3><%=link_to 'Domains', domains_path %></h3>
-<ol><%=render @domains %></ol>
-<h3><%=link_to 'Users', users_path %></h3>
-<ol><%=render @users %></ol>
-<h3><%=link_to 'Sprigs', sprigs_path %> <%=link_to '+', new_sprig_path %></h3>
-<ol><%=render @sprigs %></ol>
-<h3><%=link_to 'Parselets', parselets_path %> <%=link_to '+', new_parselet_path %></h3>
-<ol><%=render @parselets %></ol>
+<ul class="boxes">
+	<li>
+		<h3><%=link_to 'Domains', domains_path %></h3>
+		<ol><%=render @domains %></ol>
+	</li>
+	<li>
+		<h3><%=link_to 'Users', users_path %></h3>
+		<ol><%=render @users %></ol>
+	</li>
+	<li>
+		<h3><%=link_to 'Sprigs', sprigs_path %> <%=link_to '+', new_sprig_path %></h3>
+		<ol><%=render @sprigs %></ol>
+	</li>
+	<li>
+		<h3><%=link_to 'Parselets', parselets_path %> <%=link_to '+', new_parselet_path %></h3>
+		<ol><%=render @parselets %></ol>
+	</li>
+</ul>
 
-  <h4>Advantages of Using Parselets</h4>
-  <ul>
-    <li>Parsers backed by an <a href="#">active community</a></li>
-    <li>Easily extract labeled semantic data from a <a href="#">large number of websites</a></li>
-    <li><a href="#">Open source implementations in many languages</a></li>
-    <li>Re-usably and portably express <a href="#">multi-page data extraction procedures</a></li>
-  </ul>
+<p>Parselets are little developer-generated APIs for a wide variety of websites (Try searching).  Parselets.com is a place to create and share them.  </p>
 
-<p>The Parselets Project is a free repository of tools for extracting structured data from the web.  Discover and share code for gathering labeled data from a huge number of web sites.  Run the open-source crawler on your own server.</p>
+<p>Parselets are written in Parsley, which is a superset of CSS selectors, regexen, and XPath, in a little JSON wrapper.  If you know any of the above technologies, you'll be fine.  You can run parselets from the command-line, Ruby, Python, C, or by connecting to parselets.com and using the web service.</p>

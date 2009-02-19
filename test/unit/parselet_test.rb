@@ -2,12 +2,32 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ParseletTest < ActiveSupport::TestCase
   def setup
-    @parselet = Parselet.new
+    @parselet = Parselet.new({
+      :pattern => "http://www.yelp.com/",
+      :example_url => "http://www.yelp.com/",
+      :name => "foo",
+      :user => User.find(:first)
+    })
   end
   
   def test_new_parselet_returns_empty_json
     assert_equal "{}", @parselet.code
     assert_equal Hash.new, @parselet.json
+  end
+  
+  def test_pattern_tokens
+    @parselet.pattern = "http://www.yelp.com/{city?}&{foo}&\\{not bar\\}"
+    url_chunks, keys = @parselet.pattern_tokens
+    assert_equal %w[city? foo], keys
+    assert_equal ["http://www.yelp.com/", "&", "&{not bar}"], url_chunks
+  end
+  
+  def test_pattern_validity
+    @parselet.pattern = "http://www.yelp.com/{city?}"
+    assert @parselet.pattern_valid?
+    assert @parselet.pattern_matches?("http://www.yelp.com/foo")
+    assert @parselet.pattern_matches?("http://www.yelp.com/")
+    assert !@parselet.pattern_matches?("http://www.yahoo.com/")
   end
   
   def test_code_verifies_json

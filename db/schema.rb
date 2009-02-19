@@ -9,15 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090216044342) do
-
-  create_table "domain_usages", :force => true do |t|
-    t.integer  "domain_id"
-    t.string   "usage_type"
-    t.integer  "usage_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(:version => 20090219034601) do
 
   create_table "domains", :force => true do |t|
     t.string   "name"
@@ -39,7 +31,6 @@ ActiveRecord::Schema.define(:version => 20090216044342) do
     t.boolean  "pattern_regex"
     t.datetime "deleted_at"
     t.datetime "updated_at"
-    t.string   "match_groups"
   end
 
   create_table "parselets", :force => true do |t|
@@ -51,11 +42,9 @@ ActiveRecord::Schema.define(:version => 20090216044342) do
     t.string   "domain_id"
     t.integer  "user_id"
     t.integer  "version"
-    t.boolean  "pattern_regex"
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "match_groups"
   end
 
   create_table "sprig_usages", :force => true do |t|

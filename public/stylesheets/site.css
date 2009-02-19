@@ -126,10 +126,38 @@ td.info{
   width: 100%;
 }
 
-th {
+th, .boxes h3 {
   padding:5px 15px 5px 15px;
   background-color: #eee;
   text-align:left;
+}
+
+ul, ol, li {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.boxes {
+	width: 660px;
+	float:right;
+}
+
+.fieldWithErrors {
+	margin:0;
+	padding:0;
+	display: inline;
+}
+
+.boxes>li {
+	float:left;
+	width:300px;
+	border: 1px silver solid;
+	margin: 0 0 15px 15px;
+}
+
+.boxes>li>ol {
+padding:5px 15px 5px 15px;
 }
 
 th.buttons{

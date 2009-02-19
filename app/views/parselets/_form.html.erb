@@ -37,12 +37,16 @@
     <tr>
       <td>
         <%= f.label :pattern %>
-        <%= f.check_box :pattern_regex %>
-        <%= f.label "regex?" %>
         <br />
         <%= f.text_field :pattern %>
       </td>
-      <td class="info">A pattern that describes urls expected to match this parselet.  You can use simple patterns (use * for wildcard, pattern must match entire url), or perl-compatible regular expressions (use ^, $ to anchor if desired).</td>
+      <td class="info">A pattern that describes urls expected to match this parselet.  Put parameters or unknown chunks of the url in curly braces.
+			<br><br>
+			<h4>Examples:</h4>
+			<ul>
+				<li>http://www.youtube.com/watch?v={id} </li>
+				<li>http://yelp.com/{city?} &larr; (the question mark denotes an optional parameter)</li>
+			</ul>
     </tr>
   </table>
   

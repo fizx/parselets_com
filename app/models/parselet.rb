@@ -1,6 +1,7 @@
 require "rubygems"
 require "ordered_json"
 require "digest/md5"
+class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
   module ClassMethods
     def top(n = 5)
@@ -17,10 +18,7 @@ class Parselet < ActiveRecord::Base
     
     def validates_example_url_matches_pattern
       validates_each(:pattern) do |record, name, value|
-        unless record.pattern_regex?
-          value = '\A' + Regexp.escape(value).gsub("\\*", "(.*?)") + '\Z'
-        end
-        unless record.example_url =~ Regexp.new(value)
+        unless record.pattern_matches?(record.example_url)
           record.errors.add :example_url, "doesn't match the pattern."
         end
       end
@@ -108,6 +106,55 @@ class Parselet < ActiveRecord::Base
   
   def create_domain
     self.domain = Domain.from_url(example_url)
+  end
+  
+  def pattern_valid?
+    pattern_tokens
+    true 
+  rescue InvalidStateError => e
+    false
+  end
+  
+  def pattern_tokens
+    state = [:url]
+    str = ""
+    keys = []
+    url_chunks = []
+    pattern.each_char do |c|
+      if state.last == :escaping
+        str += c
+        state.pop
+      elsif c == "\\"
+        state << :escaping
+      elsif c == "{"
+        assert_state state, :url
+        url_chunks << str
+        str = ""
+        state[-1] = :key
+      elsif c == "}"
+        assert_state state, :key
+        keys << str
+        str = ""
+        state[-1] = :url
+      else
+        str += c
+      end
+    end  
+    assert_state state, :url
+    url_chunks << str
+    [url_chunks, keys]
+  end
+  
+  def assert_state(state, value)
+    raise InvalidStateError.new unless state[-1] == value
+  end
+  
+  def pattern_matches?(url)
+    return false if url.blank? || !pattern_valid?
+    url_chunks, _ = pattern_tokens
+    url_chunks.map!{|str| Regexp.escape(str) }
+    re = Regexp.new("\\A" + url_chunks.join(".*?") + "\\Z")
+    re === url.to_s
   end
   
   def code
