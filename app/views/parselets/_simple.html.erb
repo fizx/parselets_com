@@ -1,1 +1,1 @@
-<%=text_area_tag "code", OrderedJSON.dump(data)%>
+<%=text_area_tag "code", data.is_a?(String) ? data : OrderedJSON.dump(data) %>

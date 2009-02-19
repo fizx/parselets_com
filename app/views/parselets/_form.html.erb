@@ -76,7 +76,13 @@
       </th>
     </tr>
     <tr>
-      <td id="code_container"><%=render "code", :editor_type => "helpful", :path => "root", :data => @parselet.json %></td>
+      <td id="code_container" colspan="2">
+				<% begin %>
+					<%=render "code", :editor_type => "helpful", :path => "root", :data => @parselet.json %>
+				<% rescue %>
+					<%=render "code", :editor_type => "simple", :path => "root", :data => @parselet.code %>
+				<% end %>
+			</td>
     </tr>
   </table>
 <% end %>

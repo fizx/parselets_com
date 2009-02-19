@@ -13,6 +13,7 @@
     <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
 	<form id="search" action="/search" method="GET">
 		<input type="text" name="q" id="box"> <input type="submit" value="Search">
+		<%=link_to "create", new_parselet_path %>
 	</form>
     <div id="main">
       <%=yield %>

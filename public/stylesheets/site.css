@@ -149,6 +149,11 @@ ul, ol, li {
 	display: inline;
 }
 
+#code_container textarea{
+	width:100%;
+	height:300px;
+}
+
 .boxes>li {
 	float:left;
 	width:300px;
