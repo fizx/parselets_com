@@ -58,6 +58,8 @@ Rails::Initializer.run do |config|
     :session_key => '_parselets_com_session',
     :secret      => '95adb720bcaeb6f792b12a9cc2f8d0407a45de1106877b2b20979a8380a866adbd364218289265be37ff4f5202b9c3656ba57b6ab4b9507220d4c5ab864d3258'
   }
+  
+  config.cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache"
 
   # Use the database for sessions instead of the cookie-based default,
   # which shouldn't be used to store highly confidential information

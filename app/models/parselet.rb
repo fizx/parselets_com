@@ -1,4 +1,5 @@
 require "rubygems"
+require "dexterous"
 require "ordered_json"
 require "digest/md5"
 class InvalidStateError < RuntimeError; end
@@ -100,10 +101,6 @@ class Parselet < ActiveRecord::Base
   
   before_save :create_domain
   
-  def description
-    "world"
-  end
-  
   def create_domain
     self.domain = Domain.from_url(example_url)
   end
@@ -113,6 +110,13 @@ class Parselet < ActiveRecord::Base
     true 
   rescue InvalidStateError => e
     false
+  end
+  
+  def example_output
+    out = Dexterous.new(code).parse(:string => open(example_url).read, :output => :json)
+    OrderedJSON.pretty_dump(OrderedJSON.parse(out)).gsub("\t", "    ")
+  rescue => e
+    OrderedJSON.pretty_dump({"errors" => e.message.split("\n")})
   end
   
   def pattern_tokens
@@ -162,7 +166,7 @@ class Parselet < ActiveRecord::Base
   end
   
   def pretty_code
-    OrderedJSON.pretty_dump(OrderedJSON.parse(code))
+    OrderedJSON.pretty_dump(OrderedJSON.parse(code)).gsub("\t", "    ")
   end
   
   def json
