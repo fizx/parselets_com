@@ -3,6 +3,11 @@ body {
   margin:0;
 }
 
+pre {
+	overflow:auto;
+	margin:0;
+}
+
 div {
   margin:0;
   padding:0;
@@ -167,6 +172,7 @@ padding:5px 15px 5px 15px;
 
 th.buttons{
   text-align:right;
+	border-bottom: 4px #999 solid;
 }
 
 p {

@@ -15,7 +15,7 @@
           <% next if key.blank? %>
             <%=value_field path, i, value %>
         <% when Hash %>
-          <%=render "code", :data => value, :path => "#{path}[#{i}][value]"%>
+          <%=render "helpful", :data => value, :path => "#{path}[#{i}][value]"%>
         <% when Array %>
           [ <span class="subtle">
           </span>
@@ -25,7 +25,7 @@
                when String, NilClass %>
                  <%=value_field path, i, value %> 
             <% when Hash %>
-                 <%=render "code", :data => value, :path => "#{path}[#{i}][value]"%>
+                 <%=render "helpful", :data => value, :path => "#{path}[#{i}][value]"%>
             <% end %>
           ]
         <% end %>

@@ -3,8 +3,7 @@
 
   <table cellpadding="5" cellspacing="0" border="0">
     <tr>
-      <th>Basic info</th>
-      <th class="buttons"><%=submit_tag "Save"%></th>
+      <th colspan="2">Basic info</th>
     </tr>
     <tr>
       <td>
@@ -24,8 +23,7 @@
   
   <table cellpadding="5" cellspacing="0" border="0">
     <tr>
-      <th>Scope</th>
-      <th class="buttons"><%=submit_tag "Save"%></th>
+      <th colspan="2">Scope</th>
     </tr>
     <tr>
       <td>
@@ -52,27 +50,11 @@
   
   <table cellpadding="5" cellspacing="0" border="0">
     <tr>
-      <th>Sprigs</th>
-      <th class="buttons"><input type="text" value="Search"> <input type="button" value="Add"></th>
-    </tr>
-    <tr>
-      <td colspan="2">
-        Sprigs are pre-defined sets of keys that represent commonly used data types.
-      </td>
-    </tr>
-  </table>
-  
-  <table cellpadding="5" cellspacing="0" border="0">
-    <tr>
-      <th>
+      <th colspan="2">
 		<%=hidden_field_tag "editor_helpful", "true"%>
 		<%=hidden_field_tag "root-command", "" %>
         <div class="tab"><%=link_to_function "Helpful", "helpful(true)", :class => "selected", :id => "hyes" %></div>
         <div class="tab"><%=link_to_function "Simple", "helpful(false)", :id => "hno" %></div>
-      </th>
-      <th class="buttons">
-        <input type="button" value="Refresh" onclick="re_eval(this)" id="arbitrary" />
-        <%=submit_tag "Save"%>
       </th>
     </tr>
     <tr>
@@ -85,4 +67,12 @@
 			</td>
     </tr>
   </table>
+
+  <table cellpadding="5" cellspacing="0" border="0">
+    <tr>
+      <th class="buttons">
+        <%=submit_tag "Save"%>
+      </th>
+    </tr>
+	</table>
 <% end %>
