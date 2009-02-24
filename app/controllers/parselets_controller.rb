@@ -58,7 +58,7 @@ class ParseletsController < ApplicationController
   # POST /parselets
   # POST /parselets.xml
   def create
-    @parselet = Parselet.new(params[:parselet])
+    @parselet = Parselet.tmp_from_params(params)
     @parselet.code = code_from_params
 
     respond_to do |format|
@@ -77,7 +77,7 @@ class ParseletsController < ApplicationController
   # PUT /parselets/1.xml
   def update
     @parselet = Parselet.find(params[:id])
-    @parselet.code = code_from_params
+    @parselet.code = Parselet.tmp_from_params(params).code
 
     respond_to do |format|
       if @parselet.update_attributes(params[:parselet])
