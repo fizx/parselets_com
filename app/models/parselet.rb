@@ -117,8 +117,7 @@ class Parselet < ActiveRecord::Base
   end
   
   def example_data
-    puts "hi"
-    out = Dexterous.new(code).parse(:string => open(example_url).read, :output => :json)
+    out = Dexterous.new(code).parse(:string => open(example_url, "User-Agent" => "Parselets.org").read, :output => :json)
     OrderedJSON.parse(out)
   rescue => e
     OrderedJSON.pretty_dump()
