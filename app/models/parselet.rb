@@ -116,7 +116,7 @@ class Parselet < ActiveRecord::Base
     false
   end
   
-  def example_code
+  def example_data
     puts "hi"
     out = Dexterous.new(code).parse(:string => open(example_url).read, :output => :json)
     OrderedJSON.parse(out)
@@ -124,11 +124,6 @@ class Parselet < ActiveRecord::Base
     OrderedJSON.pretty_dump()
     {"errors" => e.message.split("\n")}
   end
-  
-  def example_json
-    OrderedJSON.pretty_dump(example_code)
-  end
-  alias_method :example_data, :example_json
   
   def pattern_tokens
     state = [:url]
