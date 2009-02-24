@@ -14,6 +14,13 @@ namespace :hoptoad do
 
     class HoptoadTestingException < RuntimeError; end
 
+    in_controller = ApplicationController.included_modules.include? HoptoadNotifier::Catcher
+    in_base = ActionController::Base.included_modules.include? HoptoadNotifier::Catcher
+    unless in_controller and not in_base
+      puts "HoptoadNotifier::Catcher must be included inside your ApplicationController class."
+      exit
+    end
+
     puts 'Setting up the Controller.'
     class ApplicationController
       # This is to bypass any filters that may prevent access to the action.
