@@ -119,7 +119,7 @@ class Parselet < ActiveRecord::Base
   def example_data
     out = Dexterous.new(code).parse(:string => open(example_url, "User-Agent" => "Parselets.org").read, :output => :json)
     OrderedJSON.parse(out)
-  rescue => e
+  rescue OrderedJSON::ParseError, DexError => e
     OrderedJSON.pretty_dump({"errors" => e.message.split("\n")})
   end
   

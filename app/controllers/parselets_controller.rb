@@ -59,7 +59,6 @@ class ParseletsController < ApplicationController
   # POST /parselets.xml
   def create
     @parselet = Parselet.tmp_from_params(params)
-    @parselet.code = code_from_params
 
     respond_to do |format|
       if @parselet.save
