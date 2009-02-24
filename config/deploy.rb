@@ -1,5 +1,5 @@
 set :application, "parselets"
-set :repository,  "git@github.com:fizx/parselets_org.git"
+set :repository,  "git@github.com:fizx/parselets_com.git"
 set :deploy_to, "/var/apps/#{application}"
 set :scm, :git
 set :branch, "master"
