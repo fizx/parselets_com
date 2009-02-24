@@ -125,6 +125,10 @@ class Parselet < ActiveRecord::Base
     {"errors" => e.message.split("\n")}
   end
   
+  def pretty_example_data
+    OrderedJSON.pretty_dump(example_data).gsub("\t", "    ")
+  end
+  
   def pattern_tokens
     state = [:url]
     str = ""
