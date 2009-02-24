@@ -3,6 +3,7 @@
 
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
+  include HoptoadNotifier::Catcher
   
   helper :all # include all helpers, all the time
 
