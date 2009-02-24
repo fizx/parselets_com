@@ -19,6 +19,6 @@ test:
 production:
   adapter: mysql
   database: parselets_com_production
-  username: root
-  password: 
+  username: production_user
+  password: hiworld
   host: localhost
