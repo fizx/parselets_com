@@ -3,7 +3,7 @@ set :repository,  "git@github.com:fizx/parselets_com.git"
 set :deploy_to, "/var/apps/#{application}"
 set :scm, :git
 set :branch, "master"
-set :user, "www"
+set :user, "www-data"
 set :use_sudo, false
 
 SERVER = "parselets.org"
