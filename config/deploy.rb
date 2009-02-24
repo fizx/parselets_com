@@ -1,6 +1,6 @@
 set :application, "parselets"
 set :repository,  "git@github.com:fizx/parselets_com.git"
-set :deploy_to, "/var/apps/#{application}"
+set :deploy_to, "/var/www/#{application}"
 set :scm, :git
 set :branch, "master"
 set :user, "www-data"
