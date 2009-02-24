@@ -1,0 +1,18 @@
+<p>
+  <b>Code:</b>
+  <%=h @invitation.code %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @invitation.user_id %>
+</p>
+
+<p>
+  <b>Usages:</b>
+  <%=h @invitation.usages %>
+</p>
+
+
+<%= link_to 'Edit', edit_invitation_path(@invitation) %> |
+<%= link_to 'Back', invitations_path %>

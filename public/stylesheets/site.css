@@ -13,6 +13,13 @@ div {
   padding:0;
 }
 
+.column {
+	float:left;
+	margin-right:15px;
+	padding-right:15px;
+	border-right:1px silver solid;
+}
+
 .down {
   text-decoration:none;
 	font-size: small;

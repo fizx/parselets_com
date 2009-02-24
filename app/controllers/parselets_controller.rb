@@ -2,14 +2,16 @@ require "json"
 class ParseletsController < ApplicationController
   layout "simple"
   before_filter :login_required, :except => %w[index show]
+  around_filter :dynamic_scope
   
   def code
     @editor_type = params["editor_helpful"].blank? ? "simple" : "helpful"
-    data = json_from_params
+    @parselet = Parselet.tmp_from_params(params)
     render :update do |page|
       page.replace_html "code_container", :partial => "code",
         :locals => {:path => "root", 
-                    :data => data, 
+                    :data => @parselet.data, 
+                    :example_data => @parselet.example_data,
                     :editor_type => @editor_type }
       page << "$('root-command').value = ''"
     end
@@ -99,17 +101,5 @@ class ParseletsController < ApplicationController
       format.html { redirect_to(parselets_url) }
       format.xml  { head :ok }
     end
-  end
-protected
-  
-  def code_from_params
-    params[:root] ?
-      Parselet.tmp_from_params(params[:root] || {}, params["root-command"]).code :
-      params[:code]
-  end
-  
-  def json_from_params
-    tmp = code_from_params 
-    tmp && OrderedJSON.parse(tmp)
   end
 end

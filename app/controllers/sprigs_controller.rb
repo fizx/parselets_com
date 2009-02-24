@@ -1,6 +1,6 @@
 class SprigsController < ApplicationController
   layout "simple"
-  
+  around_filter :dynamic_scope
   before_filter :login_required, :except => %w[index show]
   
   # GET /sprigs

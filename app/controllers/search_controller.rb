@@ -1,5 +1,6 @@
 class SearchController < ApplicationController
   layout "simple"
+  around_filter :dynamic_scope
   
   def index
     class_names = (params[:classes] || "Parselet,Sprig,User,Domain").split(",")

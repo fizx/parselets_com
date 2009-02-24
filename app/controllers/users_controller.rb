@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   layout "simple"
+  skip_before_filter :login_required, :only => %w[new create]
+  before_filter :invite_required, :only => %w[new create]
   
   def index
     @users = User.paginate :page => params[:page]

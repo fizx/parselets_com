@@ -9,11 +9,15 @@ class Parselet < ActiveRecord::Base
       find :all, :limit => n
     end
   
-    def tmp_from_params(params, command = nil)
-      apply_command!(params, command) unless command.blank?
-      raise "wtf" unless params.is_a?(Hash)
-      tmp = Parselet.new
-      tmp.data = value_of params
+    def tmp_from_params(params)
+      tmp = Parselet.new(params[:parselet])
+      tmp.code ||= params[:code]
+      if root = params[:root]
+        command = params[:"root-command"]
+        apply_command!(root, command) unless command.blank?
+        raise "wtf" unless root.is_a?(Hash)
+        tmp.data = value_of params
+      end
       tmp
     end
     
@@ -112,12 +116,19 @@ class Parselet < ActiveRecord::Base
     false
   end
   
-  def example_output
+  def example_code
+    puts "hi"
     out = Dexterous.new(code).parse(:string => open(example_url).read, :output => :json)
-    OrderedJSON.pretty_dump(OrderedJSON.parse(out)).gsub("\t", "    ")
+    OrderedJSON.parse(out)
   rescue => e
-    OrderedJSON.pretty_dump({"errors" => e.message.split("\n")})
+    OrderedJSON.pretty_dump()
+    {"errors" => e.message.split("\n")}
   end
+  
+  def example_json
+    OrderedJSON.pretty_dump(example_code)
+  end
+  alias_method :example_data, :example_json
   
   def pattern_tokens
     state = [:url]

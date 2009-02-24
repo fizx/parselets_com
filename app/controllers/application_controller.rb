@@ -15,13 +15,35 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
   
+  before_filter :login_required
+  
   around_filter :user_scope
-  around_filter :dynamic_scope
+  around_filter :invite_scope
+  
+  def admin_required
+    unless authorized? && current_user.admin?
+      access_denied
+    end
+  end
+  
+  def invite_required
+    return true if authorized?
+
+    session[:invite] = params[:invite]   if params[:invite]
+    @invite = Invitation.find_by_code(session[:invite])
+
+    return true if @invite && @invite.usable?
+    
+    flash[:notice] = @invite.nil? ? 
+      "Please use an invitation code, or log in." : 
+      "Your invitation code has expired or has been used too many times."
+      
+    access_denied
+  end
   
 protected
   def dynamic_scope
     scope = [:user, :domain].inject({}) do |scope, key|
-      puts Kernel.const_get(key.to_s.classify).inspect
       if params[key] 
         model = Kernel.const_get(key.to_s.classify).find_by_key(params[key])
         scope[:conditions] ||= {}
@@ -29,7 +51,6 @@ protected
       end
       scope
     end
-    puts scope.inspect
     
     Parselet.send(:with_scope, :find => scope) do
       Sprig.send(:with_scope, :find => scope) do
@@ -38,9 +59,20 @@ protected
     end
   end
   
-  def user_scope
-    Parselet.send :with_scope, :create => {:user_id => current_user && current_user.id} do
+  def invite_scope
+    User.send :with_scope, :create => {:invitation_id => @invite && @invite.id} do
       yield
+    end
+  end
+  
+  def user_scope
+    this_user = {:create => {:user_id => current_user && current_user.id}}
+    Invitation.send :with_scope, this_user do
+      Parselet.send :with_scope, this_user do
+        Sprig.send :with_scope, this_user do
+          yield
+        end
+      end
     end
   end
 end

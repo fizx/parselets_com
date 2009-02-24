@@ -14,7 +14,19 @@ class User < ActiveRecord::Base
   
   has_many :sprigs
   has_many :parselets
+  belongs_to :invitation
+  
   is_indexed :fields => %w[login name], :delta => true
+  
+  validates_each :invitation do |record, _, _|
+    unless record.invitation_usable?
+      record.errors.add :invitation, "is no longer valid"
+    end
+  end
+  
+  def invitation_usable?
+    invitation && invitation.usable?
+  end
   
   def key
     self[:login]

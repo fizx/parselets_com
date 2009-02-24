@@ -1,6 +1,8 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
   layout "simple"
+  
+  skip_before_filter :login_required
 
   # render new.rhtml
   def new
@@ -30,7 +32,7 @@ class SessionsController < ApplicationController
   def destroy
     logout_killing_session!
     flash[:notice] = "You have been logged out."
-    redirect_back_or_default('/')
+    redirect_back_or_default('/session/new')
   end
 
 protected

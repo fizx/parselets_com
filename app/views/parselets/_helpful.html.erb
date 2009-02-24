@@ -1,6 +1,6 @@
 <% root = !(path =~ /\[/ ) %>
 <% add_key ||= emptyish(data) || data.values.none?(&:blank?)%>
-
+<pre><%=h example_data%></pre>
 <tt>
 <% if root %>
 <%=menu({}, path, false) %> 
