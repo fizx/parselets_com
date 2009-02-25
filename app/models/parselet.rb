@@ -16,7 +16,7 @@ class Parselet < ActiveRecord::Base
         command = params[:"root-command"]
         apply_command!(root, command) unless command.blank?
         raise "wtf" unless root.is_a?(Hash)
-        tmp.data = value_of params
+        tmp.data = value_of root
       end
       tmp
     end

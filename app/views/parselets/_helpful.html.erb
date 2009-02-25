@@ -1,6 +1,5 @@
 <% root = !(path =~ /\[/ ) %>
 <% add_key ||= emptyish(data) || data.values.none?(&:blank?)%>
-<pre><%=h example_data%></pre>
 <tt>
 <% if root %>
 <%=menu({}, path, false) %> 
@@ -25,7 +24,7 @@
                when String, NilClass %>
                  <%=value_field path, i, value %> 
             <% when Hash %>
-                 <%=render "helpful", :data => value, :path => "#{path}[#{i}][value]"%>
+                 <%=render "helpful", :data => value, :path => "#{path}[#{i}][value]" %>
             <% end %>
           ]
         <% end %>

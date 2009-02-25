@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   
   is_indexed :fields => %w[login name], :delta => true
   
-  validates_each :invitation do |record, _, _|
+  validates_each :invitation, :on => :create do |record, _, _|
     unless record.invitation_usable?
       record.errors.add :invitation, "is no longer valid"
     end
