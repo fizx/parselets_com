@@ -1,4 +1,8 @@
 <ul class="boxes">
+  <li>
+  	<h3><%=link_to 'Parselets', parselets_path %> <%=link_to '+', new_parselet_path %></h3>
+  	<ol><%=render @parselets %></ol>
+  </li>
 	<li>
 		<h3><%=link_to 'Domains', domains_path %></h3>
 		<ol><%=render @domains %></ol>
@@ -7,16 +11,13 @@
 		<h3><%=link_to 'Users', users_path %></h3>
 		<ol><%=render @users %></ol>
 	</li>
-	<li>
-		<h3><%=link_to 'Sprigs', sprigs_path %> <%=link_to '+', new_sprig_path %></h3>
-		<ol><%=render @sprigs %></ol>
-	</li>
-	<li>
-		<h3><%=link_to 'Parselets', parselets_path %> <%=link_to '+', new_parselet_path %></h3>
-		<ol><%=render @parselets %></ol>
-	</li>
+  <!-- <li>
+    <h3><%=link_to 'Sprigs', sprigs_path %> <%=link_to '+', new_sprig_path %></h3>
+    <ol><%=render @sprigs %></ol>
+  </li> -->
 </ul>
+<div id="blurb">
+  <p>Parselets are little developer-generated APIs for a wide variety of websites (Try searching).  Parselets.com is a place to create and share them.  </p>
 
-<p>Parselets are little developer-generated APIs for a wide variety of websites (Try searching).  Parselets.com is a place to create and share them.  </p>
-
-<p>Parselets are written in Parsley, which is a superset of CSS selectors, regexen, and XPath, in a little JSON wrapper.  If you know any of the above technologies, you'll be fine.  You can run parselets from the command-line, Ruby, Python, C, or by connecting to parselets.com and using the web service.</p>
+  <p>Parselets are written in Parsley, which is a superset of CSS selectors, regexen, and XPath, in a little JSON wrapper.  If you know any of the above technologies, you'll be fine.  You can run parselets from the command-line, Ruby, Python, C, or by connecting to parselets.com and using the web service.</p>
+</div>

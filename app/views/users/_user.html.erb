@@ -4,7 +4,7 @@
 	<%=link_to "#{user.parselets.count} parselets", parselets_path(:user => user.key)%>
 	)</small>
 	</h4>
-	<ol>
+	<ol class="mini">
 		<%=render Parselet.find(:all, :conditions => {:user_id => user.id})%>
 	</ol>
 </li>
