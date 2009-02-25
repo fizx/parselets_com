@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
     return true if authorized?
 
     session[:invite] = params[:invite]   if params[:invite]
-    @invite = Invitation.find_by_code(session[:invite])
+    @invite ||= Invitation.find_by_code(session[:invite])
 
     return true if @invite && @invite.usable?
     
@@ -63,6 +63,7 @@ protected
   end
   
   def invite_scope
+    invite_required
     User.send :with_scope, :create => {:invitation_id => @invite && @invite.id} do
       yield
     end
