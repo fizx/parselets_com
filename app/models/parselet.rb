@@ -121,8 +121,8 @@ class Parselet < ActiveRecord::Base
     content = CachedPage.content_for_url(example_url)
     out = Dexterous.new(code).parse(:string => content, :output => :json)
     OrderedJSON.parse(out)
-  # rescue => e
-  #   {"errors" => e.message.split("\n")}
+  rescue => e
+    {"errors" => e.message.split("\n")}
   end
   
   def pretty_example_data
