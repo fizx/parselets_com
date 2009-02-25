@@ -3,6 +3,11 @@ body {
   margin:0;
 }
 
+form {
+  margin:0;
+  padding:0;
+}
+
 pre {
 	overflow:auto;
 	margin:0;

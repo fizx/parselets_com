@@ -1,0 +1,13 @@
+<p>
+  <b>Invitation:</b>
+  <%=h @invitation_request.invitation_id %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%=h @invitation_request.email %>
+</p>
+
+
+<%= link_to 'Edit', edit_invitation_request_path(@invitation_request) %> |
+<%= link_to 'Back', invitation_requests_path %>
