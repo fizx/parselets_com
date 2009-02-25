@@ -2,9 +2,7 @@ require_dependency "open-uri"
 class CachedPage < ActiveRecord::Base
   module ClassMethods
     def content_for_url(url)
-      puts url.inspect
       t = find_or_create_by_url(url)
-      puts t.inspect
       t && t.content
     end
   
