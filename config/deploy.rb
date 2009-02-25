@@ -26,3 +26,7 @@ namespace :deploy do
     system %[echo "deploy complete" | growlnotify "parselets.com"]
   end
 end
+
+task :delta do
+  run "cd #{current_path} && rake ultrasphinx:index:delta --trace RAILS_ENV=production"
+end
