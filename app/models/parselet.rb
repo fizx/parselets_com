@@ -2,6 +2,7 @@ require "rubygems"
 require "dexterous"
 require "ordered_json"
 require "digest/md5"
+require "open-uri"
 class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
   module ClassMethods
@@ -11,7 +12,6 @@ class Parselet < ActiveRecord::Base
   
     def tmp_from_params(params)
       tmp = Parselet.new(params[:parselet])
-      tmp.code ||= params[:code]
       if root = params[:root]
         command = params[:"root-command"]
         apply_command!(root, command) unless command.blank?
@@ -118,13 +118,11 @@ class Parselet < ActiveRecord::Base
   
   def example_data
     return {} if example_url.nil?
-    URI.parse(example_url.to_s)
-    out = Dexterous.new(code).parse(:string => open(example_url.to_s, "User-Agent" => "Parselets.org").read, :output => :json)
+    content = CachedPage.content_by_url(example_url)
+    out = Dexterous.new(code).parse(:string => content, :output => :json)
     OrderedJSON.parse(out)
-  rescue URI::Error
-    {}
-  rescue OrderedJSON::ParseError, DexError => e
-    OrderedJSON.pretty_dump({"errors" => e.message.split("\n")})
+  # rescue => e
+  #   {"errors" => e.message.split("\n")}
   end
   
   def pretty_example_data

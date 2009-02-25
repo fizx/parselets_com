@@ -11,7 +11,7 @@ class ParseletsController < ApplicationController
       page.replace_html "code_container", :partial => "code",
         :locals => {:path => "root", 
                     :data => @parselet.data, 
-                    :example_data => @parselet.example_data,
+                    # :example_data => @parselet.example_data,
                     :editor_type => @editor_type }
       page << "$('root-command').value = ''"
     end
