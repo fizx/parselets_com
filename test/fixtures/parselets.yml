@@ -1,21 +1,10 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
 one:
+  id: 1
   name: MyString
   description: MyText
-  code: MyText
-  pattern: MyString
-  example_url: MyString
+  code: "{}"
+  pattern: http://foo.com
+  example_url: http://foo.com
   user_id: 1
   version: 1
-  deleted_at: 2009-02-08 19:54:48
-
-two:
-  name: MyString
-  description: MyText
-  code: MyText
-  pattern: MyString
-  example_url: MyString
-  user_id: 1
-  version: 1
-  deleted_at: 2009-02-08 19:54:48
+  deleted_at: 

@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
+  
 
   map.resources :users
   map.resources :sprigs
@@ -16,6 +17,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :session
 
   map.root :controller => "home"
+  
+  map.parselet '/:login/:name', :controller => "parselets", :action => "show"
   
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'

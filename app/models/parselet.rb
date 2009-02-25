@@ -9,8 +9,21 @@ class Parselet < ActiveRecord::Base
     def top(n = 5)
       find :all, :limit => n
     end
+    
+    def find_by_params(params = {})
+      if params[:id]
+        find(params[:id])
+      elsif params[:name] && params[:login]
+        find :first, :joins => :user, :conditions => 
+                     {:"users.login" => params[:login], 
+                      :name => params[:name]}
+      else
+        raise ActiveRecord::RecordNotFound.new("Couldn't find Parselet for #{params.inspect}")
+      end
+    end
+    alias_method :find_from_params, :find_by_params
   
-    def tmp_from_params(params)
+    def tmp_from_params(params = {})
       tmp = Parselet.new(params[:parselet])
       if root = params[:root]
         command = params[:"root-command"]

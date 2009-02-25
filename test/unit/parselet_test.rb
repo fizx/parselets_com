@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ParseletTest < ActiveSupport::TestCase
   def setup
+    super
     @parselet = Parselet.new({
       :pattern => "http://www.yelp.com/",
       :example_url => "http://www.yelp.com/",
@@ -14,6 +15,21 @@ class ParseletTest < ActiveSupport::TestCase
   def test_new_parselet_returns_empty_json
     assert_equal "{}", @parselet.code
     assert_equal Hash.new, @parselet.json
+  end
+  
+  def test_find_by_params
+    @one = Parselet.find(1)
+    params = {:name => "MyString", :login => "quentin"}
+
+    assert_equal @one, Parselet.find_by_params(params)
+    
+    params = {:id => "1"}
+    assert_equal @one, Parselet.find_by_params(params)
+    
+    params = {:something => "else"}
+    assert_raises(ActiveRecord::RecordNotFound) do
+      Parselet.find_by_params(params)
+    end
   end
   
   def test_pattern_tokens

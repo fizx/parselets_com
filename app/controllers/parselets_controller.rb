@@ -31,7 +31,7 @@ class ParseletsController < ApplicationController
   # GET /parselets/1
   # GET /parselets/1.xml
   def show
-    @parselet = Parselet.find(params[:id])
+    @parselet = Parselet.find_by_params(params)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -52,7 +52,7 @@ class ParseletsController < ApplicationController
 
   # GET /parselets/1/edit
   def edit
-    @parselet = Parselet.find(params[:id])
+    @parselet = Parselet.find_by_params(params)
   end
 
   # POST /parselets
@@ -75,7 +75,7 @@ class ParseletsController < ApplicationController
   # PUT /parselets/1
   # PUT /parselets/1.xml
   def update
-    @parselet = Parselet.find(params[:id])
+    @parselet = Parselet.find_by_params(params)
     @parselet.code = Parselet.tmp_from_params(params).code
 
     respond_to do |format|
@@ -93,7 +93,7 @@ class ParseletsController < ApplicationController
   # DELETE /parselets/1
   # DELETE /parselets/1.xml
   def destroy
-    @parselet = Parselet.find(params[:id])
+    @parselet = Parselet.find_by_params(params)
     @parselet.destroy
 
     respond_to do |format|
