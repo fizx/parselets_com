@@ -14,10 +14,9 @@ class Parselet < ActiveRecord::Base
       if params[:id]
         find(params[:id])
       else
-        find(:first, :joins => :user, :conditions => 
-                     {"users.login" => params[:login], 
-                      "name" => params[:name]}) or
-         raise ActiveRecord::RecordNotFound.new("Couldn't find Parselet for #{params.inspect}")
+        user_id = User.find_by_login(params[:login])
+        user_id && find_by_user_id_and_name(user_id, params[:name]) ||
+          raise(ActiveRecord::RecordNotFound.new("Couldn't find Parselet for #{params.inspect}"))
       end
     end
     alias_method :find_from_params, :find_by_params
@@ -132,12 +131,25 @@ class Parselet < ActiveRecord::Base
     false
   end
   
+  def status
+    if worked_at.nil?
+      "broken"
+    elsif worked_at < 1.day.ago
+      "stale"
+    else
+      "ok"
+    end
+  end
+  
   def example_data
     return {} if example_url.nil?
     content = CachedPage.content_for_url(example_url)
     out = Dexterous.new(code).parse(:string => content, :output => :json)
-    OrderedJSON.parse(out)
+    answer = OrderedJSON.parse(out)
+    update_attribute :worked_at, Time.now
+    answer
   rescue => e
+    update_attribute :worked_at, nil
     {"errors" => e.message.split("\n")}
   end
   

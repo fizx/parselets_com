@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090225181851) do
+ActiveRecord::Schema.define(:version => 20090226051637) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20090225181851) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "worked_at"
   end
 
   create_table "sprig_usages", :force => true do |t|

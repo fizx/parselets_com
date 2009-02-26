@@ -24,7 +24,7 @@
 	</p>
 </div>
 
-<h1><%=h @parselet.name %> by <%=link_to @parselet.user.login, @parselet.user%> [ <span style=color:darkgreen>ok</span> ]</h1>
+<h1><%=h @parselet.name %> by <%=link_to @parselet.user.login, @parselet.user%> [ <%=@parselet.status%> ]</h1>
 <h3><%=h @parselet.description %></h3>
 <h4> Works on sites that match <%=h @parselet.pattern %>, <br />like <%=link_to h(@parselet.example_url), @parselet.example_url%></h4>
 
