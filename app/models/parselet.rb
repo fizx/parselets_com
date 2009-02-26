@@ -156,7 +156,9 @@ class Parselet < ActiveRecord::Base
   end
   
   def set_working(val)
-    update_attributes({:works => val, :checked_at => Time.now})
+    with_exclusive_scope do
+      update_attributes({:works => val, :checked_at => Time.now})
+    end
   end
   
   def pretty_example_data
