@@ -20,20 +20,23 @@
             <span style="visibility:hidden"><img width="100" height="1"> :&nbsp;&nbsp;</span>
             <span style="color:silver"><%=h example_val%></span>
         <% when Hash %>
-          <%=render "helpful", :data => value, :path => "#{path}[#{i}][value]", :example_data => example_val%>
+          <%=render "helpful", :data => value, :path => "#{path}[#{i}][value]", :example_data => example_val || {}%>
         <% when Array %>
           [ <span class="subtle">
           </span>
             <%=multi_field path, i %>
             <% value = value.first %>
-            <% example_val = example_val.first %>
+            <% example_len = (example_val || []).length %>
+            <% example_val = example_val && example_val.first %>
+            
             <% case value 
                when String, NilClass %>
                  <%=value_field path, i, value %> 
             <% when Hash %>
-                 <%=render "helpful", :data => value, :path => "#{path}[#{i}][value]", :example_data => example_val %>
+                 <%=render "helpful", :data => value, :path => "#{path}[#{i}][value]", :example_data => example_val || {} %>
             <% end %>
           ]
+          <span style="color:silver">// <%= example_len %> items</span>
         <% end %>
       </div>  
     <% end%>

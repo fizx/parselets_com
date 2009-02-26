@@ -108,7 +108,7 @@ class Parselet < ActiveRecord::Base
   belongs_to :user
   belongs_to :domain
   
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :scope => :user_id
   validates_format_of :name, :with => /\A[a-z0-9\-_]*\Z/, :message => "contains invalid characters"
   validates_presence_of :name, :description, :code, :pattern, :example_url, :user_id
   validates_json :code

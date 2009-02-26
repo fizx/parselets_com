@@ -9,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.parselet_code "/parselet_code", :controller => 'parselets', :action => 'code'
   
   map.resources :password_requests
+  map.resources :parselet_versions
   map.resources :invitation_requests
   map.resources :invitations
   map.resources :parselets

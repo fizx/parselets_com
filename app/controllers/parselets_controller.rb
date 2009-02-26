@@ -1,4 +1,6 @@
 require "json"
+require "rubygems"
+require "ruby-debug"
 class ParseletsController < ApplicationController
   layout "simple"
   before_filter :login_required, :except => %w[index show]
