@@ -1,1 +1,4 @@
-Not implemented yet: <%=h @user.inspect%>
+<h1><%= @user.name.empty? ? @user.login : @user.name %></h1>
+
+<h2>Parselets:</h2>
+<%= render @parselets %>

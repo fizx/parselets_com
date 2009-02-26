@@ -19,6 +19,7 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find_by_login(params[:id])
+    @parselets = Parselet.paginate(:all, :page => params[:page], :conditions => {:user_id => @user.id})
   end
   
   def edit
