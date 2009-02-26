@@ -5,4 +5,8 @@ class SearchControllerTest < ActionController::TestCase
   test "the truth" do
     assert true
   end
+  
+  test "routing works" do
+    assert_recognizes({ :controller => 'search', :action => 'index' }, '/search')
+  end
 end
