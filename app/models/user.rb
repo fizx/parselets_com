@@ -5,9 +5,11 @@ class User < ActiveRecord::Base
     def top(n = 5)
       find :all, :limit => n
     end
-    
-    def find_by_key(key)
-      find_by_login(key)
+
+    def find_by_api_key(key)
+      login, pwd = key.split("-")
+      u = find_by_login(login)
+      u && u.crypted_password[0..8] && u
     end
   end
   extend ClassMethods
@@ -22,6 +24,10 @@ class User < ActiveRecord::Base
     unless record.invitation_usable?
       record.errors.add :invitation, "is no longer valid"
     end
+  end
+  
+  def api_key
+    "#{login}-#{crypted_password[0..8]}"
   end
   
   def to_param

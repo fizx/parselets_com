@@ -13,15 +13,7 @@ ActiveRecord::Schema.define(:version => 20090226051637) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
-    t.text     "content",    :limit => 16777215
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "domain_usages", :force => true do |t|
-    t.integer  "domain_id"
-    t.string   "usage_type"
-    t.integer  "usage_id"
+    t.text     "content",    :limit => 2097152
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -61,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20090226051637) do
     t.boolean  "pattern_regex"
     t.datetime "deleted_at"
     t.datetime "updated_at"
+    t.datetime "worked_at"
   end
 
   create_table "parselets", :force => true do |t|

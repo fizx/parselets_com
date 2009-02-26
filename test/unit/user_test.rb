@@ -5,6 +5,12 @@ class UserTest < ActiveSupport::TestCase
   # Then, you can remove it from this and the functional test.
   include AuthenticatedTestHelper
   fixtures :users
+  
+  
+  def test_api_key
+    u = users(:kyle)
+    assert_equal u, User.find_by_api_key(u.api_key)
+  end
 
   def test_should_create_user
     assert_difference 'User.count' do
