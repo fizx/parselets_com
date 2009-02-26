@@ -9,7 +9,12 @@ module AuthenticatedSystem
     # Accesses the current user from the session.
     # Future calls avoid the database because nil is not equal to false.
     def current_user
-      @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie) unless @current_user == false
+      @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie || login_from_api_key) unless @current_user == false
+    end
+    
+    def login_from_api_key
+      user = params[:api_key] && User.find_by_api_key(params[:api_key])
+      self.current_user = user if user
     end
 
     # Store the given user id in the session.

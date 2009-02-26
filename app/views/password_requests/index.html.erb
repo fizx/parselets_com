@@ -1,0 +1,22 @@
+<h1>Listing password_requests</h1>
+
+<table>
+  <tr>
+    <th>Email</th>
+    <th>Sent at</th>
+  </tr>
+
+<% for password_request in @password_requests %>
+  <tr>
+    <td><%=h password_request.email %></td>
+    <td><%=h password_request.sent_at %></td>
+    <td><%= link_to 'Show', password_request %></td>
+    <td><%= link_to 'Edit', edit_password_request_path(password_request) %></td>
+    <td><%= link_to 'Destroy', password_request, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New password_request', new_password_request_path %>

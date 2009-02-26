@@ -1,0 +1,13 @@
+<h1>New password request</h1>
+
+<% form_for(@password_request) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+    <%= f.submit "Send" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', password_requests_path %>

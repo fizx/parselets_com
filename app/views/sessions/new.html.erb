@@ -4,7 +4,9 @@
 		<p><%= label_tag 'login' %><br />
 		<%= text_field_tag 'login', @login %></p>
 
-		<p><%= label_tag 'password' %><br/>
+		<p><%= label_tag 'password' %>
+			( <%=link_to "forgot?", new_password_request_path %> )
+			<br/>
 		<%= password_field_tag 'password', nil %></p>
 
 		<p><%= label_tag 'remember_me', 'Remember me' %>

@@ -1,0 +1,13 @@
+<p>
+  <b>Email:</b>
+  <%=h @password_request.email %>
+</p>
+
+<p>
+  <b>Sent at:</b>
+  <%=h @password_request.sent_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_password_request_path(@password_request) %> |
+<%= link_to 'Back', password_requests_path %>
