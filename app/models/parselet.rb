@@ -132,9 +132,11 @@ class Parselet < ActiveRecord::Base
   end
   
   def status
-    if worked_at.nil?
+    if !checked_at?
+      "unknown"
+    elsif !works?
       "broken"
-    elsif worked_at < 1.day.ago
+    elsif checked_at < 1.day.ago
       "stale"
     else
       "ok"
@@ -146,11 +148,15 @@ class Parselet < ActiveRecord::Base
     content = CachedPage.content_for_url(example_url)
     out = Dexterous.new(code).parse(:string => content, :output => :json)
     answer = OrderedJSON.parse(out)
-    update_attribute :worked_at, Time.now
+    set_working true
     answer
   rescue => e
-    update_attribute :worked_at, nil
+    set_working false
     {"errors" => e.message.split("\n")}
+  end
+  
+  def set_working(val)
+    update_attributes({:works => val, :checked_at => Time.now})
   end
   
   def pretty_example_data
