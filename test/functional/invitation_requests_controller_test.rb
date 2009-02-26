@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class InvitationRequestsControllerTest < ActionController::TestCase
+class InvitationRequestsControllerTest < ActionController::AdminTestCase
   test "should get index" do
     get :index
     assert_response :success
@@ -14,7 +14,7 @@ class InvitationRequestsControllerTest < ActionController::TestCase
 
   test "should create invitation_request" do
     assert_difference('InvitationRequest.count') do
-      post :create, :invitation_request => { }
+      post :create, :invitation_request => { :email => "foo@bar.com" }
     end
 
     assert_redirected_to invitation_request_path(assigns(:invitation_request))
@@ -31,7 +31,7 @@ class InvitationRequestsControllerTest < ActionController::TestCase
   end
 
   test "should update invitation_request" do
-    put :update, :id => invitation_requests(:one).id, :invitation_request => { }
+    put :update, :id => invitation_requests(:one).id, :invitation_request => { :email => "foo@bar.com" }
     assert_redirected_to invitation_request_path(assigns(:invitation_request))
   end
 
