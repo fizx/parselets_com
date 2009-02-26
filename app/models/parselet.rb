@@ -143,6 +143,14 @@ class Parselet < ActiveRecord::Base
     end
   end
   
+  def check
+    if checked_at < 1.day.ago
+      example_data 
+      STDERR.print "."
+      STDERR.flush
+    end
+  end
+  
   def example_data
     return {} if example_url.nil?
     content = CachedPage.content_for_url(example_url)
@@ -156,7 +164,7 @@ class Parselet < ActiveRecord::Base
   end
   
   def set_working(val)
-    with_exclusive_scope do
+    Parselet.send(:with_exclusive_scope) do
       update_attributes({:works => val, :checked_at => Time.now})
     end
   end
