@@ -5,11 +5,6 @@ require 'users_controller'
 class UsersController; def rescue_action(e) raise e end; end
 
 class UsersControllerTest < ActionController::TestCase
-  # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead
-  # Then, you can remove it from this and the units test.
-  include AuthenticatedTestHelper
-
-  fixtures :users
 
   def test_should_allow_signup
     assert_difference 'User.count' do
@@ -50,12 +45,10 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
   
-
-  
-
   protected
     def create_user(options = {})
-      post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quire69', :password_confirmation => 'quire69' }.merge(options)
+      params = {:user => { :login => 'quire', :email => 'quire@example.com',
+        :password => 'quire69', :password_confirmation => 'quire69' }.merge(options)}
+      post :create, params, :invite => invitations(:unlimited).code
     end
 end

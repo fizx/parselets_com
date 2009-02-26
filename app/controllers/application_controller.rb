@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
   before_filter :login_required
   
   around_filter :user_scope
-  around_filter :invite_scope
   
   def parselet_path(parselet)
     custom_parselet_path(:login => parselet.login, :name => parselet.name)
@@ -38,18 +37,23 @@ class ApplicationController < ActionController::Base
   end
   
   def invite_required
-    return true if authorized?
-
-    session[:invite] = params[:invite]   if params[:invite]
-    @invite ||= Invitation.find_by_code(session[:invite])
-
-    return true if @invite && @invite.usable?
-    
-    flash[:notice] = @invite.nil? ? 
-      "Please use an invitation code, or log in." : 
-      "Your invitation code has expired or has been used too many times."
+    if authorized?
+      yield
+    else
+      session[:invite] = params[:invite]   if params[:invite]
+      @invite ||= Invitation.find_by_code(session[:invite])
+      if @invite && @invite.usable?
+        User.send :with_scope, :create => {:invitation_id => @invite && @invite.id} do
+          yield
+        end
+      else
+        flash[:notice] = @invite.nil? ? 
+          "Please use an invitation code, or log in." : 
+          "Your invitation code has expired or has been used too many times."
       
-    access_denied
+        access_denied
+      end
+    end
   end
   
 protected
@@ -67,13 +71,6 @@ protected
       Sprig.send(:with_scope, :find => scope) do
         yield
       end
-    end
-  end
-  
-  def invite_scope
-    invite_required
-    User.send :with_scope, :create => {:invitation_id => @invite && @invite.id} do
-      yield
     end
   end
   

@@ -1,7 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :invitation_requests
-
-  map.resources :invitations
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
@@ -11,6 +8,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.parselet_code "/parselet_code", :controller => 'parselets', :action => 'code'
   
+  map.resources :invitation_requests
+  map.resources :invitations
   map.resources :parselets
   map.resources :users
   map.resources :sprigs

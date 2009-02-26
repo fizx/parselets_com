@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   layout "simple"
   skip_before_filter :login_required, :only => %w[new create]
-  before_filter :invite_required, :only => %w[new create]
+  around_filter :invite_required, :only => %w[new create]
   
   def index
     @users = User.paginate :page => params[:page]
@@ -19,6 +19,13 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find_by_login(params[:id])
+  end
+  
+  def edit
+    @user = User.find_by_login(params[:id])
+    unless admin? || @user == current_user
+      redirect_to :action => 'edit', :id => current_user
+    end
   end
  
   def create

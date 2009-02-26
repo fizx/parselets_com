@@ -1,6 +1,8 @@
 class DomainsController < ApplicationController
   layout "simple"
   
+  before_filter :admin_required, :except => %w[index show]
+  
   # GET /domains
   # GET /domains.xml
   def index

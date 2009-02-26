@@ -38,6 +38,7 @@ class ActiveSupport::TestCase
 end
 
 class ActionController::LoggedInTestCase < ActionController::TestCase
+  include AuthenticatedTestHelper
   
   unless @methods_defined
     %w[get put post delete].each do |method|
@@ -52,11 +53,23 @@ class ActionController::LoggedInTestCase < ActionController::TestCase
           session[:user_id] = user.id
           #{method}_without_session(action, parameters, session, flash)
         end
+        
+        def #{method}_as_admin(*args)
+          #{method}_as_user users(:kyle), *args
+        end
+        
       STR
       
-      def get_as_admin(*args)
-        get_as_user users(:kyle), *args
-      end
+    end
+    @methods_defined = true
+  end
+end
+
+class ActionController::AdminTestCase < ActionController::LoggedInTestCase
+  unless @methods_defined
+    %w[get put post delete].each do |method|
+      alias_method "#{method}_without_admin", method
+      alias_method method, "#{method}_as_admin"
     end
     @methods_defined = true
   end
