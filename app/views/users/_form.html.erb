@@ -1,8 +1,13 @@
 <% @user.password = @user.password_confirmation = nil %>
 <% form_for(@user, :url => { :action => @user.new_record? ? "create" : "update" }) do |f| %>
   <%= error_messages_for :user %>
+    
   <p><%= label_tag 'login' %><br/>
-  <%= f.text_field :login %></p>
+  <% if @user.new_record? %>
+    <%= f.text_field :login %></p>
+  <% else %>
+    <strong><%=h login%></strong>
+  <% end %>
 
   <p><%= label_tag 'email' %><br/>
   <%= f.text_field :email %></p>
