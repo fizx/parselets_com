@@ -76,5 +76,7 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 end
 
+ActionMailer::Base.delivery_method = :sendmail
+
 # require "openuri/rails-cache"
 # OpenURI::Cache.enable!

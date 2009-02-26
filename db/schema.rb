@@ -13,7 +13,15 @@ ActiveRecord::Schema.define(:version => 20090226175859) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
-    t.text     "content",    :limit => 2097152
+    t.text     "content",    :limit => 16777215
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "domain_usages", :force => true do |t|
+    t.integer  "domain_id"
+    t.string   "usage_type"
+    t.integer  "usage_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
