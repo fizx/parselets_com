@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
       uri = URI.parse(request.request_uri)
       uri.host = "parselets.com"
       uri.scheme = "http"
-      redirect_to uri.to_s
+      redirect_to uri.to_s, :status=>301
       return false
     end
     true
