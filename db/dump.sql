@@ -138,7 +138,7 @@ CREATE TABLE `invitations` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -147,6 +147,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `invitations` WRITE;
 /*!40000 ALTER TABLE `invitations` DISABLE KEYS */;
+INSERT INTO `invitations` VALUES (1,'uber',1,10,'2009-02-26 01:19:57','2009-02-26 01:19:57');
 /*!40000 ALTER TABLE `invitations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,7 +353,7 @@ CREATE TABLE `users` (
   `invitation_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_login` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -361,7 +362,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'kyle','','kyle@kylemaxwell.com','637f1cbc5b8452514abce35fed364a6edd87e471','241a38ae16e64d267b106f5279c33447cd0a2612','2009-02-12 06:04:43','2009-02-12 06:04:43',NULL,NULL,0,NULL);
+INSERT INTO `users` VALUES (1,'kyle','','kyle@kylemaxwell.com','637f1cbc5b8452514abce35fed364a6edd87e471','241a38ae16e64d267b106f5279c33447cd0a2612','2009-02-12 06:04:43','2009-02-26 01:19:40',NULL,NULL,1,NULL),(2,'kyle2','','kyle.c.maxwell@gmail.com','4dc4f34b43ca675d4202c91d3693f112dd26ffba','c637d2aa0514be4a25f75935918da5508a889668','2009-02-26 01:20:28','2009-02-26 01:20:28',NULL,NULL,0,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -374,4 +375,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-02-26  1:16:09
+-- Dump completed on 2009-02-26  1:20:59
