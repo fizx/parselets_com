@@ -13,12 +13,11 @@ class Parselet < ActiveRecord::Base
     def find_by_params(params = {})
       if params[:id]
         find(params[:id])
-      elsif params[:name] && params[:login]
-        find :first, :joins => :user, :conditions => 
-                     {"users.login" => params[:login], 
-                      "name" => params[:name]}
       else
-        raise ActiveRecord::RecordNotFound.new("Couldn't find Parselet for #{params.inspect}")
+        find(:first, :joins => :user, :conditions => 
+                     {"users.login" => params[:login], 
+                      "name" => params[:name]}) or
+         raise ActiveRecord::RecordNotFound.new("Couldn't find Parselet for #{params.inspect}")
       end
     end
     alias_method :find_from_params, :find_by_params

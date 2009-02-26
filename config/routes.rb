@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :domains
   map.resource  :session
   
-  map.custom_parselet "/:login/:name", :controller => "parselets", :action => "show"
+  map.custom_parselet "/:login/:name", :controller => "parselets", :action => "show", :conditions => { :method => :get }
 
   map.root :controller => "home"
 end
