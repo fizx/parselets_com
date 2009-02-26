@@ -16,7 +16,7 @@ class Parselet < ActiveRecord::Base
       elsif params[:name] && params[:login]
         find :first, :joins => :user, :conditions => 
                      {"users.login" => params[:login], 
-                      :name => params[:name]}
+                      "name" => params[:name]}
       else
         raise ActiveRecord::RecordNotFound.new("Couldn't find Parselet for #{params.inspect}")
       end
