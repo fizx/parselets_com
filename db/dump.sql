@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.31, for apple-darwin9.5.0 (i386)
+-- MySQL dump 10.11
 --
 -- Host: localhost    Database: parselets_com_development
 -- ------------------------------------------------------
--- Server version	5.1.31
+-- Server version	5.0.51
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `cached_pages`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cached_pages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `url` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL auto_increment,
+  `url` varchar(255) default NULL,
   `content` mediumtext,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -50,13 +50,13 @@ DROP TABLE IF EXISTS `domain_usages`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `domain_usages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `domain_id` int(11) DEFAULT NULL,
-  `usage_type` varchar(255) DEFAULT NULL,
-  `usage_id` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `domain_id` int(11) default NULL,
+  `usage_type` varchar(255) default NULL,
+  `usage_id` int(11) default NULL,
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -77,12 +77,12 @@ DROP TABLE IF EXISTS `domains`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `domains` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
   `variations` text,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -104,12 +104,12 @@ DROP TABLE IF EXISTS `invitation_requests`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `invitation_requests` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `invitation_id` int(11) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `invitation_id` int(11) default NULL,
+  `email` varchar(255) default NULL,
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -131,13 +131,13 @@ DROP TABLE IF EXISTS `invitations`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `invitations` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `usages` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `code` varchar(255) default NULL,
+  `user_id` int(11) default NULL,
+  `usages` int(11) default NULL,
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -147,7 +147,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `invitations` WRITE;
 /*!40000 ALTER TABLE `invitations` DISABLE KEYS */;
-INSERT INTO `invitations` VALUES (1,'uber',1,10,'2009-02-26 01:19:57','2009-02-26 01:19:57');
+INSERT INTO `invitations` VALUES (1,'uber',NULL,10,'2009-02-26 01:18:30','2009-02-26 01:18:30');
 /*!40000 ALTER TABLE `invitations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,20 +159,20 @@ DROP TABLE IF EXISTS `parselet_versions`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `parselet_versions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parselet_id` int(11) DEFAULT NULL,
-  `version` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL auto_increment,
+  `parselet_id` int(11) default NULL,
+  `version` int(11) default NULL,
+  `name` varchar(255) default NULL,
   `description` text,
   `code` text,
-  `pattern` varchar(255) DEFAULT NULL,
-  `example_url` varchar(255) DEFAULT NULL,
-  `domain_id` varchar(255) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `pattern_regex` tinyint(1) DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `pattern` varchar(255) default NULL,
+  `example_url` varchar(255) default NULL,
+  `domain_id` varchar(255) default NULL,
+  `user_id` int(11) default NULL,
+  `pattern_regex` tinyint(1) default NULL,
+  `deleted_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -194,19 +194,19 @@ DROP TABLE IF EXISTS `parselets`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `parselets` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
   `description` text,
   `code` text,
-  `pattern` varchar(255) DEFAULT NULL,
-  `example_url` varchar(255) DEFAULT NULL,
-  `domain_id` varchar(255) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `version` int(11) DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `pattern` varchar(255) default NULL,
+  `example_url` varchar(255) default NULL,
+  `domain_id` varchar(255) default NULL,
+  `user_id` int(11) default NULL,
+  `version` int(11) default NULL,
+  `deleted_at` datetime default NULL,
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -251,14 +251,14 @@ DROP TABLE IF EXISTS `sprig_usages`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `sprig_usages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sprig_id` int(11) DEFAULT NULL,
-  `sprig_version_id` int(11) DEFAULT NULL,
-  `parselet_id` int(11) DEFAULT NULL,
-  `parselet_version_id` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL auto_increment,
+  `sprig_id` int(11) default NULL,
+  `sprig_version_id` int(11) default NULL,
+  `parselet_id` int(11) default NULL,
+  `parselet_version_id` int(11) default NULL,
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -279,16 +279,16 @@ DROP TABLE IF EXISTS `sprig_versions`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `sprig_versions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sprig_id` int(11) DEFAULT NULL,
-  `version` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL auto_increment,
+  `sprig_id` int(11) default NULL,
+  `version` int(11) default NULL,
+  `name` varchar(255) default NULL,
   `description` text,
   `code` text,
-  `user_id` int(11) DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `user_id` int(11) default NULL,
+  `deleted_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -309,16 +309,16 @@ DROP TABLE IF EXISTS `sprigs`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `sprigs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
   `description` text,
   `code` text,
-  `user_id` int(11) DEFAULT NULL,
-  `version` int(11) DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `user_id` int(11) default NULL,
+  `version` int(11) default NULL,
+  `deleted_at` datetime default NULL,
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -339,19 +339,19 @@ DROP TABLE IF EXISTS `users`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `login` varchar(40) DEFAULT NULL,
-  `name` varchar(100) DEFAULT '',
-  `email` varchar(100) DEFAULT NULL,
-  `crypted_password` varchar(40) DEFAULT NULL,
-  `salt` varchar(40) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `remember_token` varchar(40) DEFAULT NULL,
-  `remember_token_expires_at` datetime DEFAULT NULL,
-  `admin` tinyint(1) DEFAULT '0',
-  `invitation_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `id` int(11) NOT NULL auto_increment,
+  `login` varchar(40) default NULL,
+  `name` varchar(100) default '',
+  `email` varchar(100) default NULL,
+  `crypted_password` varchar(40) default NULL,
+  `salt` varchar(40) default NULL,
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  `remember_token` varchar(40) default NULL,
+  `remember_token_expires_at` datetime default NULL,
+  `admin` tinyint(1) default '0',
+  `invitation_id` int(11) default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `index_users_on_login` (`login`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
@@ -362,7 +362,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'kyle','','kyle@kylemaxwell.com','637f1cbc5b8452514abce35fed364a6edd87e471','241a38ae16e64d267b106f5279c33447cd0a2612','2009-02-12 06:04:43','2009-02-26 01:19:40',NULL,NULL,1,NULL),(2,'kyle2','','kyle.c.maxwell@gmail.com','4dc4f34b43ca675d4202c91d3693f112dd26ffba','c637d2aa0514be4a25f75935918da5508a889668','2009-02-26 01:20:28','2009-02-26 01:20:28',NULL,NULL,0,1);
+INSERT INTO `users` VALUES (1,'kyle','','kyle@kylemaxwell.com','637f1cbc5b8452514abce35fed364a6edd87e471','241a38ae16e64d267b106f5279c33447cd0a2612','2009-02-12 06:04:43','2009-02-12 06:04:43',NULL,NULL,0,NULL),(2,'andrew','','andrew@andrewcantino.com','eb84571e8f99710b548b8f3c31790c724209a4b4','34c19745ea216b32a7b475708339876cbd3885ff','2009-02-26 01:22:00','2009-02-26 01:22:00',NULL,NULL,0,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -375,4 +375,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-02-26  1:20:59
+-- Dump completed on 2009-02-26  1:23:09
