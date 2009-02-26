@@ -18,8 +18,20 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password
   
   before_filter :login_required
+  before_filter :fix_domain
   
   around_filter :user_scope
+  
+  def fix_domain
+    if RAILS_ENV == "production" && request.host != "parselets.com"
+      uri = URI.parse(request.request_uri)
+      uri.host = "parselets.com"
+      uri.scheme = "http"
+      redirect_to uri.to_s
+      return false
+    end
+    true
+  end
   
   def parselet_path(parselet)
     custom_parselet_path(:login => parselet.login, :name => parselet.name)
