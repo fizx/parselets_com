@@ -22,10 +22,19 @@ class ApplicationController < ActionController::Base
   around_filter :user_scope
   around_filter :invite_scope
   
+  def parselet_path(parselet)
+    custom_parselet_path(:login => parselet.login, :name => parselet.name)
+  end
+  helper_method :parselet_path
+    
   def admin_required
-    unless authorized? && current_user.admin?
+    unless authorized? && admin?
       access_denied
     end
+  end
+  
+  def admin?
+    current_user && current_user.admin?
   end
   
   def invite_required

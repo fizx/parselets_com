@@ -8,3 +8,32 @@ one:
   user_id: 1
   version: 1
   deleted_at: 
+youtube:
+  name: youtube-video
+  updated_at: 2009-02-19 04:54:08 Z
+  code: |-
+    {
+    	"title": "h1",
+    	"rating": ".ratingL @title",
+    	"views": "#watch-view-count",
+    	"description": ".description",
+    	"comment_count": "#watch-comment-panel .expand-header-stat",
+    	"comment(.watch-comment-entry)": [{
+    		"user": ".watch-comment-auth",
+    		"comment": ".watch-comment-body div",
+    		"time": ".watch-comment-time",
+    		"score": ".watch-comment-score"
+    	}],
+    	"uploader": ".contributor",
+    	"uploaded_at": ".post-date",
+    	"embed": "#embed_code @value"
+    }
+  deleted_at: 
+  example_url: http://www.youtube.com/watch?v=qZGz1Ajg7QU
+  domain_id: "3"
+  pattern: "http://www.youtube.com/watch?v={id}"
+  id: 20
+  version: 1
+  description: Information about one youtube video
+  user_id: 15
+  created_at: 2009-02-19 04:54:08 Z

@@ -45,10 +45,18 @@ class ActionController::LoggedInTestCase < ActionController::TestCase
     
       class_eval <<-STR
         def #{method}(action, parameters = nil, session = {}, flash = nil)
-          session[:user_id] ||= 1
+          #{method}_as_user(User.find(1), action, parameters, session, flash)
+        end
+        
+        def #{method}_as_user(user, action, parameters = nil, session = {}, flash = nil)
+          session[:user_id] = user.id
           #{method}_without_session(action, parameters, session, flash)
         end
       STR
+      
+      def get_as_admin(*args)
+        get_as_user users(:kyle), *args
+      end
     end
     @methods_defined = true
   end

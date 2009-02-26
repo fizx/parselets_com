@@ -8,18 +8,16 @@ ActionController::Routing::Routes.draw do |map|
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
   
-
+  
+  map.parselet_code "/parselet_code", :controller => 'parselets', :action => 'code'
+  
+  map.resources :parselets
   map.resources :users
   map.resources :sprigs
-  map.resources :parselets
   map.resources :domains
+  map.resource  :session
   
-  map.resource :session
+  map.custom_parselet "/:login/:name", :controller => "parselets", :action => "show"
 
   map.root :controller => "home"
-  
-  map.parselet '/:login/:name', :controller => "parselets", :action => "show"
-  
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
 end

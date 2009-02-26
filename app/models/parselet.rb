@@ -15,7 +15,7 @@ class Parselet < ActiveRecord::Base
         find(params[:id])
       elsif params[:name] && params[:login]
         find :first, :joins => :user, :conditions => 
-                     {:"users.login" => params[:login], 
+                     {"users.login" => params[:login], 
                       :name => params[:name]}
       else
         raise ActiveRecord::RecordNotFound.new("Couldn't find Parselet for #{params.inspect}")
@@ -120,6 +120,10 @@ class Parselet < ActiveRecord::Base
   
   def create_domain
     self.domain = Domain.from_url(example_url)
+  end
+    
+  def login
+    user && user.login
   end
   
   def pattern_valid?

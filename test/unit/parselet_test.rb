@@ -18,13 +18,15 @@ class ParseletTest < ActiveSupport::TestCase
   end
   
   def test_find_by_params
-    @one = Parselet.find(1)
+    params = {:name => "youtube-video", :login => "kyle"}
+    assert_not_nil Parselet.find_by_params(params)
+    
     params = {:name => "MyString", :login => "quentin"}
 
-    assert_equal @one, Parselet.find_by_params(params)
+    assert_equal parselets(:one), Parselet.find_by_params(params)
     
     params = {:id => "1"}
-    assert_equal @one, Parselet.find_by_params(params)
+    assert_equal parselets(:one), Parselet.find_by_params(params)
     
     params = {:something => "else"}
     assert_raises(ActiveRecord::RecordNotFound) do

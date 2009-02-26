@@ -24,7 +24,7 @@ function menu_click(obj) {
 function re_eval() {
 	var focus = true; // TODO: check key events for tab / enter
   
-  new Ajax.Request('/parselets/code/1', {
+  new Ajax.Request('/parselet_code', {
     asynchronous:true, 
     evalScripts:true, 
     parameters:Form.serialize("parselet_form"),

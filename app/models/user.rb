@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
     end
   end
   
+  def to_param
+    login
+  end
+  
   def invitation_usable?
     invitation && invitation.usable?
   end
