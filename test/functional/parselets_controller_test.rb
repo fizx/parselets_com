@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ParseletsControllerTest < ActionController::TestCase
+class ParseletsControllerTest < ActionController::LoggedInTestCase
   test "should get index" do
     get :index
     assert_response :success
@@ -14,7 +14,7 @@ class ParseletsControllerTest < ActionController::TestCase
 
   test "should create parselet" do
     assert_difference('Parselet.count') do
-      post :create, :parselet => { }
+      post :create, :parselet => fake_parselet_attributes
     end
 
     assert_redirected_to parselet_path(assigns(:parselet))
@@ -31,7 +31,7 @@ class ParseletsControllerTest < ActionController::TestCase
   end
 
   test "should update parselet" do
-    put :update, :id => parselets(:one).id, :parselet => { }
+    put :update, :id => parselets(:one).id, :parselet => fake_parselet_attributes
     assert_redirected_to parselet_path(assigns(:parselet))
   end
 
@@ -41,5 +41,9 @@ class ParseletsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to parselets_path
+  end
+  
+  def fake_parselet_attributes
+    parselets(:youtube).attributes.merge({:name => "foobar"})
   end
 end

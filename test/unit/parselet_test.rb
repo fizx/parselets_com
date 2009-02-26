@@ -17,6 +17,10 @@ class ParseletTest < ActiveSupport::TestCase
     assert_equal Hash.new, @parselet.json
   end
   
+  def test_creating_slightly_different
+    Parselet.new(parselets(:youtube).attributes.merge({:name => "foobar"})).save!
+  end
+  
   def test_find_by_params
     params = {:name => "youtube-video", :login => "kyle"}
     assert_not_nil Parselet.find_by_params(params)

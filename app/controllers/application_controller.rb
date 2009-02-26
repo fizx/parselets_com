@@ -25,6 +25,11 @@ class ApplicationController < ActionController::Base
     custom_parselet_path(:login => parselet.login, :name => parselet.name)
   end
   helper_method :parselet_path
+
+  def parselet_url(parselet)
+    custom_parselet_url(:login => parselet.login, :name => parselet.name)
+  end
+  helper_method :parselet_url
     
   def admin_required
     unless authorized? && admin?
