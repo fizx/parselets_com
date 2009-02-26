@@ -59,11 +59,11 @@
     </tr>
     <tr>
       <td id="code_container" colspan="2">
-          <% begin %>
+          <%# begin %>
 					<%=render "code", :editor_type => "helpful", :path => "root", :data => @parselet.json, :example_data => @parselet.example_data %>
-					<% rescue %>
-					<%=render "code", :editor_type => "simple", :path => "root", :data => @parselet.json, :example_data => @parselet.example_data %>
-					<% end %>
+					<%# rescue %>
+					<%#=render "code", :editor_type => "simple", :path => "root", :data => @parselet.json, :example_data => @parselet.example_data %>
+					<%# end %>
 			</td>
     </tr>
   </table>

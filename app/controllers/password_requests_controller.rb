@@ -16,6 +16,7 @@ class PasswordRequestsController < ApplicationController
   # GET /password_requests/1
   # GET /password_requests/1.xml
   def show
+    
     @password_request = PasswordRequest.find(params[:id])
 
     respond_to do |format|

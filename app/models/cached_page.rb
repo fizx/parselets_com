@@ -1,5 +1,7 @@
 require_dependency "open-uri"
 class CachedPage < ActiveRecord::Base
+  CACHE_TIME = 1.day
+  
   module ClassMethods
     def content_for_url(url)
       t = find_or_create_by_url(url)
@@ -9,6 +11,7 @@ class CachedPage < ActiveRecord::Base
     def find_or_create_by_url(url)
       url = url.to_s
       page = find_or_initialize_by_url(url)
+      page.content = nil if page.updated_at && (page.updated_at < CACHE_TIME.ago)
       page.content ||= URI.parse(url).open("User-Agent" => "Parselets.org").read
       page.save!
       page
@@ -16,17 +19,7 @@ class CachedPage < ActiveRecord::Base
   end
   extend ClassMethods
   
-private 
-  def fetch(uri_str, limit = 10)
-      # You should choose better exception.
-      raise ArgumentError, 'HTTP redirect too deep' if limit == 0
-
-      response = Net::HTTP.get_response(URI.parse(uri_str))
-      case response
-      when Net::HTTPSuccess     then response
-      when Net::HTTPRedirection then fetch(response['location'], limit - 1)
-      else
-        response.error!
-      end
-    end
+  def updated_at
+    self[:updated_at] || created_at
+  end
 end

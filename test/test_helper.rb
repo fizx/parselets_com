@@ -37,8 +37,11 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 end
 
-class ActionController::LoggedInTestCase < ActionController::TestCase
+class ActionController::TestCase
   include AuthenticatedTestHelper
+end
+
+class ActionController::LoggedInTestCase < ActionController::TestCase
   
   unless @methods_defined
     %w[get put post delete].each do |method|
