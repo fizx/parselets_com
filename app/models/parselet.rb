@@ -22,7 +22,7 @@ class Parselet < ActiveRecord::Base
     alias_method :find_from_params, :find_by_params
   
     def tmp_from_params(params = {})
-      tmp = Parselet.new(params[:parselet])
+      tmp = Parselet.new(params[:parselet] || params[:parselet_version])
       if root = params[:root]
         command = params[:"root-command"]
         apply_command!(root, command) unless command.blank?
@@ -116,11 +116,19 @@ class Parselet < ActiveRecord::Base
   
   before_save :create_domain
   
+  class Version < ActiveRecord::Base
+    belongs_to :user
+  end
+  
   # Get included into Parselet::Version later
   module VersionableMethods
     
     def login
       user && user.login
+    end
+    
+    def slug
+      "#{login}/#{name}"
     end
   
     def pattern_valid?
@@ -168,7 +176,9 @@ class Parselet < ActiveRecord::Base
 
     def set_working(val)
       Parselet.send(:with_exclusive_scope) do
-        update_attributes({:works => val, :checked_at => Time.now})
+        self.works = val
+        self.checked_at = Time.now
+        respond_to?(:save_without_revision) ? save_without_revision : save
       end
     end
 

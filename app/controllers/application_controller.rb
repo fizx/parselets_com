@@ -33,6 +33,11 @@ class ApplicationController < ActionController::Base
     true
   end
   
+  def edit_path(model)
+    url_for(model) + "/edit"
+  end
+  helper_method :edit_path
+  
   def parselet_path(parselet)
     custom_parselet_path(:login => parselet.login, :name => parselet.name)
   end

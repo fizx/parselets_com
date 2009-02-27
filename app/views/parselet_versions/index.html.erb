@@ -1,2 +1,5 @@
-<h1>ParseletVersions#index</h1>
-<p>Find me in app/views/parselet_versions/index.html.erb</p>
+<h1>Versions of <%=@parselet.slug%></h1>
+<ol>
+  <%=render @parselet_versions %>
+</ol>
+<%=will_paginate @parselet_versions %>
