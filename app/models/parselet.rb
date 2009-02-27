@@ -3,7 +3,6 @@ require "dexterous"
 require "ordered_json"
 require "digest/md5"
 require "open-uri"
-require "parselet/version"
 class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
   module ClassMethods
@@ -117,124 +116,131 @@ class Parselet < ActiveRecord::Base
   
   before_save :create_domain
   
-  def create_domain
-    self.domain = Domain.from_url(example_url)
-  end
+  # Get included into Parselet::Version later
+  module VersionableMethods
     
-  def login
-    user && user.login
-  end
-  
-  def pattern_valid?
-    pattern_tokens
-    true 
-  rescue InvalidStateError => e
-    false
-  end
-  
-  def status
-    if !checked_at?
-      "unknown"
-    elsif !works?
-      "broken"
-    elsif checked_at < 1.day.ago
-      "stale"
-    else
-      "ok"
+    def login
+      user && user.login
     end
-  end
   
-  def check
-    if checked_at < 1.day.ago
-      example_data 
-      STDERR.print "."
-      STDERR.flush
+    def pattern_valid?
+      pattern_tokens
+      true 
+    rescue InvalidStateError => e
+      false
     end
-  end
   
-  def example_data
-    return {} if example_url.nil?
-    content = CachedPage.content_for_url(example_url)
-    out = Dexterous.new(code).parse(:string => content, :output => :json)
-    answer = OrderedJSON.parse(out)
-    set_working true
-    answer
-  rescue => e
-    set_working false
-    {"errors" => e.message.split("\n")}
-  end
-  
-  def set_working(val)
-    Parselet.send(:with_exclusive_scope) do
-      update_attributes({:works => val, :checked_at => Time.now})
-    end
-  end
-  
-  def pretty_example_data
-    OrderedJSON.pretty_dump(example_data).gsub("\t", "    ")
-  end
-  
-  def pattern_tokens
-    state = [:url]
-    str = ""
-    keys = []
-    url_chunks = []
-    pattern.each_char do |c|
-      if state.last == :escaping
-        str += c
-        state.pop
-      elsif c == "\\"
-        state << :escaping
-      elsif c == "{"
-        assert_state state, :url
-        url_chunks << str
-        str = ""
-        state[-1] = :key
-      elsif c == "}"
-        assert_state state, :key
-        keys << str
-        str = ""
-        state[-1] = :url
+    def status
+      if !checked_at?
+        "unknown"
+      elsif !works?
+        "broken"
+      elsif checked_at < 1.day.ago
+        "stale"
       else
-        str += c
+        "ok"
       end
-    end  
-    assert_state state, :url
-    url_chunks << str
-    [url_chunks, keys]
+    end
+    
+    def create_domain
+      self.domain = Domain.from_url(example_url)
+    end
+
+    def check
+      if !checked_at || checked_at < 1.day.ago
+        example_data 
+        STDERR.print "."
+        STDERR.flush
+      end
+    end
+
+    def example_data
+      return {} if example_url.nil?
+      content = CachedPage.content_for_url(example_url)
+      out = Dexterous.new(code).parse(:string => content, :output => :json)
+      answer = OrderedJSON.parse(out)
+      set_working true
+      answer
+    rescue => e
+      set_working false
+      {"errors" => e.message.split("\n")}
+    end
+
+    def set_working(val)
+      Parselet.send(:with_exclusive_scope) do
+        update_attributes({:works => val, :checked_at => Time.now})
+      end
+    end
+
+    def pretty_example_data
+      OrderedJSON.pretty_dump(example_data).gsub("\t", "    ")
+    end
+
+    def pattern_tokens
+      state = [:url]
+      str = ""
+      keys = []
+      url_chunks = []
+      pattern.each_char do |c|
+        if state.last == :escaping
+          str += c
+          state.pop
+        elsif c == "\\"
+          state << :escaping
+        elsif c == "{"
+          assert_state state, :url
+          url_chunks << str
+          str = ""
+          state[-1] = :key
+        elsif c == "}"
+          assert_state state, :key
+          keys << str
+          str = ""
+          state[-1] = :url
+        else
+          str += c
+        end
+      end  
+      assert_state state, :url
+      url_chunks << str
+      [url_chunks, keys]
+    end
+
+    def assert_state(state, value)
+      raise InvalidStateError.new unless state[-1] == value
+    end
+
+    def pattern_matches?(url)
+      return false if url.blank? || !pattern_valid?
+      url_chunks, _ = pattern_tokens
+      url_chunks.map!{|str| Regexp.escape(str) }
+      re = Regexp.new("\\A" + url_chunks.join(".*?") + "\\Z")
+      re === url.to_s
+    end
+
+    def code
+      self[:code].blank? ? "{}" : self[:code]
+    end
+
+    def pretty_code
+      OrderedJSON.pretty_dump(OrderedJSON.parse(code)).gsub("\t", "    ")
+    end
+
+    def json
+      OrderedJSON.parse(code)
+    end
+    alias_method :data, :json
+
+    def json=(obj)
+      self.code = OrderedJSON.dump(obj)
+    end
+    alias_method :data=, :json=
+
+    def guid
+      id || "new-#{Digest::MD5.hexdigest(rand.to_s)[0..6]}"
+    end
   end
+  include VersionableMethods
+  Version.send(:include, VersionableMethods)
   
-  def assert_state(state, value)
-    raise InvalidStateError.new unless state[-1] == value
-  end
-  
-  def pattern_matches?(url)
-    return false if url.blank? || !pattern_valid?
-    url_chunks, _ = pattern_tokens
-    url_chunks.map!{|str| Regexp.escape(str) }
-    re = Regexp.new("\\A" + url_chunks.join(".*?") + "\\Z")
-    re === url.to_s
-  end
-  
-  def code
-    self[:code].blank? ? "{}" : self[:code]
-  end
-  
-  def pretty_code
-    OrderedJSON.pretty_dump(OrderedJSON.parse(code)).gsub("\t", "    ")
-  end
-  
-  def json
-    OrderedJSON.parse(code)
-  end
-  alias_method :data, :json
-  
-  def json=(obj)
-    self.code = OrderedJSON.dump(obj)
-  end
-  alias_method :data=, :json=
-  
-  def guid
-    id || "new-#{Digest::MD5.hexdigest(rand.to_s)[0..6]}"
-  end
 end

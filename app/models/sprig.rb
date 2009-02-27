@@ -1,4 +1,3 @@
-require "sprig/version"
 class Sprig < ActiveRecord::Base
   module ClassMethods
     def top(n = 5)
