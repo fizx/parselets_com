@@ -34,20 +34,11 @@ class ApplicationController < ActionController::Base
   end
   
   def edit_path(model)
-    url_for(model) + "/edit"
+    klass = model.class.to_s.underscore.gsub("/", "_")
+    send("edit_#{klass}_path", model)
   end
   helper_method :edit_path
-  
-  def parselet_path(parselet)
-    custom_parselet_path(:login => parselet.login, :name => parselet.name)
-  end
-  helper_method :parselet_path
-
-  def parselet_url(parselet)
-    custom_parselet_url(:login => parselet.login, :name => parselet.name)
-  end
-  helper_method :parselet_url
-    
+      
   def admin_required
     unless authorized? && admin?
       access_denied
