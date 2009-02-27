@@ -3,6 +3,7 @@ require "dexterous"
 require "ordered_json"
 require "digest/md5"
 require "open-uri"
+require "parselet/version"
 class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
   module ClassMethods
