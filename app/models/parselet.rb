@@ -146,6 +146,10 @@ class Parselet < ActiveRecord::Base
       end
     end
     
+    def domain_name
+      domain && domain.name
+    end
+    
     def create_domain
       self.domain = Domain.from_url(example_url)
     end
