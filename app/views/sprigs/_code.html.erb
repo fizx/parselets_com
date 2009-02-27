@@ -1,7 +1,15 @@
 <ul>
-  <% (sprig.keys << nil).each do |key| %>
+  <% (sprig.keys << nil).each_with_index do |(key, value), i| %>
     <li>
-      <%=h key.inspect%>
+			<%=text_field_tag "sprig[keys][]", key%> 
+			<% if key.blank? %>
+				&larr; add a key
+			<% else %>	
+				<b>type:</b>
+					array
+					<%=link_to "simple"%>
+					<%=link_to "alt"%>
+			<% end %>
     </li>
   <%end%>
 </nil>
