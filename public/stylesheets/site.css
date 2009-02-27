@@ -55,7 +55,7 @@ form#search {
 	position:absolute;
 	z-index:2;
 	top:5px;
-	left:110px;
+	left:165px;
 }
 form#search #box{
 	width:200px;
@@ -197,9 +197,18 @@ p{
   background-color:white;
   border:1px silver solid;
   border-bottom:none;
+  font-size:small;
+  font-weight:bold;
+}
+#nav li a {
+  color:darkblue;
 }
 
-.mini p, .mini .status {
+#nav li a:hover {
+  color:blue;
+}
+
+.mini p, .mini .status, .mini .domain {
   display:none;
 }
 
@@ -260,6 +269,8 @@ h1, h2, h3, h4, h5, h6 {
   font-weight:bold;
   color:black;
   text-decoration:none;
+  position:relative;
+  top:2px;
 }
 #main {
   padding:15px;
