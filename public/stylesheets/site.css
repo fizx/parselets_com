@@ -143,11 +143,6 @@ td.info{
   width: 100%;
 }
 
-#blurb{
-  float:left;
-  width:300px;
-}
-
 th, .boxes h3 {
   padding:5px 15px 5px 15px;
   background-color: #eee;
@@ -160,10 +155,6 @@ ul, ol, li {
 	list-style: none;
 }
 
-.boxes {
-	width: 660px;
-	float:left;
-}
 
 .fieldWithErrors {
 	margin:0;
@@ -196,10 +187,15 @@ p{
   display:none;
 }
 
+.boxes {
+  width:300px;
+	float:right;
+	padding-right:15px;
+}
 
 .boxes>li {
-	float:left;
-	width:300px;
+	float:right;
+	width:100%;
 	border: 1px silver solid;
 	margin: 0 0 15px 15px;
 }

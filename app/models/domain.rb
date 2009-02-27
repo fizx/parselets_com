@@ -2,7 +2,6 @@ require "facets/set"
 class Domain < ActiveRecord::Base
   module ClassMethods
     def top(n = 5)
-      # find :all, :joins => :parselets, :order => "parselets.", :limit => n
       find_by_sql "SELECT domains.*, COUNT(parselets.id) as p FROM domains, parselets WHERE parselets.domain_id = domains.id GROUP BY domains.name ORDER BY p DESC LIMIT #{n.to_i}"
     end
     
