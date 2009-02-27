@@ -1,29 +1,9 @@
 <% form_for(@sprig) do |f| %>
   <%= f.error_messages %>
 
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </p>
-  <p>
-    <%= f.submit "Update" %>
-  </p>
-
-
-
-
-
-
-
-
   <table cellpadding="5" cellspacing="0" border="0">
     <tr>
-      <th>Basic info</th>
-      <th class="buttons"><%=submit_tag "Save"%></th>
+      <th colspan="2">Basic info</th>
     </tr>
     <tr>
       <td>
@@ -40,7 +20,24 @@
       <td class="info">Human-readable description of the parselet, indexed by search. </td>
     </tr>
   </table>
+  
+  <table cellpadding="5" cellspacing="0" border="0">
+    <tr>
+      <th>Keys</th>
+    </tr>
+    <tr>
+      <td><%=render "code", :sprig => @sprig%></td>
+    </tr>
+	</table>
+  
 
+  <table cellpadding="5" cellspacing="0" border="0">
+    <tr>
+      <th class="buttons">
+        <%=submit_tag "Save"%>
+      </th>
+    </tr>
+	</table>
 
 
 <% end %>

@@ -17,5 +17,8 @@ class Sprig < ActiveRecord::Base
     ],
     :conditions => "sprigs.deleted_at IS NULL AND user_id IS NOT NULL",
     :order => "sprigs.updated_at DESC", :delta => true
-  
+
+  def keys
+    []
+  end
 end
