@@ -11,6 +11,11 @@ class User < ActiveRecord::Base
       u = find_by_login(login)
       u && u.crypted_password[0..8] && u
     end
+    
+    def find_by_key(key)
+      find_by_login(key)
+    end
+    
   end
   extend ClassMethods
   
