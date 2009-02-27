@@ -7,7 +7,7 @@ class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
   module ClassMethods
     def top(n = 5)
-      find :all, :limit => n
+      find :all, :conditions => {:works => true}, :limit => n, :order => "updated_at DESC"
     end
     
     def find_by_params(params = {})

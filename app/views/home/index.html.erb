@@ -1,24 +1,24 @@
 <ul class="boxes">
   <li>
-  	<h3><%=link_to 'Parselets', parselets_path %> <%=link_to '+', new_parselet_path %></h3>
+  	<h3>Top domains</h3>
+  	<ol><%=render @domains %></ol>
+  	<h3><%=link_to 'more &rarr', domains_path %></h3>
+  </li>
+  <li>
+  	<h3>Top parselets <%=link_to '+', new_parselet_path %></h3>
   	<ol><%=render @parselets %></ol>
 		<h3><%=link_to 'more &rarr', parselets_path %></h3>
   </li>
+  <li>
+    <h3>Top sprigs <%=link_to '+', new_sprig_path %></h3>
+    <ol><%=render @sprigs %></ol>
+    <h3><%=link_to 'more &rarr', sprigs_path %></h3>
+  </li>
 	<li>
-		<h3><%=link_to 'Domains', domains_path %></h3>
-		<ol><%=render @domains %></ol>
-		<h3><%=link_to 'more &rarr', domains_path %></h3>
-	</li>
-	<li>
-		<h3><%=link_to 'Users', users_path %></h3>
+		<h3>Top users</h3>
 		<ol><%=render @users %></ol>
 		<h3><%=link_to 'more &rarr', users_path %></h3>
 	</li>
-  <!-- <li>
-    <h3><%=link_to 'Sprigs', sprigs_path %> <%=link_to '+', new_sprig_path %></h3>
-    <ol><%=render @sprigs %></ol>
-    <h3><%=link_to 'more &rarr', sprigs_path %></h3>
-  </li> -->
 </ul>
 <div id="blurb">
   <p>Parselets are little developer-generated APIs for a wide variety of websites (Try searching).  Parselets.com is a place to create and share them.  </p>
