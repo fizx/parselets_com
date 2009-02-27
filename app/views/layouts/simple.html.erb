@@ -9,11 +9,17 @@
         <%=render "/users/user_bar" %>
       </div>
       <div id="logo"><%=link_to "parselets", "/"%></div>
+      <ul id="nav">
+        <li><%=link_to "Domains", domains_url %></li>
+          <li><%=link_to "Parselets", parselets_url %> <%=link_to "+", new_parselet_url %></li>
+            <li><%=link_to "Sprigs", sprigs_url %> <%=link_to "+", new_sprig_url %></li>
+              <li><%=link_to "Users", users_url %></li>
+      </ul>
+      <div id="cheat"></div>
     </div>
     <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
 	<form id="search" action="/search" method="GET">
 		<input type="text" name="q" id="box"> <input type="submit" value="Search">
-		<%=link_to "create", new_parselet_path %>
 	</form>
     <div id="main">
       <%=yield %>

@@ -183,6 +183,22 @@ p{
   font-size:small;
 }
 
+#nav{
+  margin-top:15px;
+}
+#cheat
+{
+  clear:both;
+}
+#nav li{
+  float:left;
+  padding:3px 15px 3px 15px;
+  margin-right:15px;
+  background-color:white;
+  border:1px silver solid;
+  border-bottom:none;
+}
+
 .mini p, .mini .status {
   display:none;
 }
@@ -230,7 +246,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header {
-  padding:7px 15px 7px 15px;
+  padding:7px 15px 0px 15px;
   background-color:#eee;
   border-bottom:1px silver solid;
 }
