@@ -30,3 +30,7 @@ end
 task :delta do
   run "cd #{current_path} && rake ultrasphinx:index:delta --trace RAILS_ENV=production"
 end
+
+task :check do
+  run "cd #{current_path} && rake parselet:check --trace RAILS_ENV=production"
+end
