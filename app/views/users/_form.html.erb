@@ -2,11 +2,12 @@
 <% form_for(@user, :url => { :action => @user.new_record? ? "create" : "update" }) do |f| %>
   <%= error_messages_for :user %>
     
-  <p><%= label_tag 'login' %><br/>
   <% if @user.new_record? %>
+    <p><%= label_tag 'login' %><br/>
     <%= f.text_field :login %></p>
   <% else %>
-    <strong><%=h login%></strong>
+    <p>Login: <%=h @user.login%></p>
+    <p>Api key: <%=h @user.api_key%></p>
   <% end %>
 
   <p><%= label_tag 'email' %><br/>
