@@ -45,3 +45,27 @@ function re_eval() {
   return false;
 }
 
+function re_eval() {
+	var focus = true; // TODO: check key events for tab / enter
+  
+  new Ajax.Request('/parselet_code', {
+    asynchronous:true, 
+    evalScripts:true, 
+    parameters:Form.serialize("parselet_form"),
+		onComplete: function(a, b, c){
+			if(focus) {
+				var field = $('parselet_form').getInputs('text').find(function(e){ 
+		       return e.name.startsWith("root") && $F(e) == ""; 
+		    });
+		    var alt_field = $('parselet_form').getInputs('text').find(function(e){ 
+		        return e.name.startsWith("root") && $F(e) == "" && e.className == "key-auto"; 
+		      });
+		    field = field || alt_field;
+		    field && field.focus();
+			}
+		}
+		
+  }); 
+  return false;
+}
+

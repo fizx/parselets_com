@@ -3,6 +3,14 @@ class SprigsController < ApplicationController
   around_filter :dynamic_scope
   before_filter :login_required, :except => %w[index show]
   
+  def code
+    @sprig = Sprig.tmp_from_params(params)
+    render :update do |page|
+      page.replace_html "code_container", :partial => "code",
+        :locals => {:sprig => @sprig}
+    end
+  end
+  
   # GET /sprigs
   # GET /sprigs.xml
   def index
