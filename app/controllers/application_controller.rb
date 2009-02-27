@@ -48,6 +48,7 @@ class ApplicationController < ActionController::Base
   def admin?
     current_user && current_user.admin?
   end
+  helper_method :admin?
   
   def invite_required
     if authorized?
