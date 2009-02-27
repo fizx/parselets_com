@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/user/auth'
 class User < ActiveRecord::Base
   module ClassMethods
     def top(n = 5)
-      find :all, :limit => n
+      find_by_sql "SELECT users.*, COUNT(parselet_versions.id) as p FROM users, parselet_versions WHERE parselet_versions.user_id = users.id GROUP BY parselet_versions.parselet_id ORDER BY p DESC LIMIT #{n.to_i}"
     end
 
     def find_by_api_key(key)
