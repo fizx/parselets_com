@@ -8,12 +8,14 @@
   	<h3>Top parselets <%=link_to '+', new_parselet_path %></h3>
   	<ol><%=render @parselets %></ol>
 		<h3><%=link_to 'more &rarr', parselets_path %></h3>
-  </li>
-  <li>
-    <h3>Top sprigs <%=link_to '+', new_sprig_path %></h3>
-    <ol><%=render @sprigs %></ol>
-    <h3><%=link_to 'more &rarr', sprigs_path %></h3>
-  </li>
+  </li>  
+  <% if admin? %>
+    <li>
+      <h3>Top sprigs <%=link_to '+', new_sprig_path %></h3>
+      <ol><%=render @sprigs %></ol>
+      <h3><%=link_to 'more &rarr', sprigs_path %></h3>
+    </li>
+  <% end %>
 	<li>
 		<h3>Top users</h3>
 		<ol><%=render @users %></ol>
