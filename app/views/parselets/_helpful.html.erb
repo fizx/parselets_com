@@ -1,3 +1,4 @@
+<% example_data = {} unless example_data.is_a?(Hash) %>
 <% root = !(path =~ /\[/ ) %>
 <% add_key ||= emptyish(data) || data.values.none?(&:blank?)%>
 <tt>
