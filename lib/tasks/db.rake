@@ -31,7 +31,7 @@ namespace :db do
   end
   
   task :"load-production" do
-    sys "ssh parselets.com 'mysqldump #{mysql_config('production')} > ~/dump.sql'"
+    sys "ssh parselets.com 'mysqldump --ignore-table=parselets_com_production.cached_pages #{mysql_config('production')} > ~/dump.sql'"
     sys "rsync -avz --partial --progress parselets.com:dump.sql #{MYSQLDUMP_FILE}"
     sys "cat #{MYSQLDUMP_FILE} | mysql #{mysql_config} "
   end
