@@ -175,7 +175,7 @@ class Parselet < ActiveRecord::Base
 
     def example_data
       return {} if example_url.nil?
-      content = (cached_page || update_cached_page) && cached_page.content
+      content = (cached_page || update_cached_page).content
       out = Dexterous.new(code).parse(:string => content, :output => :json)
       answer = OrderedJSON.parse(out)
       set_working true
