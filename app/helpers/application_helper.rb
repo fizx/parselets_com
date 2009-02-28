@@ -5,7 +5,7 @@ require "ostruct"
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   def icon(name, alt = nil)
-    image_tag("/icons/#{name}.png", :border => 0, :align => "absmiddle", :alt => alt, :title => alt)
+    image_tag("/images/icons/#{name}.png", :border => 0, :align => "absmiddle", :alt => alt, :title => alt)
   end
   
   def empty_icon
