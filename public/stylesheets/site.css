@@ -137,6 +137,13 @@ td {
   padding: 5px 0px 15px 15px;
 }
 
+.thumb {
+  width:50px;
+  float:left;
+  margin-right:5px;
+  clear: left;
+}
+
 td.info{ 
   padding-top: 20px;
   font-size: small;
@@ -217,20 +224,20 @@ p{
   text-decoration:underline;
 }
 
-.mini p, .mini .status, .mini .domain {
+.mini p, .mini .status, .mini .domain, .mini .thumb {
   display:none;
 }
 
 .boxes {
-  width:300px;
-	float:right;
+  width:550px;
+	float:left;
 	padding-right:15px;
 }
 
 .boxes>li {
 	float:right;
 	width:100%;
-	margin: 0 0 15px 15px;
+	margin: 0 0 15px 0;
 }
 
 .boxes h5 {

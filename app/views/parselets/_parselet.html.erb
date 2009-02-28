@@ -1,7 +1,8 @@
 <li class="result">
+  <%=thumb(parselet)%>
 	<h4><%=link_to h(parselet.name), parselet %> 
 	  <span class="status">[ <%=parselet.status %> ]</span>
 	</h4>
-	<h6 class="domain"><%=link_to truncate(parselet.example_url, 40), parselet.example_url%></h6>
+	<h6 class="domain"><%=link_to truncate(parselet.example_url, :length => 40), parselet.example_url%></h6>
 	<p><%=h parselet.description %>
 </li>

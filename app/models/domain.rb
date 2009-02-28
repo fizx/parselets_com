@@ -25,6 +25,10 @@ class Domain < ActiveRecord::Base
     self[:name]
   end
   
+  def url
+    "http://#{name}"
+  end
+    
   def create_variations
     self.variations = "www.#{name}".split(".").power_set.map{|e| e.join(".") }.join(" ")
   end

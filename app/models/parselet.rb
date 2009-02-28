@@ -150,6 +150,7 @@ class Parselet < ActiveRecord::Base
       domain && domain.name
     end
     
+    
     def create_domain
       self.domain = Domain.from_url(example_url)
     end
@@ -160,6 +161,10 @@ class Parselet < ActiveRecord::Base
         STDERR.print "."
         STDERR.flush
       end
+    end
+    
+    def url
+      example_url
     end
 
     def example_data

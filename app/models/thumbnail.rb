@@ -48,13 +48,17 @@ class Thumbnail < ActiveRecord::Base
   end
   
   def filesystem_path
-    File.join(RAILS_ROOT, "public", path)
+    File.join(RAILS_ROOT, "public", relative_path)
   end
   
   def path
-    url ? 
-      ("/thumbs/" + Digest::MD5.hexdigest(url)[0..6].scan(/.{2}/).join("/") + ".jpg") :
+    File.exists?(filesystem_path) ? 
+      relative_path :
       DEFAULT_PATH
+  end
+  
+  def relative_path
+    ("/thumbs/" + Digest::MD5.hexdigest(url)[0..6].scan(/.{2}/).join("/") + ".jpg")
   end
 end
 

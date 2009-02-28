@@ -1,4 +1,5 @@
 <li>
+  <%=thumb domain%>
 	<h4><%=link_to domain.name, "http://#{domain.name}" %> 
 	<small>(
 	<%=link_to "#{domain.parselets.count} parselets", parselets_path(:domain => domain.key)%>

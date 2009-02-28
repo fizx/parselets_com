@@ -1,4 +1,5 @@
 <li>
+  <%=gravatar(user.email)%>
 	<h4><%=link_to user.login, user %>
 	<small>(
 	<%=link_to "#{user.parselets.count} parselets", parselets_path(:user => user.key)%>
