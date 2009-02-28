@@ -7,13 +7,24 @@ require "fileutils"
 
 class Thumbnail < ActiveRecord::Base
   
-  before_create :download
+  before_save :download
   DEFAULT_PATH = "/images/spacer.gif"
   
   def self.path_for(url)
     File.exists?(filesystem_path(url)) ? 
       relative_path(url) : 
-      find_or_create_by_url(url).path
+      try_url(url).path
+  end
+  
+  def self.try_url(url, force = false)
+    model = find_or_create_by_url(url)
+    
+    if !File.exists?(model.filesystem_path) && (force || model.tries < MAX_TRIES)
+      model.download
+      model.increment!(:tries)
+    end
+    
+    model.path
   end
 
   def self.relative_path(url)

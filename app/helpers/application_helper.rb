@@ -17,7 +17,7 @@ module ApplicationHelper
   end
 
   def gravatar_url_for(email, options = {})
-    "http://www.gravatar.com/avatar.php?gravatar_id=#{Digest::MD5.hexdigest(email)}"
+    "http://www.gravatar.com/avatar.php?s=50&d=#{CGI::escape("http://parselets.com/images/spacer.gif")}&gravatar_id=#{Digest::MD5.hexdigest(email)}"
   end
   
   def thumb(object)

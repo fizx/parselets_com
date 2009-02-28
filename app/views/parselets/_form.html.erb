@@ -8,7 +8,7 @@
     <tr>
       <td>
         <%= f.label :keyword %><br />
-        <%= f.text_field :name %>
+        <%= f.text_field :name, :disabled => !(admin? || new_record?) %>
       </td>
       <td class="info" width="100%">A short name to reference your parselet by.  It should be alphanumeric+underscore.</td>
     </tr>
