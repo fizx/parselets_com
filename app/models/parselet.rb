@@ -107,6 +107,7 @@ class Parselet < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :domain
+  has_many :comments, :as => :commentable
   
   belongs_to :cached_page
   

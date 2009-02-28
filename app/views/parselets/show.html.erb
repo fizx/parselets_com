@@ -25,6 +25,7 @@
 </div>
 
 <h1> <%=status(@parselet)%>
+	<%=comments @parselet %>
 <%=h @parselet.name %> by <%=link_to @parselet.user.login, @parselet.user%></h1>
 <% if @parselet.respond_to?(:versions) %>
 <h2><%=link_to "versions", parselet_parselet_versions_path(@parselet)%></h2>

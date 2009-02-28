@@ -9,11 +9,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090228202242) do
+ActiveRecord::Schema.define(:version => 20090228203138) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
     t.text     "content",    :limit => 16777215
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "comments", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "content"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

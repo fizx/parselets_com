@@ -1,6 +1,14 @@
 <html>
   <head>
     <%=stylesheet_link_tag    "site"    %>
+		<link href="/facebox/facebox.css" media="screen" rel="stylesheet" type="text/css" />
+		<script src="/javascripts/jquery.js"></script>
+		<script src="/facebox/facebox.js"></script>
+		<script>
+			jQuery(document).ready(function(e) {
+			  jQuery('a[rel*=facebox]').facebox();
+			})
+		</script>
     <%=javascript_include_tag :defaults %>
   </head>
   <body>

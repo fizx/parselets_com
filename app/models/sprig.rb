@@ -7,6 +7,7 @@ class Sprig < ActiveRecord::Base
   extend ClassMethods
   
   belongs_to :user
+  has_many :comments, :as => :commentable
   
   acts_as_versioned
   acts_as_paranoid

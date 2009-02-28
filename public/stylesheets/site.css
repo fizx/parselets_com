@@ -126,7 +126,7 @@ input.value {
   color: #999;
 }
 
-table {
+form table {
   width:750px;
   border: 1px #eee solid;
   margin-top:15px;

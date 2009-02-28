@@ -25,6 +25,10 @@ module ApplicationHelper
     image_tag Thumbnail.path_for(url), :class => "thumb", :border => 0
   end
   
+  def comments(model)
+    link_to "comments (#{model.comments.count})", {:controller => "comments", :id => model.id, :type => model.class}, :rel => "facebox"
+  end
+  
   def status(parselet, small = false)
     ext = small ? "_small" : ""
     case parselet.status

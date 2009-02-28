@@ -12,15 +12,15 @@ class CommentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create comments" do
-    assert_difference('Comments.count') do
-      post :create, :comments => { }
+  test "should create comment" do
+    assert_difference('Comment.count') do
+      post :create, :comment => { }
     end
 
-    assert_redirected_to comments_path(assigns(:comments))
+    assert_redirected_to comment_path(assigns(:comment))
   end
 
-  test "should show comments" do
+  test "should show comment" do
     get :show, :id => comments(:one).id
     assert_response :success
   end
@@ -30,13 +30,13 @@ class CommentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should update comments" do
-    put :update, :id => comments(:one).id, :comments => { }
-    assert_redirected_to comments_path(assigns(:comments))
+  test "should update comment" do
+    put :update, :id => comments(:one).id, :comment => { }
+    assert_redirected_to comment_path(assigns(:comment))
   end
 
-  test "should destroy comments" do
-    assert_difference('Comments.count', -1) do
+  test "should destroy comment" do
+    assert_difference('Comment.count', -1) do
       delete :destroy, :id => comments(:one).id
     end
 

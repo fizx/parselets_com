@@ -2,7 +2,11 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.xml
   def index
-    @comments = Comments.find(:all)
+    if params[:id] && params[:type]
+      @comments = Comment.paginate :page => params[:page], :conditions => {:commentable_type => params[:type], :commentable_id => params[:id]}
+    else
+      @comments = Comment.paginate :page => params[:page]
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,43 +17,43 @@ class CommentsController < ApplicationController
   # GET /comments/1
   # GET /comments/1.xml
   def show
-    @comments = Comments.find(params[:id])
+    @comment = Comment.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @comments }
+      format.xml  { render :xml => @comment }
     end
   end
 
   # GET /comments/new
   # GET /comments/new.xml
   def new
-    @comments = Comments.new
+    @comment = Comment.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @comments }
+      format.xml  { render :xml => @comment }
     end
   end
 
   # GET /comments/1/edit
   def edit
-    @comments = Comments.find(params[:id])
+    @comment = Comment.find(params[:id])
   end
 
   # POST /comments
   # POST /comments.xml
   def create
-    @comments = Comments.new(params[:comments])
+    @comment = Comment.new(params[:comment])
 
     respond_to do |format|
-      if @comments.save
-        flash[:notice] = 'Comments was successfully created.'
-        format.html { redirect_to(@comments) }
-        format.xml  { render :xml => @comments, :status => :created, :location => @comments }
+      if @comment.save
+        flash[:notice] = 'Comment was successfully created.'
+        format.html { redirect_to(@comment) }
+        format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @comments.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -57,16 +61,16 @@ class CommentsController < ApplicationController
   # PUT /comments/1
   # PUT /comments/1.xml
   def update
-    @comments = Comments.find(params[:id])
+    @comment = Comment.find(params[:id])
 
     respond_to do |format|
-      if @comments.update_attributes(params[:comments])
-        flash[:notice] = 'Comments was successfully updated.'
-        format.html { redirect_to(@comments) }
+      if @comment.update_attributes(params[:comment])
+        flash[:notice] = 'Comment was successfully updated.'
+        format.html { redirect_to(@comment) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @comments.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -74,8 +78,8 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.xml
   def destroy
-    @comments = Comments.find(params[:id])
-    @comments.destroy
+    @comment = Comment.find(params[:id])
+    @comment.destroy
 
     respond_to do |format|
       format.html { redirect_to(comments_url) }

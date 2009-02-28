@@ -1,6 +1,6 @@
-<h1>Editing comments</h1>
+<h1>Editing comment</h1>
 
-<% form_for(@comments) do |f| %>
+<% form_for(@comment) do |f| %>
   <%= f.error_messages %>
 
   <p>
@@ -24,5 +24,5 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', @comments %> |
+<%= link_to 'Show', @comment %> |
 <%= link_to 'Back', comments_path %>
