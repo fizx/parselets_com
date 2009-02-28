@@ -11,7 +11,17 @@ class Thumbnail < ActiveRecord::Base
   DEFAULT_PATH = "/images/spacer.gif"
   
   def self.path_for(url)
-    find_or_create_by_url(url).path
+    File.exists?(filesystem_path(url)) ? 
+      relative_path(url) : 
+      find_or_create_by_url(url).path
+  end
+
+  def self.relative_path(url)
+    ("/thumbs/" + Digest::MD5.hexdigest(url)[0..6].scan(/.{2}/).join("/") + ".jpg")
+  end
+  
+  def self.filesystem_path(url)
+    File.join(RAILS_ROOT, "public", relative_path(url))
   end
     
   def download
@@ -48,17 +58,13 @@ class Thumbnail < ActiveRecord::Base
   end
   
   def filesystem_path
-    File.join(RAILS_ROOT, "public", relative_path)
+    Thumbnail.filesystem_path(url)
   end
-  
+
   def path
     File.exists?(filesystem_path) ? 
-      relative_path :
+      Thumbnail.relative_path(url) :
       DEFAULT_PATH
-  end
-  
-  def relative_path
-    ("/thumbs/" + Digest::MD5.hexdigest(url)[0..6].scan(/.{2}/).join("/") + ".jpg")
   end
 end
 
