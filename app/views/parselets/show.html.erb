@@ -1,24 +1,31 @@
-	
-<ul style="float:right">
+
+<div>
+	<%=thumb @parselet%> 
+	<div style="float:left">
+		<h1><%=status(@parselet)%> <%=h @parselet.name %>
+			<span><%=mini_gravatar(@parselet.user.email)%> by <%=link_to @parselet.user.login, @parselet.user%></span>
+		</h1>
+		<div><%=example_link @parselet%> <%=link_to "cached", @parselet.cached_page, :class => "small" %></div>
+	</div>
+</div>
+<div class="desc"><%=h @parselet.description %></div>
+
+<ul id="options">
 	<li><%=icon "document__pencil"%><strong> <%= link_to 'Edit', edit_path(@parselet) %></strong></li>
-	<li><%=status(@parselet)%> <%=@parselet.status%></li>
 	<li><%=comments @parselet %></li>
-	<li><%=mini_gravatar(@parselet.user.email)%> by <%=link_to @parselet.user.login, @parselet.user%></li>
-	<li><%=icon "documents" %> <%=link_to "versions (#{@parselet.versions.count})", parselet_parselet_versions_path(@parselet)%></li>
+	<li><%=icon "clock"%> <%=link_to "history", parselet_parselet_versions_path(@parselet)%></li>
 	<li><%=icon "wand" %> <%=link_to "api helper", parselet_parselet_versions_path(@parselet)%></li>
 </ul>
 
-<h1><%=thumb @parselet%> <%=h @parselet.name %> <span class="subtle">version #<%=@parselet.version%></span></h1>
-<div><%=example_link @parselet%> <%=link_to "cached", @parselet.cached_page, :class => "small" %></div>
-
-<div class="desc"><%=h @parselet.description %></div>
-
-<div style="background-color:#eee;border:1px silver solid;padding:10px;display:table;">
-  <pre><%= @parselet.pretty_code %></pre>
+<!-- <div style="background-color:#eee;border:1px silver solid;padding:10px;display:table;">
+  <pre><%= h @parselet.pretty_code %></pre>
 </div>
 
-<!-- <h4>Sample output:</h4>
-<div style="background-color:#eee;border:1px silver solid;padding:10px;width:400px">
-  	<pre><%=@parselet.pretty_example_data%></pre>
+<h4>Sample output:</h4> -->
+<div style="clear:both;padding-top:15px;">
+	<pre style="float:left"> code:
+<div style="border:1px #ccc solid; border-right:0;padding:10px;height:300px;overflow:auto;width:300px"><%=h @parselet.pretty_code%></pre>
+  	<pre style="float:left"> json output:
+<div style="border:1px #ccc solid;padding:10px;height:300px;overflow:auto;width:450px"><%=h @parselet.pretty_example_data%></pre>
 </div>
- -->
+

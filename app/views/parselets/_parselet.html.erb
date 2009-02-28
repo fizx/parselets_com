@@ -3,6 +3,6 @@
 	<div style="float:left">
 		<h4><%=status(parselet, :small) %><%=link_to h(parselet.name), parselet %></h4>
 		<%=example_link(parselet)%>
-		<p><%=h parselet.description %></p>
+		<p><%=h truncate(parselet.description, :length => 250) %></p>
 	</div>
 </li>

@@ -10,6 +10,16 @@ body {
 	padding-left:15px;
 }
 
+ul#options {
+	padding:15px 15px 15px 0;
+	clear:both;
+}
+
+ul#options li {
+	float:left;
+	margin-right:30px;
+}
+
 #top h3 {
 	float:right;
 }
@@ -326,9 +336,9 @@ ol>li {
 
 
 div.desc {
-	clear:left;
+	clear:both;
 	font-size:smaller;
-	margin: 10px 0 15px 0;
+	padding: 15px 0 0 0;
 }
 
 .small {
