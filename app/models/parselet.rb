@@ -121,6 +121,7 @@ class Parselet < ActiveRecord::Base
   
   class Version < ActiveRecord::Base
     belongs_to :user
+    belongs_to :cached_page
   end
   
   # Get included into Parselet::Version later
