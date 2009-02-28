@@ -24,4 +24,18 @@ module ApplicationHelper
     url = object.respond_to?(:url) ? object.url : object.to_s
     image_tag Thumbnail.path_for(url), :class => "thumb", :border => 0
   end
+  
+  def status(parselet, small = false)
+    ext = small ? "_small" : ""
+    case parselet.status
+    when "ok"
+      icon("tick#{ext}")
+    when "stale"
+      icon("exclamation#{ext}")
+    when "broken"
+      icon("slash#{ext}")
+    when "unknown"
+      icon("question#{ext}")
+    end
+  end
 end

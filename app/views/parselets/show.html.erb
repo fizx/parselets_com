@@ -24,14 +24,15 @@
 	</p>
 </div>
 
-<h1><%=h @parselet.name %> by <%=link_to @parselet.user.login, @parselet.user%> [ <%=@parselet.status%> ]</h1>
+<h1> <%=status(@parselet)%>
+<%=h @parselet.name %> by <%=link_to @parselet.user.login, @parselet.user%></h1>
 <% if @parselet.respond_to?(:versions) %>
 <h2><%=link_to "versions", parselet_parselet_versions_path(@parselet)%></h2>
 <% else %>
 <h2>Version #<%=@parselet.version%></h2>
 <% end %>
 <h3><%=h @parselet.description %></h3>
-<h4> Works on sites that match <%=h @parselet.pattern %>, <br />like <%=link_to h(@parselet.example_url), @parselet.example_url%></h4>
+<h4> Works on sites that match <%=h @parselet.pattern %>, <br />like <%=link_to h(@parselet.example_url), @parselet.example_url%> [ <%=link_to "cached", @parselet.cached_page %> ]</h4>
 
 <h4>Code: <%= link_to 'Edit', edit_path(@parselet) %></h4>
 <div style="background-color:#eee;border:1px silver solid;padding:10px;width:400px">

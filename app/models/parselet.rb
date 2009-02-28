@@ -108,6 +108,8 @@ class Parselet < ActiveRecord::Base
   belongs_to :user
   belongs_to :domain
   
+  belongs_to :cached_page
+  
   validates_uniqueness_of :name
   validates_format_of :name, :with => /\A[a-z0-9\-_]*\Z/, :message => "contains invalid characters"
   validates_presence_of :name, :description, :code, :pattern, :example_url, :user_id
@@ -115,6 +117,7 @@ class Parselet < ActiveRecord::Base
   validates_example_url_matches_pattern
   
   before_save :create_domain
+  before_save :update_cached_page
   
   class Version < ActiveRecord::Base
     belongs_to :user
@@ -150,6 +153,9 @@ class Parselet < ActiveRecord::Base
       domain && domain.name
     end
     
+    def update_cached_page
+      self.cached_page = CachedPage.find_or_create_by_url(example_url) if cached_page.nil?
+    end
     
     def create_domain
       self.domain = Domain.from_url(example_url)
@@ -169,7 +175,7 @@ class Parselet < ActiveRecord::Base
 
     def example_data
       return {} if example_url.nil?
-      content = CachedPage.content_for_url(example_url)
+      content = (cached_page || update_cached_page) && cached_page.content
       out = Dexterous.new(code).parse(:string => content, :output => :json)
       answer = OrderedJSON.parse(out)
       set_working true

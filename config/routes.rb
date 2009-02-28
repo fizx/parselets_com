@@ -10,6 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.sprig_code "/sprig_code", :controller => 'parselets', :action => 'code'
   
   map.resources :password_requests
+  map.resources :cached_pages
   map.resources :invitation_requests
   map.resources :invitations
   map.resources :parselets do |p|
