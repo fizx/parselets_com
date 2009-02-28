@@ -1,11 +1,11 @@
 <li>
   <%=gravatar(user.email)%>
-	<h4><%=link_to user.login, user %>
-	<small>(
-	<%=link_to "#{user.parselets.count} parselets", parselets_path(:user => user.key)%>
-	)</small>
-	</h4>
-	<ol class="mini">
-		<%=render Parselet.find(:all, :conditions => {:user_id => user.id})%>
-	</ol>
+	<div style="float:left">
+		<h4><%=link_to user.login, user %>
+		<small>(
+		<%=link_to "#{user.parselets.count} parselets", parselets_path(:user => user.key)%>
+		)</small>
+		</h4>
+		<p>member for <%=time_ago_in_words user.created_at %></p>
+	</div>
 </li>

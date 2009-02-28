@@ -5,6 +5,7 @@ require "digest/md5"
 require "open-uri"
 class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
+  
   module ClassMethods
     def top(n = 5)
       find :all, :conditions => {:works => true}, :limit => n, :order => "updated_at DESC"

@@ -3,6 +3,17 @@ body {
   margin:0;
 }
 
+#top {
+	border-left:1px silver solid;
+	float:right;
+	margin-left:15px;
+	padding-left:15px;
+}
+
+#top h3 {
+	float:right;
+}
+
 form {
   margin:0;
   padding:0;
@@ -123,7 +134,11 @@ input.value {
 }
 
 .subtle {
-  color: #999;
+  color: #ccc;
+}
+
+#main {
+	width:800px;
 }
 
 form table {
@@ -150,13 +165,6 @@ td.info{
   width: 100%;
 }
 
-th, .boxes h3 {
-  padding:5px 15px 5px 15px;
-  margin-bottom:15px;
-  background-color: #eee;
-  text-align:left;
-}
-
 ul, ol, li {
 	padding: 0;
 	margin: 0;
@@ -181,6 +189,10 @@ ul, ol, li {
   display:inline;
   margin:0;
   padding:0;
+}
+
+.mini>li {
+	display:block !important;
 }
 
 .mini {
@@ -229,7 +241,7 @@ p{
 }
 
 .boxes {
-  width:550px;
+/*  width:550px;*/
 	float:left;
 	padding-right:15px;
 }
@@ -271,6 +283,58 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
 }
 
+h1 {
+	font-size:1.3em;
+}
+
+/*h1 .thumb{
+	float:none;
+}*/
+
+a.url {
+	color:green;
+	font-size:small;
+}
+
+ol>li {
+	padding-bottom:8px;
+	clear:both;
+	float:left;
+}
+
+.results>li {
+	width:100%;
+	float:left;
+	clear:both;
+	border-bottom:1px silver solid;
+	margin-bottom:15px;
+	padding-bottom:15px;
+}
+
+#footer {
+	clear:both;
+	padding-top:40px;
+}
+
+#footer .nest{
+	clear:both;
+	padding:5px;
+	font-size:small;
+	border-top:1px silver solid;
+	text-align:center;
+}
+
+
+div.desc {
+	clear:left;
+	font-size:smaller;
+	margin: 10px 0 15px 0;
+}
+
+.small {
+	font-size: small;
+}
+
 #user-nav {
   float:right;
   display: inline;
@@ -301,4 +365,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 #main {
   padding:15px;
+}
+
+#blurb p {
+	font-size:1em;
 }

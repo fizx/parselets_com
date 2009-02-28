@@ -24,15 +24,22 @@
         <% end %>
         <li><%=link_to "Domains", domains_url %> <%=empty_icon %></li>
         <li><%=link_to "Users", users_url %> <%=empty_icon %></li>
+        <li><%=link_to "Development Tools", users_url %> <%=empty_icon %></li>
       </ul>
       <div id="cheat"></div>
     </div>
     <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
 	<form id="search" action="/search" method="GET">
-		<input type="text" name="q" id="box"> <input type="submit" value="Search">
+ 		<%=text_field_tag "q", params[:q], :id => "box" %>
+		<input type="submit" value="Search">
 	</form>
     <div id="main">
       <%=yield %>
     </div>
+		<div id="footer">
+			<div class="nest">
+				Copyright 2009 Kyle Maxwell
+			</div>
+		</div>
   </body>
 </html>

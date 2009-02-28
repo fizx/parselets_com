@@ -1,47 +1,24 @@
-<div style="float:right;background-color:#eee;border:1px silver solid;padding:10px;width:400px">
-	<h3>API helper</h3>
-	<h4>Url parameters</h4>
-	<p>-- none --</p>
-	<h4>Output type</h4>
-	<select>
-		<option>human-readable</option>
-		<option>json</option>
-		<option>xml</option>
-	</select>
 	
+<ul style="float:right">
+	<li><%=icon "document__pencil"%><strong> <%= link_to 'Edit', edit_path(@parselet) %></strong></li>
+	<li><%=status(@parselet)%> <%=@parselet.status%></li>
+	<li><%=comments @parselet %></li>
+	<li><%=mini_gravatar(@parselet.user.email)%> by <%=link_to @parselet.user.login, @parselet.user%></li>
+	<li><%=icon "documents" %> <%=link_to "versions (#{@parselet.versions.count})", parselet_parselet_versions_path(@parselet)%></li>
+	<li><%=icon "wand" %> <%=link_to "api helper", parselet_parselet_versions_path(@parselet)%></li>
+</ul>
 
-	<h4>Versioning</h4>
-	<select>
-		<option>latest by me</option>
-		<option>latest by me or parselets auto-fix</option>
-		<option>latest by me or my friends</option>
-		<option>latest working</option>
-		
-	</select>
-	
-	<h4>Use this url: </h4>
-	<a href="#">http://localhost:3000/parselets/16?output=json</a>
-	</p>
-</div>
+<h1><%=thumb @parselet%> <%=h @parselet.name %> <span class="subtle">version #<%=@parselet.version%></span></h1>
+<div><%=example_link @parselet%> <%=link_to "cached", @parselet.cached_page, :class => "small" %></div>
 
-<h1> <%=status(@parselet)%>
-	<%=comments @parselet %>
-<%=h @parselet.name %> by <%=link_to @parselet.user.login, @parselet.user%></h1>
-<% if @parselet.respond_to?(:versions) %>
-<h2><%=link_to "versions", parselet_parselet_versions_path(@parselet)%></h2>
-<% else %>
-<h2>Version #<%=@parselet.version%></h2>
-<% end %>
-<h3><%=h @parselet.description %></h3>
-<h4> Works on sites that match <%=h @parselet.pattern %>, <br />like <%=link_to h(@parselet.example_url), @parselet.example_url%> [ <%=link_to "cached", @parselet.cached_page %> ]</h4>
+<div class="desc"><%=h @parselet.description %></div>
 
-<h4>Code: <%= link_to 'Edit', edit_path(@parselet) %></h4>
-<div style="background-color:#eee;border:1px silver solid;padding:10px;width:400px">
+<div style="background-color:#eee;border:1px silver solid;padding:10px;display:table;">
   <pre><%= @parselet.pretty_code %></pre>
 </div>
 
-<h4>Sample output:</h4>
+<!-- <h4>Sample output:</h4>
 <div style="background-color:#eee;border:1px silver solid;padding:10px;width:400px">
   	<pre><%=@parselet.pretty_example_data%></pre>
 </div>
-
+ -->

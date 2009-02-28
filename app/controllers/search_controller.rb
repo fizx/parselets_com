@@ -10,6 +10,7 @@ class SearchController < ApplicationController
       :per_page => 10)
     @search.run
   end
+  
 protected
   def preprocess(q)
     q.gsub(%r[http://]i, '')

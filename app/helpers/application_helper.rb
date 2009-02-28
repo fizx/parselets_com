@@ -12,21 +12,30 @@ module ApplicationHelper
     image_tag("/images/spacer.gif", :width => 16, :height => 16, :border => 0, :align => "absmiddle")
   end
   
+  def example_link(parselet)
+    link_to h(parselet.pattern), parselet.example_url, :class => "url", :onmouseover => "this.innerText='#{h truncate(parselet.example_url, :length => 120)}'", 
+      :onmouseout => "this.innerText='#{h parselet.pattern}'"
+  end
+  
   def gravatar(email, options = {})
-    image_tag gravatar_url_for(email, options), :class => "thumb", :border => 0
+    image_tag gravatar_url_for(email, options), {:class => "thumb", :border => 0}.merge(options)
+  end
+  
+  def mini_gravatar(email)
+    gravatar(email, :class => "icon", :s => "16", :align => "absmiddle")
   end
 
   def gravatar_url_for(email, options = {})
-    "http://www.gravatar.com/avatar.php?s=50&d=#{CGI::escape("http://parselets.com/images/spacer.gif")}&gravatar_id=#{Digest::MD5.hexdigest(email)}"
+    "http://www.gravatar.com/avatar.php?s=#{options[:s] || 50}&d=#{CGI::escape("http://parselets.com/images/spacer.gif")}&gravatar_id=#{Digest::MD5.hexdigest(email)}"
   end
   
   def thumb(object)
     url = object.respond_to?(:url) ? object.url : object.to_s
-    image_tag Thumbnail.path_for(url), :class => "thumb", :border => 0
+    image_tag Thumbnail.path_for(url), :class => "thumb", :border => 0, :align => "absmiddle"
   end
   
   def comments(model)
-    link_to "comments (#{model.comments.count})", {:controller => "comments", :id => model.id, :type => model.class}, :rel => "facebox"
+    link_to icon("balloons") + " comments (#{model.comments.count})", {:controller => "comments", :id => model.id, :type => model.class}, :rel => "facebox"
   end
   
   def status(parselet, small = false)
