@@ -10,12 +10,12 @@
       </div>
       <div id="logo"><%=link_to "parselets.com", "/"%></div>
       <ul id="nav">
-        <li><%=link_to "Domains", domains_url %></li>
-        <li><%=link_to "Parselets", parselets_url %> <%=link_to "+", new_parselet_url %></li>
+        <li><%=link_to "Domains", domains_url %> <%=empty_icon %></li>
+        <li><%=link_to "Parselets", parselets_url %> <%=link_to icon("plus_small", "create parselet"), new_parselet_url %></li>
         <% if admin? %>
-        <li><%=link_to "Sprigs", sprigs_url %> <%=link_to "+", new_sprig_url %></li>
+        <li><%=link_to "Sprigs", sprigs_url %> <%=link_to icon("plus_small", "create sprig"), new_sprig_url %></li>
         <% end %>
-        <li><%=link_to "Users", users_url %></li>
+        <li><%=link_to "Users", users_url %> <%=empty_icon %></li>
       </ul>
       <div id="cheat"></div>
     </div>

@@ -2,24 +2,24 @@
   <li>
   	<h3>Top domains</h3>
   	<ol><%=render @domains %></ol>
-  	<h3><%=link_to 'more &rarr', domains_path %></h3>
+  	<h5><%=link_to 'more &rarr', domains_path %></h5>
   </li>
   <li>
   	<h3>Top parselets <%=link_to '+', new_parselet_path %></h3>
   	<ol><%=render @parselets %></ol>
-		<h3><%=link_to 'more &rarr', parselets_path %></h3>
+		<h5><%=link_to 'more &rarr', parselets_path %></h5>
   </li>  
   <% if admin? %>
     <li>
       <h3>Top sprigs <%=link_to '+', new_sprig_path %></h3>
       <ol><%=render @sprigs %></ol>
-      <h3><%=link_to 'more &rarr', sprigs_path %></h3>
+      <h5><%=link_to 'more &rarr', sprigs_path %></h5>
     </li>
   <% end %>
 	<li>
 		<h3>Top users</h3>
 		<ol><%=render @users %></ol>
-		<h3><%=link_to 'more &rarr', users_path %></h3>
+		<h5><%=link_to 'more &rarr', users_path %></h5>
 	</li>
 </ul>
 <div id="blurb">
