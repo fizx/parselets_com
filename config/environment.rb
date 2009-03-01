@@ -81,4 +81,4 @@ ActionMailer::Base.delivery_method = :sendmail
 # require "openuri/rails-cache"
 # OpenURI::Cache.enable!
 require "rubygems"
-require "BlueCloth"
+require "bluecloth"
