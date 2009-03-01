@@ -77,6 +77,7 @@ class Parselet < ActiveRecord::Base
       when "!array":    []
       when "!hash":     OrderedHash.new
       when String:      data
+      when NilClass:     ""
       when Hash:        
         data.keys.sort_by(&:to_i).inject(OrderedHash.new) do |memo, key|
           pair = data[key]

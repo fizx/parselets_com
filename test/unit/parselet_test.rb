@@ -12,6 +12,26 @@ class ParseletTest < ActiveSupport::TestCase
     })
   end
   
+  def indifferent(object)
+    case object
+    when Hash
+      object.inject({}.with_indifferent_access) do |m, (k, v)|
+        m[k] = indifferent(v)
+        m
+      end
+    when Array
+      object.map{|e| indifferent(e) }
+    else
+      object
+    end
+  end
+  
+  def test_tmp_from_params_edge_case
+    p = indifferent({"commit"=>"Save", "action"=>"code", "_method"=>"put", "authenticity_token"=>"C5eiAKLMMRi+ZWu1xntW66zrIwUU2AooTRBSlGCAPfM=", "root-command"=>"", "controller"=>"parselets", "root"=>{"0"=>{"multi"=>"true", "value"=>{"0"=>{"value"=>".title a", "key"=>"title"}, "1"=>{"value"=>".title a @href", "key"=>"link"}, "2"=>{"value"=>"number(regex:match(., '[0-9]+', ''))", "key"=>"comment_count(.subtext a:nth-child(3))"}, "3"=>{"value"=>".subtext a:nth-child(3) @href", "key"=>"comment_link"}, "4"=>{"key"=>"points"}}, "key"=>"articles"}, "1"=>{"value"=>".title:nth-child(2) a @href", "key"=>"next"}, "2"=>{"key"=>""}}, "parselet"=>{"name"=>"yc", "example_url"=>"http://news.ycombinator.com/", "pattern"=>"http://news.ycombinator.com/{guid?}", "description"=>"hacker news"}, "_"=>"", "editor_helpful"=>"true"})
+    expected = "{ \"articles\": [ { \"title\": \".title a\", \"link\": \".title a @href\", \"comment_count(.subtext a:nth-child(3))\": \"number(regex:match(., '[0-9]+', ''))\", \"comment_link\": \".subtext a:nth-child(3) @href\" } ], \"next\": \".title:nth-child(2) a @href\" }"
+    assert_equal expected, Parselet.tmp_from_params(p).code
+  end
+  
   def test_new_parselet_returns_empty_json
     assert_equal "{}", @parselet.code
     assert_equal Hash.new, @parselet.json

@@ -13,7 +13,7 @@ ActiveRecord::Schema.define(:version => 20090228203138) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
-    t.text     "content",    :limit => 16777215
+    t.text     "content",    :limit => 2097152
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -23,14 +23,6 @@ ActiveRecord::Schema.define(:version => 20090228203138) do
     t.text     "content"
     t.integer  "commentable_id"
     t.string   "commentable_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "domain_usages", :force => true do |t|
-    t.integer  "domain_id"
-    t.string   "usage_type"
-    t.integer  "usage_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
