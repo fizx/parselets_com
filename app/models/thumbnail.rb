@@ -12,6 +12,8 @@ class Thumbnail < ActiveRecord::Base
   MAX_TRIES = 5
   
   def self.path_for(url)
+    return DEFAULT_PATH unless thumbnail_service_ready?
+    
     File.exists?(filesystem_path(url)) ? 
       relative_path(url) : 
       try_url(url)
@@ -34,6 +36,10 @@ class Thumbnail < ActiveRecord::Base
   
   def self.filesystem_path(url)
     File.join(RAILS_ROOT, "public", relative_path(url))
+  end
+  
+  def self.thumbnail_service_ready?
+    ENV['SECRET_ACCESS_KEY'] && ENV["ACCESS_KEY_ID"]
   end
     
   def download
