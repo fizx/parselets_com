@@ -10,7 +10,7 @@ class CachedPage < ActiveRecord::Base
   
     def find_or_create_by_url(url)
       url = url.to_s
-      page = find_or_create_by_url(url)
+      page = find_or_initialize_by_url(url)
       # page = new(:url => url) if page.updated_at && (page.updated_at < CACHE_TIME.ago)
       page.content ||= URI.parse(url).open("User-Agent" => "Parselets.org").read
       page.save!

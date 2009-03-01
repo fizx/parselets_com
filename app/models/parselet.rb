@@ -158,7 +158,7 @@ class Parselet < ActiveRecord::Base
     end
     
     def update_cached_page
-      self.cached_page = CachedPage.find_or_create_by_url(example_url) if cached_page.nil?
+      self.cached_page ||= CachedPage.find_or_create_by_url(example_url)
     end
     
     def create_domain
@@ -176,15 +176,33 @@ class Parselet < ActiveRecord::Base
     def url
       example_url
     end
+    
+    def sanitized_code
+      OrderedJSON.dump(sanitize(json))
+    end
+    
+    def sanitize(obj)
+      case obj
+      when Hash, OrderedHash:
+        obj.inject(OrderedHash.new) do |m, (k, v)|
+          m[k] = sanitize(v) unless k.blank? || v.blank?
+          m
+        end
+      when Array
+        obj.map {|e| sanitize(e)}
+      else
+        obj
+      end
+    end
 
     def example_data
       return {} if example_url.nil?
       content = (cached_page || update_cached_page).content
-      out = Dexterous.new(code).parse(:string => content, :output => :json)
+      out = Dexterous.new(sanitized_code).parse(:string => content, :output => :json)
       answer = OrderedJSON.parse(out)
       set_working true
       answer
-    rescue => e
+    rescue DexError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
       set_working false
       {"errors" => e.message.split("\n")}
     end
