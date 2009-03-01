@@ -9,19 +9,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090226232843) do
+ActiveRecord::Schema.define(:version => 20090228203138) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
-    t.text     "content",    :limit => 16777215
+    t.text     "content",    :limit => 2097152
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "domain_usages", :force => true do |t|
-    t.integer  "domain_id"
-    t.string   "usage_type"
-    t.integer  "usage_id"
+  create_table "comments", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "content"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -63,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20090226232843) do
     t.datetime "updated_at"
     t.datetime "checked_at"
     t.boolean  "works"
+    t.integer  "cached_page_id"
   end
 
   create_table "parselets", :force => true do |t|
@@ -79,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20090226232843) do
     t.datetime "updated_at"
     t.datetime "checked_at"
     t.boolean  "works"
+    t.integer  "cached_page_id"
   end
 
   create_table "password_requests", :force => true do |t|
@@ -117,6 +120,13 @@ ActiveRecord::Schema.define(:version => 20090226232843) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "thumbnails", :force => true do |t|
+    t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "tries"
   end
 
   create_table "users", :force => true do |t|

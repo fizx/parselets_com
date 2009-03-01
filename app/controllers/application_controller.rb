@@ -93,7 +93,9 @@ protected
     Invitation.send :with_scope, this_user do
       Parselet.send :with_scope, this_user do
         Sprig.send :with_scope, this_user do
-          yield
+          Comment.send :with_scope, this_user do
+            yield
+          end
         end
       end
     end

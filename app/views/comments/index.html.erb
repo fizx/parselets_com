@@ -1,0 +1,8 @@
+<%= render 'comments', :comments => @comments %>
+
+<div id="add_comment">
+	<h3>Add a comment</h3>
+	<%=will_paginate @comments %>
+
+	<%=render "form" %>
+</div>

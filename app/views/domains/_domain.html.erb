@@ -1,10 +1,10 @@
 <li>
-	<h4><%=link_to domain.name, "http://#{domain.name}" %> 
-	<small>(
-	<%=link_to "#{domain.parselets.count} parselets", parselets_path(:domain => domain.key)%>
-	)</small>
-	</h4>
-	<ol class="mini">
-		<%=render domain.parselets.first(3) %>
-	</ol>
+  <%=thumb domain%>
+	<div style="float:left">
+		<h4><%=link_to domain.name, :controller => "search", :q => domain.name, :classes => "Parselet" %> 
+		<small>(
+		<%=link_to "#{domain.parselets.count} parselets", parselets_path(:domain => domain.key)%>
+		)</small>
+		</h4>
+	</div>
 </li>

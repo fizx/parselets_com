@@ -1,2 +1,2 @@
-<ol><%=render @parselets %></ol>
-<%=will_paginate @parselets %>
+<ol class="results"><%=render @parselets %></ol>
+<%=will_paginate(@parselets) || "page 1 of 1" %>

@@ -5,6 +5,7 @@ require "digest/md5"
 require "open-uri"
 class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
+  
   module ClassMethods
     def top(n = 5)
       find :all, :conditions => {:works => true}, :limit => n, :order => "updated_at DESC"
@@ -76,6 +77,7 @@ class Parselet < ActiveRecord::Base
       when "!array":    []
       when "!hash":     OrderedHash.new
       when String:      data
+      when NilClass:     ""
       when Hash:        
         data.keys.sort_by(&:to_i).inject(OrderedHash.new) do |memo, key|
           pair = data[key]
@@ -107,6 +109,9 @@ class Parselet < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :domain
+  has_many :comments, :as => :commentable
+  
+  belongs_to :cached_page
   
   validates_uniqueness_of :name
   validates_format_of :name, :with => /\A[a-z0-9\-_]*\Z/, :message => "contains invalid characters"
@@ -115,9 +120,11 @@ class Parselet < ActiveRecord::Base
   validates_example_url_matches_pattern
   
   before_save :create_domain
+  before_save :update_cached_page
   
   class Version < ActiveRecord::Base
     belongs_to :user
+    belongs_to :cached_page
   end
   
   # Get included into Parselet::Version later
@@ -150,6 +157,10 @@ class Parselet < ActiveRecord::Base
       domain && domain.name
     end
     
+    def update_cached_page
+      self.cached_page ||= CachedPage.find_or_create_by_url(example_url)
+    end
+    
     def create_domain
       self.domain = Domain.from_url(example_url)
     end
@@ -161,15 +172,37 @@ class Parselet < ActiveRecord::Base
         STDERR.flush
       end
     end
+    
+    def url
+      example_url
+    end
+    
+    def sanitized_code
+      OrderedJSON.dump(sanitize(json))
+    end
+    
+    def sanitize(obj)
+      case obj
+      when Hash, OrderedHash:
+        obj.inject(OrderedHash.new) do |m, (k, v)|
+          m[k] = sanitize(v) unless k.blank? || v.blank?
+          m
+        end
+      when Array
+        obj.map {|e| sanitize(e)}
+      else
+        obj
+      end
+    end
 
     def example_data
       return {} if example_url.nil?
-      content = CachedPage.content_for_url(example_url)
-      out = Dexterous.new(code).parse(:string => content, :output => :json)
+      content = (cached_page || update_cached_page).content
+      out = Dexterous.new(sanitized_code).parse(:string => content, :output => :json)
       answer = OrderedJSON.parse(out)
       set_working true
       answer
-    rescue => e
+    rescue DexError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
       set_working false
       {"errors" => e.message.split("\n")}
     end

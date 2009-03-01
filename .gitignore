@@ -2,3 +2,4 @@ log/*
 db/*.sqlite3
 tmp
 config/ultrasphinx/development.conf
+public/thumbs

@@ -14,6 +14,7 @@ role :db,  SERVER, :primary => true
 
 namespace :deploy do
   task :before_restart do
+    run "ln -nfs #{shared_path}/thumbs #{current_path}/public/thumbs"
     run "cd #{current_path} && rake db:migrate --trace RAILS_ENV=production"
     run "cd #{current_path} && rake us:boot --trace RAILS_ENV=production"
   end
