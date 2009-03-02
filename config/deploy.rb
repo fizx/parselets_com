@@ -29,7 +29,7 @@ namespace :deploy do
   
   desc "write the crontab file"
   task :write_crontab, :roles => :app do
-    run "cd #{release_path} && whenever --write-crontab"
+    run "cd #{release_path} && whenever --write-crontab -n #{application}"
   end
 end
 
