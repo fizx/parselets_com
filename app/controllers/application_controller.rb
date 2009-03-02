@@ -94,7 +94,9 @@ protected
       Parselet.send :with_scope, this_user do
         Sprig.send :with_scope, this_user do
           Comment.send :with_scope, this_user do
-            yield
+            Rating.send :with_scope, this_user do
+              yield
+            end
           end
         end
       end

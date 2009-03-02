@@ -1,0 +1,10 @@
+<% form_for(new_parselet_rating_path(parselet), :html => {:class => "ratings"}) do %>
+  <% if parselet.status == "ok" %>
+    <% 5.times do |i| %>
+      <%=radio_button_tag "star-#{parselet.id}", i.to_s, (i+1) == (parselet.average_rating || 0).round, :class => "star" %>
+    <% end %>
+    <span class=count>&nbsp;<%=parselet.ratings.count %></span>
+  <% else %>
+    <%=status(parselet)%> <%=parselet.status%>
+  <% end %>
+<% end %>

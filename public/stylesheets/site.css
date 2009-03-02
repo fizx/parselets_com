@@ -72,6 +72,16 @@ ul.menu {
 	z-index:2;
 }
 
+.ratings {
+  display:block ;
+  float:right;
+  padding-bottom:5px;
+}
+
+.ratings .cancel {
+  display:none;
+}
+
 form#search {
 	position:absolute;
 	z-index:2;
@@ -255,9 +265,10 @@ p{
 	font-size:small;
 }
 
-.results a.comments_link{
+ol a.comments_link{
 	display: block;
 	float:right;
+  clear:right;
 }
 
 .boxes {
@@ -319,7 +330,7 @@ a.url {
 
 ol>li {
 	padding-bottom:8px;
-	clear:both;
+	clear:both !important;
 	float:left;
 	width:100%;
 }

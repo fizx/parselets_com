@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :ratings
+
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
@@ -16,6 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :parselets do |p|
     p.resources :parselet_versions
     p.resources :comments
+    p.resources :ratings
   end
   map.resources :parselet_versions
   map.resources :users

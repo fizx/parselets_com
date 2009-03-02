@@ -2,16 +2,9 @@
   <%=thumb(parselet)%>
 	<div style="margin-left:55px">
 		<h4>
-			<%=status(parselet, :small) %>
+			<%=ratings parselet %>
+		  <%=comments parselet, :small %>
 			<%=link_to h(parselet.name), parselet %>
-      <!-- <span>
-        <input name="star-<%=parselet.id%>" type="radio" class="star"/> 
-        <input name="star-<%=parselet.id%>" type="radio" class="star"/> 
-        <input name="star-<%=parselet.id%>" type="radio" class="star"/> 
-        <input name="star-<%=parselet.id%>" type="radio" class="star"/> 
-        <input name="star-<%=parselet.id%>" type="radio" class="star"/>
-      </span> -->
-			<%=comments parselet, :small %>
 		</h4>
 		<%=example_link(parselet)%>
 		<p><%=h truncate(parselet.description, :length => 250) %></p>
