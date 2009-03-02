@@ -257,13 +257,14 @@ p{
 }
 
 .boxes>li {
-	float:right;
 	width:100%;
 	margin: 0 0 15px 0;
 }
 
 .boxes h5 {
-  text-align:right;
+	display:block;
+	clear:both;
+  float:right;
 }
 
 a {
