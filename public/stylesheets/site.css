@@ -250,6 +250,16 @@ p{
   display:none;
 }
 
+.count {
+	color:grey;
+	font-size:small;
+}
+
+.results a.comments_link{
+	display: block;
+	float:right;
+}
+
 .boxes {
 /*  width:550px;*/
 	float:left;
@@ -311,6 +321,7 @@ ol>li {
 	padding-bottom:8px;
 	clear:both;
 	float:left;
+	width:100%;
 }
 
 .results>li {
