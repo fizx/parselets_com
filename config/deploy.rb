@@ -26,7 +26,14 @@ namespace :deploy do
   task :after_restart do
     system %[echo "deploy complete" | growlnotify "parselets.com"]
   end
+  
+  desc "write the crontab file"
+  task :write_crontab, :roles => :app do
+    run "cd #{release_path} && whenever --write-crontab"
+  end
 end
+
+after "deploy:symlink", "deploy:write_crontab"
 
 task :delta do
   run "cd #{current_path} && rake ultrasphinx:index:delta --trace RAILS_ENV=production"
