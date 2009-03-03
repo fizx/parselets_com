@@ -6,7 +6,7 @@ class Indexes < ActiveRecord::Migration
     add_index :comments, :user_id
     add_index :comments, [:commentable_id, :commentable_type, :created_at], :name => "commentable_poly" 
     
-    add_index :domain_usages, [:domain_id, :usage_id, :usage_type], :unique => true, :name => "domain_usages_ids"
+    # add_index :domain_usages, [:domain_id, :usage_id, :usage_type], :unique => true, :name => "domain_usages_ids"
     
     add_index :domains, :name, :unique => true
     
