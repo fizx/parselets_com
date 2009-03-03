@@ -12,7 +12,7 @@
 <div class="desc"><%=h @parselet.description %></div>
 
 <ul id="options">
-	<li><%=icon "document__pencil"%><strong> <%= link_to 'Edit', edit_parselet_version_path(@version) %></strong></li>
+	<li><%=icon "document__pencil"%><strong> <%= link_to 'Edit', edit_path(@version || @parselet) %></strong></li>
 	<li><%=comments @parselet %></li>
 	<li><%=icon "clock"%> <%=link_to "history", parselet_parselet_versions_path(@parselet) %></li>
 	<li><%=icon "wand" %> <%=link_to "api helper", parselet_parselet_versions_path(@parselet)%></li>
