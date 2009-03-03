@@ -42,3 +42,7 @@ end
 task :check do
   run "cd #{current_path} && rake parselet:check --trace RAILS_ENV=production"
 end
+
+task :tail do
+  run "tail -f #{current_path}/log/production.log"
+end
