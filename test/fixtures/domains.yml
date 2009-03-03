@@ -1,9 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
-  variations: MyText
+  name: foo.com
+  variations: foo com foo.com
 
 two:
-  name: MyString
-  variations: MyText
+  name: bar.com
+  variations: bar com bar.com
