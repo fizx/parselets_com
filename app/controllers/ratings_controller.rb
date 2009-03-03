@@ -51,7 +51,7 @@ class RatingsController < ApplicationController
     else
       @rating = Rating.new(params[:rating])
     end
-    @rating.score = params[:value].to_i + 1 if params[:value]
+    @rating.score = params[:value].to_i if params[:value]
 
     respond_to do |format|
       if @rating.save
