@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090302225138) do
+ActiveRecord::Schema.define(:version => 20090303061503) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(:version => 20090302225138) do
     t.datetime "checked_at"
     t.boolean  "works"
     t.integer  "cached_page_id"
+    t.integer  "ratings_count"
+    t.integer  "comments_count"
   end
 
   create_table "parselets", :force => true do |t|
@@ -90,6 +92,9 @@ ActiveRecord::Schema.define(:version => 20090302225138) do
     t.datetime "checked_at"
     t.boolean  "works"
     t.integer  "cached_page_id"
+    t.integer  "ratings_count"
+    t.integer  "comments_count"
+    t.integer  "cached_rating"
   end
 
   create_table "password_requests", :force => true do |t|

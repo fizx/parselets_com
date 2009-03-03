@@ -139,7 +139,7 @@ class Parselet < ActiveRecord::Base
     end
     
     def average_rating
-      ratings.average("score")
+      cached_rating || 0
     end
     
     def pattern_valid?

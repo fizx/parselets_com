@@ -1,8 +1,16 @@
 class Rating < ActiveRecord::Base
-  belongs_to :ratable, :polymorphic => true
+  belongs_to :ratable, :polymorphic => true, :counter_cache => :ratings_count
   validates_uniqueness_of :ratable_id, :scope => %w[user_id ratable_type]
   validates_numericality_of :score, :in => 0..5
   validates_presence_of :user_id, :ratable_id, :ratable_type, :score
+  
+  after_save :update_target
+  
+  def update_target
+    if ratable.respond_to?(:cached_rating)
+      ratable.update_attribute(:cached_rating, Rating.average("score", :conditions => {:ratable_id => ratable_id, :ratable_type => ratable_type}))
+    end
+  end
   
   def self.rate(object, user, score)
     rating = find_or_initialize_by_ratable_id_and_ratable_type_and_user_id(object.id, object.class.to_s, user.id)

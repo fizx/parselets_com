@@ -4,7 +4,7 @@
       <%=radio_button_tag "star-#{parselet.id}", i.to_s, i== (parselet.average_rating || 0).round, :class => "star" %>
     <% end %>
     <input type="hidden" name="value" class="hvalue" value="0" />
-    <span class="count" id="rating-count-<%=parselet.id%>">&nbsp;<%=parselet.ratings.count %></span>
+    <span class="count" id="rating-count-<%=parselet.id%>">&nbsp;<%=parselet.ratings_count %></span>
   <% else %>
     <%= status(parselet) %> <%= parselet.status %>
   <% end %>

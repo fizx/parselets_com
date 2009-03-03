@@ -43,7 +43,7 @@ module ApplicationHelper
   end
   
   def comments(model, small = false)
-    link_to icon("balloons") + (small ? "<span class=count> #{model.comments.count}</span>" : " comments (#{model.comments.count})"), {:controller => "comments", :id => model.id, :type => model.class}, :class => "comments_link", :rel => "facebox"
+    link_to icon("balloons") + (small ? "<span class=count> #{model.comments_count}</span>" : " comments (#{model.comments_count})"), {:controller => "comments", :id => model.id, :type => model.class}, :class => "comments_link", :rel => "facebox"
   end
   
   def status(parselet, small = false)
