@@ -1,4 +1,5 @@
 class RatingsController < ApplicationController
+  before_filter :admin_required, :except => "create"
   # GET /ratings
   # GET /ratings.xml
   def index
@@ -40,11 +41,26 @@ class RatingsController < ApplicationController
   # POST /ratings
   # POST /ratings.xml
   def create
-    @rating = Rating.new(params[:rating])
+    if params[:parselet_id]
+      if current_user
+        @parselet = Parselet.find(params[:parselet_id])
+        @rating = Rating.rate(@parselet, current_user, params[:score])
+      else
+        redirect_to login_url and return
+      end
+    else
+      @rating = Rating.new(params[:rating])
+    end
+    @rating.score = params[:value].to_i + 1 if params[:value]
 
     respond_to do |format|
       if @rating.save
         flash[:notice] = 'Rating was successfully created.'
+        format.js {
+          render :update do |page|
+            page.replace_html "rating-count-#{@parselet.id}", :text => "&nbsp;#{@parselet.ratings.count}" 
+          end
+        }
         format.html { redirect_to(@rating) }
         format.xml  { render :xml => @rating, :status => :created, :location => @rating }
       else
