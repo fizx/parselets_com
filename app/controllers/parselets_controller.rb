@@ -28,6 +28,16 @@ class ParseletsController < ApplicationController
       format.xml  { render :xml => @parselets }
     end
   end
+  
+  def parse
+    @parselet = Parselet.find_by_params(params)
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @parselet.parse(params[:url], :output => :xml) }
+      format.json { render :json => @parselet.parse(params[:url]) }
+    end
+  end
 
   # GET /parselets/1
   # GET /parselets/1.xml
@@ -37,6 +47,7 @@ class ParseletsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @parselet }
+      format.json { render :json => @parselet.to_json }
     end
   end
 

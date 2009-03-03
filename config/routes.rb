@@ -8,12 +8,14 @@ ActionController::Routing::Routes.draw do |map|
   map.parselet_code "/parselet_code", :controller => 'parselets', :action => 'code'
   map.sprig_code "/sprig_code", :controller => 'parselets', :action => 'code'
   
+  map.parse "/parse/:id", :controller => 'parselets', :action => 'parse'
+  
   map.resources :comments
   map.resources :password_requests
   map.resources :cached_pages
   map.resources :invitation_requests
   map.resources :invitations
-  map.resources :parselets do |p|
+  map.resources :parselets, :member => { :parse => :get } do |p|
     p.resources :parselet_versions
     p.resources :comments
   end

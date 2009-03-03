@@ -206,6 +206,14 @@ class Parselet < ActiveRecord::Base
       set_working false
       {"errors" => e.message.split("\n")}
     end
+    
+    def parse(url, options = {})
+      return {} if url.nil? || url !~ /^http:\/\//i
+      content = CachedPage.find_or_create_by_url(url).content
+      Dexterous.new(sanitized_code).parse(:string => content, :output => options[:output] || :json)
+    rescue DexError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
+      {"errors" => e.message.split("\n")}
+    end
 
     def set_working(val)
       Parselet.send(:with_exclusive_scope) do
