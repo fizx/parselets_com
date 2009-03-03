@@ -6,12 +6,16 @@ class ParseletVersionsController < ApplicationController
   end
 
   def show
-    @parselet = Parselet::Version.find(params[:id])
+    @version = Parselet::Version.find(params[:id])
+    @parselet = Parselet.find(@version.parselet_id)
+    @parselet.revert_to @version.id
     render :template => "/parselets/show"
   end
   
   def edit
-    @parselet = Parselet::Version.find(params[:id])
+    version = Parselet::Version.find(params[:id])
+    @parselet = version.parselet
+    @parselet.revert_to version.id
     render :template => "/parselets/edit"
   end
   
