@@ -9,6 +9,9 @@ class Parselet < ActiveRecord::Base
   module ClassMethods
     def top(n = 5)
       find :all, :conditions => {:works => true}, :limit => n, :order => "updated_at DESC"
+      find_by_sql <<-SQL
+        select parselets.*, count(ratings.id) as cnt, (sum(ratings.score) + 15) / (count(ratings.id) + 5) as avg from parselets left join ratings on parselets.id=ratings.ratable_id and ratable_type='Parselet' where works = 1 group by parselets.id order by avg DESC LIMIT 5
+      SQL
     end
     
     def find_by_params(params = {})
