@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090303061503) do
+ActiveRecord::Schema.define(:version => 20090303062716) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
@@ -17,6 +17,8 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "cached_pages", ["url"], :name => "index_cached_pages_on_url"
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
@@ -27,6 +29,9 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "updated_at"
   end
 
+  add_index "comments", ["commentable_id", "commentable_type", "created_at"], :name => "commentable_poly"
+  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+
   create_table "domain_usages", :force => true do |t|
     t.integer  "domain_id"
     t.string   "usage_type"
@@ -35,12 +40,16 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "updated_at"
   end
 
+  add_index "domain_usages", ["domain_id", "usage_id", "usage_type"], :name => "domain_usages_ids", :unique => true
+
   create_table "domains", :force => true do |t|
     t.string   "name"
     t.text     "variations"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "domains", ["name"], :name => "index_domains_on_name", :unique => true
 
   create_table "invitation_requests", :force => true do |t|
     t.integer  "invitation_id"
@@ -49,6 +58,9 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "updated_at"
   end
 
+  add_index "invitation_requests", ["email"], :name => "index_invitation_requests_on_email"
+  add_index "invitation_requests", ["invitation_id"], :name => "index_invitation_requests_on_invitation_id"
+
   create_table "invitations", :force => true do |t|
     t.string   "code"
     t.integer  "user_id"
@@ -56,6 +68,9 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "invitations", ["code"], :name => "index_invitations_on_code", :unique => true
+  add_index "invitations", ["user_id"], :name => "index_invitations_on_user_id"
 
   create_table "parselet_versions", :force => true do |t|
     t.integer  "parselet_id"
@@ -73,9 +88,16 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "checked_at"
     t.boolean  "works"
     t.integer  "cached_page_id"
-    t.integer  "ratings_count"
-    t.integer  "comments_count"
+    t.integer  "ratings_count",  :null => false
+    t.integer  "comments_count", :null => false
+    t.integer  "cached_rating",  :null => false
   end
+
+  add_index "parselet_versions", ["cached_page_id"], :name => "index_parselet_versions_on_cached_page_id"
+  add_index "parselet_versions", ["domain_id"], :name => "index_parselet_versions_on_domain_id"
+  add_index "parselet_versions", ["name"], :name => "index_parselet_versions_on_name"
+  add_index "parselet_versions", ["parselet_id", "version"], :name => "index_parselet_versions_on_parselet_id_and_version", :unique => true
+  add_index "parselet_versions", ["user_id"], :name => "index_parselet_versions_on_user_id"
 
   create_table "parselets", :force => true do |t|
     t.string   "name"
@@ -92,10 +114,15 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "checked_at"
     t.boolean  "works"
     t.integer  "cached_page_id"
-    t.integer  "ratings_count"
-    t.integer  "comments_count"
-    t.integer  "cached_rating"
+    t.integer  "ratings_count",  :null => false
+    t.integer  "comments_count", :null => false
+    t.integer  "cached_rating",  :null => false
   end
+
+  add_index "parselets", ["cached_page_id"], :name => "index_parselets_on_cached_page_id"
+  add_index "parselets", ["domain_id"], :name => "index_parselets_on_domain_id"
+  add_index "parselets", ["name"], :name => "index_parselets_on_name", :unique => true
+  add_index "parselets", ["user_id"], :name => "index_parselets_on_user_id"
 
   create_table "password_requests", :force => true do |t|
     t.string   "email"
@@ -103,6 +130,8 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "password_requests", ["email"], :name => "index_password_requests_on_email"
 
   create_table "ratings", :force => true do |t|
     t.integer  "user_id"
@@ -113,6 +142,9 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "updated_at"
   end
 
+  add_index "ratings", ["ratable_id", "ratable_type"], :name => "index_ratings_on_ratable_id_and_ratable_type"
+  add_index "ratings", ["user_id"], :name => "index_ratings_on_user_id"
+
   create_table "sprig_usages", :force => true do |t|
     t.integer  "sprig_id"
     t.integer  "sprig_version_id"
@@ -121,6 +153,8 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "sprig_usages", ["sprig_id", "sprig_version_id", "parselet_id", "parselet_version_id"], :name => "sprig_usages_ids", :unique => true
 
   create_table "sprig_versions", :force => true do |t|
     t.integer  "sprig_id"
@@ -133,6 +167,10 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "updated_at"
   end
 
+  add_index "sprig_versions", ["name"], :name => "index_sprig_versions_on_name"
+  add_index "sprig_versions", ["sprig_id", "version"], :name => "index_sprig_versions_on_sprig_id_and_version", :unique => true
+  add_index "sprig_versions", ["user_id"], :name => "index_sprig_versions_on_user_id"
+
   create_table "sprigs", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -144,12 +182,17 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.datetime "updated_at"
   end
 
+  add_index "sprigs", ["name"], :name => "index_sprigs_on_name", :unique => true
+  add_index "sprigs", ["user_id"], :name => "index_sprigs_on_user_id"
+
   create_table "thumbnails", :force => true do |t|
     t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tries"
   end
+
+  add_index "thumbnails", ["url"], :name => "index_thumbnails_on_url", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "login",                     :limit => 40
@@ -165,6 +208,7 @@ ActiveRecord::Schema.define(:version => 20090303061503) do
     t.integer  "invitation_id"
   end
 
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
 
 end
