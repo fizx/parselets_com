@@ -8,13 +8,18 @@ module ApplicationHelper
     image_tag("/images/icons/#{name}.png", :border => 0, :align => "absmiddle", :alt => alt, :title => alt)
   end
   
+  def ratings(parselet)
+    render "/widgets/rating", :parselet => parselet
+  end
+  
   def empty_icon
     image_tag("/images/spacer.gif", :width => 16, :height => 16, :border => 0, :align => "absmiddle")
   end
   
   def example_link(parselet)
-    link_to h(parselet.pattern), parselet.example_url, :class => "url", :onmouseover => "this.innerText='#{h truncate(parselet.example_url, :length => 120)}'", 
-      :onmouseout => "this.innerText='#{h parselet.pattern}'"
+    link_to h(parselet.pattern), parselet.example_url, :class => "url"
+    # , :onmouseover => "this.innerText='#{h truncate(parselet.example_url, :length => 120)}'", 
+    #       :onmouseout => "this.innerText='#{h parselet.pattern}'"
   end
   
   def gravatar(email, options = {})

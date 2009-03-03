@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
-  protect_from_forgery # :secret => 'a8f47e858a604be5160e638e9f6714d4'
+  # protect_from_forgery # :secret => 'a8f47e858a604be5160e638e9f6714d4'
   
   # See ActionController::Base for details 
   # Uncomment this to filter the contents of submitted sensitive data parameters
@@ -94,7 +94,9 @@ protected
       Parselet.send :with_scope, this_user do
         Sprig.send :with_scope, this_user do
           Comment.send :with_scope, this_user do
-            yield
+            Rating.send :with_scope, this_user do
+              yield
+            end
           end
         end
       end

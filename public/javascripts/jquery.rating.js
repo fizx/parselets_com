@@ -40,7 +40,10 @@
 		//readOnly: false,         // disable rating plugin interaction/ values cannot be changed
 		//focus:    function(){},  // executed when stars are focused
 		//blur:     function(){},  // executed when stars are focused
-		//callback: function(){},  // executed when a star is clicked
+		callback: function(val, link){
+      jQuery(".hvalue", this.form).val(val);
+		  this.form.onsubmit();
+		},  // executed when a star is clicked
 		
 		// required properties:
 		groups: {},// allows multiple star ratings on one page
