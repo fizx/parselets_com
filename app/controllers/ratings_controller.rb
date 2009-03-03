@@ -55,7 +55,7 @@ class RatingsController < ApplicationController
 
     respond_to do |format|
       if @rating.save
-        flash[:notice] = 'Rating was successfully created.'
+        # flash[:notice] = 'Rating was successfully created.'
         format.js {
           render :update do |page|
             page.replace_html "rating-count-#{@parselet.id}", :text => "&nbsp;#{@parselet.ratings.count}" 
