@@ -17,7 +17,7 @@ module ApplicationHelper
   end
   
   def example_link(parselet)
-    link_to h(parselet.pattern), parselet.example_url, :class => "url"
+    link_to h(parselet.pattern), parselet.example_url, :class => "url", :target => '_blank'
     # , :onmouseover => "this.innerText='#{h truncate(parselet.example_url, :length => 120)}'", 
     #       :onmouseout => "this.innerText='#{h parselet.pattern}'"
   end
@@ -50,13 +50,13 @@ module ApplicationHelper
     ext = small ? "_small" : ""
     case parselet.status
     when "ok"
-      icon("tick#{ext}")
+      icon("tick#{ext}", "This parselet appears to work correctly.")
     when "stale"
-      icon("exclamation#{ext}")
+      icon("exclamation#{ext}", "This parselet has not been checked recently.")
     when "broken"
-      icon("slash#{ext}")
+      icon("slash#{ext}", "This parselet appears to be broken.")
     when "unknown"
-      icon("question#{ext}")
+      icon("question#{ext}", "This parselet has unknown status.")
     end
   end
 end

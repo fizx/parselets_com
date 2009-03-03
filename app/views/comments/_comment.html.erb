@@ -1,4 +1,4 @@
 <li>
-	<h3><%=time_ago_in_words comment.created_at %> by <%=link_to comment.user.login, comment.user %></h3>
-	<%=markdown(h(comment.content))%>
+	<h3><%=time_ago_in_words comment.created_at %> ago by <%=link_to comment.user.login, comment.user %></h3>
+	<%= markdown(h(comment.content)) %>
 </li>

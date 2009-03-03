@@ -6,6 +6,6 @@
     <input type="hidden" name="value" class="hvalue" value="0" />
     <span class="count" id="rating-count-<%=parselet.id%>">&nbsp;<%=parselet.ratings.count %></span>
   <% else %>
-    <%=status(parselet)%> <%=parselet.status%>
+    <%= status(parselet) %> <%= parselet.status %>
   <% end %>
 <% end %>
