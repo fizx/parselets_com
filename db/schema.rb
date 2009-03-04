@@ -88,9 +88,9 @@ ActiveRecord::Schema.define(:version => 20090304202716) do
     t.datetime "checked_at"
     t.boolean  "works"
     t.integer  "cached_page_id"
-    t.integer  "ratings_count",  :default => 0, :null => false
-    t.integer  "comments_count", :default => 0, :null => false
-    t.integer  "cached_rating",  :default => 0, :null => false
+    t.integer  "ratings_count",  :null => false
+    t.integer  "comments_count", :null => false
+    t.integer  "cached_rating",  :null => false
   end
 
   add_index "parselet_versions", ["cached_page_id"], :name => "index_parselet_versions_on_cached_page_id"
@@ -114,9 +114,9 @@ ActiveRecord::Schema.define(:version => 20090304202716) do
     t.datetime "checked_at"
     t.boolean  "works"
     t.integer  "cached_page_id"
-    t.integer  "ratings_count",  :default => 0, :null => false
-    t.integer  "comments_count", :default => 0, :null => false
-    t.integer  "cached_rating",  :default => 0, :null => false
+    t.integer  "ratings_count",  :null => false
+    t.integer  "comments_count", :null => false
+    t.integer  "cached_rating",  :null => false
   end
 
   add_index "parselets", ["cached_page_id"], :name => "index_parselets_on_cached_page_id"
