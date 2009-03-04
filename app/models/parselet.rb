@@ -119,6 +119,8 @@ class Parselet < ActiveRecord::Base
   
   validates_uniqueness_of :name
   validates_format_of :name, :with => /\A[a-z0-9\-_]*\Z/, :message => "contains invalid characters"
+  
+  validates_format_of :name, :with => /[^0-9]/, :message => "cannot be entirely numeric"
   validates_presence_of :name, :description, :code, :pattern, :example_url, :user_id
   validates_json :code
   validates_example_url_matches_pattern
