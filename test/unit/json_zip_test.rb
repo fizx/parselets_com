@@ -36,6 +36,12 @@ class JsonZipTest < Test::Unit::TestCase
     assert_equal @empty, JsonZip.zip(OrderedHash.new, OrderedHash.new)
   end
   
+  def test_empty_zip
+    zipped = JsonZip.zip(@parselet, @empty)
+    
+    assert_equal @parselet.inspect, zipped.inspect
+  end
+  
   def test_full_zip
     zipped = JsonZip.zip(@parselet, @data)
     assert_kind_of JsonZip::Object, zipped

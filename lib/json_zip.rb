@@ -13,6 +13,7 @@ module JsonZip
   class Object < OrderedHash
     def initialize(a, b)
       super()
+      b ||= {}
       a.keys.zip(b.keys).each do |ka, kb|
         self[String.new(ka, kb)] = JsonZip.zip(a[ka], b[kb])
       end
@@ -23,7 +24,7 @@ module JsonZip
     attr_reader :entries
     def initialize(a, b)
       super()
-      self << JsonZip.zip(a.first, b.first)
+      self << JsonZip.zip(a.first, b && b.first)
       @entries = b
     end
   end
@@ -33,8 +34,10 @@ module JsonZip
     
     def initialize(a, b)
       super(a)
-      @base = b
-      @filter = a.sub(b, '')
+      split = a.split("(")
+      @base = split.shift
+      join = split.join("(")
+      @filter = join && "(#{join}"
       @selector = a
       @value = b
     end

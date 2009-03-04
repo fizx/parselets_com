@@ -217,6 +217,10 @@ class Parselet < ActiveRecord::Base
       {"errors" => e.message.split("\n")}
     end
     
+    def zipped_example
+      JsonZip.zip(data, example_data)
+    end
+    
     def parse(url, options = {})
       return {} if url.nil? || url !~ /^http:\/\//i
       content = CachedPage.find_or_create_by_url(url).content
