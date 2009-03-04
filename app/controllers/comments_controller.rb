@@ -59,6 +59,7 @@ class CommentsController < ApplicationController
           render :update do |page|
             page.replace "comments", :partial => "comments", :locals => {:comments => @comment.commentable.comments }
             page.replace_html "add_comment", :text => "Thank you for your comment."
+            page.replace_html "comments_#{dom_id(@comment.commentable)}", :text => (@comment.commentable.comments_count + 1).to_s
           end
         }
       else
