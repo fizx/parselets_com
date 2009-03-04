@@ -13,7 +13,7 @@ class Rating < ActiveRecord::Base
   end
   
   def self.rate(object, user, score)
-    rating = find_or_initialize_by_ratable_id_and_ratable_type_and_user_id(object.id, object.class.to_s, user.id)
+    rating = object.ratings.find_or_initialize_by_user_id(user.id)
     rating.score = score
     rating
   end

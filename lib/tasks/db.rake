@@ -30,6 +30,7 @@ namespace :db do
     end
   end
   
+  desc "loads the production db from parselets.com into local development"
   task :"load-production" do
     sys "ssh www-data@parselets.com 'mysqldump --ignore-table=parselets_com_production.cached_pages #{mysql_config('production')} > ~/dump.sql'"
     sys "rsync -avz --partial --progress www-data@parselets.com:dump.sql #{MYSQLDUMP_FILE}"
