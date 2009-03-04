@@ -18,17 +18,17 @@ namespace :db do
     str
   end
   
-  desc "dumps the current db to #{MYSQLDUMP_FILE}"
-  task :dump do
-    sys "mysqldump #{mysql_config} > #{MYSQLDUMP_FILE}"
-  end
-  
-  desc "loads the current db from #{MYSQLDUMP_FILE}"
-  task :load do
-    if File.exists?(MYSQLDUMP_FILE)
-      sys "cat #{MYSQLDUMP_FILE} | mysql #{mysql_config} "
-    end
-  end
+  # desc "dumps the current db to #{MYSQLDUMP_FILE}"
+  # task :dump do
+  #   sys "mysqldump #{mysql_config} > #{MYSQLDUMP_FILE}"
+  # end
+  # 
+  # desc "loads the current db from #{MYSQLDUMP_FILE}"
+  # task :load do
+  #   if File.exists?(MYSQLDUMP_FILE)
+  #     sys "cat #{MYSQLDUMP_FILE} | mysql #{mysql_config} "
+  #   end
+  # end
   
   desc "loads the production db from parselets.com into local development"
   task :"load-production" do
@@ -36,4 +36,8 @@ namespace :db do
     sys "rsync -avz --partial --progress www-data@parselets.com:dump.sql #{MYSQLDUMP_FILE}"
     sys "cat #{MYSQLDUMP_FILE} | mysql #{mysql_config} "
   end
+end
+
+namespace :dev do
+  task :sync => "db:load-production"
 end

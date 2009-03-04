@@ -210,7 +210,7 @@ class Parselet < ActiveRecord::Base
       answer = OrderedJSON.parse(out)
       set_working true
       answer
-    rescue DexError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
+    rescue ParsleyError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
       set_working false
       {"errors" => e.message.split("\n")}
     end
@@ -219,7 +219,7 @@ class Parselet < ActiveRecord::Base
       return {} if url.nil? || url !~ /^http:\/\//i
       content = CachedPage.find_or_create_by_url(url).content
       Parsley.new(sanitized_code).parse(:string => content, :output => options[:output] || :json)
-    rescue DexError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
+    rescue ParsleyError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
       {"errors" => e.message.split("\n")}
     end
 

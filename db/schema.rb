@@ -13,7 +13,7 @@ ActiveRecord::Schema.define(:version => 20090304015911) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
-    t.text     "content",    :limit => 16777215
+    t.text     "content",    :limit => 2147483647
     t.datetime "created_at"
     t.datetime "updated_at"
   end
