@@ -33,7 +33,7 @@ module ApplicationHelper
   def gravatar_url_for(email, options = {})
     "http://www.gravatar.com/avatar.php?s=#{options[:s] || 50}&d=#{CGI::escape("http://parselets.com/images/spacer.gif")}&gravatar_id=#{Digest::MD5.hexdigest(email)}"
   end
-  
+    
   def thumb(object, link = nil)
     is_model = object.is_a?(ActiveRecord::Base)
     url = object.respond_to?(:url) ? object.url : object.to_s

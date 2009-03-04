@@ -12,6 +12,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.parse "/parse/:id", :controller => 'parselets', :action => 'parse'
   
+  map.dev "/dev/:action/:id", :controller => 'dev'
+  map.dev "/dev/:action", :controller => 'dev'
+  
   map.resources :comments
   map.resources :password_requests
   map.resources :cached_pages
