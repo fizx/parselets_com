@@ -1,5 +1,5 @@
 require "rubygems"
-require "dexterous"
+require "parsley"
 require "ordered_json"
 require "digest/md5"
 require "open-uri"
@@ -206,7 +206,7 @@ class Parselet < ActiveRecord::Base
     def example_data
       return {} if example_url.blank?
       content = (cached_page || update_cached_page).content
-      out = Dexterous.new(sanitized_code).parse(:string => content, :output => :json)
+      out = Parsley.new(sanitized_code).parse(:string => content, :output => :json)
       answer = OrderedJSON.parse(out)
       set_working true
       answer
@@ -218,7 +218,7 @@ class Parselet < ActiveRecord::Base
     def parse(url, options = {})
       return {} if url.nil? || url !~ /^http:\/\//i
       content = CachedPage.find_or_create_by_url(url).content
-      Dexterous.new(sanitized_code).parse(:string => content, :output => options[:output] || :json)
+      Parsley.new(sanitized_code).parse(:string => content, :output => options[:output] || :json)
     rescue DexError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
       {"errors" => e.message.split("\n")}
     end
