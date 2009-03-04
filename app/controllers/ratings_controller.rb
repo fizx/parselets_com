@@ -1,5 +1,7 @@
 class RatingsController < ApplicationController
   before_filter :admin_required, :except => "create"
+  
+  
   # GET /ratings
   # GET /ratings.xml
   def index
