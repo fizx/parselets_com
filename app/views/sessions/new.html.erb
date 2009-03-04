@@ -2,15 +2,15 @@
 	<% form_tag session_path do -%>
 	
 		<p><%= label_tag 'login' %><br />
-		<%= text_field_tag 'login', @login %></p>
+		<%= text_field_tag 'login', @login, :tabindex => 1 %></p>
 
 		<p><%= label_tag 'password' %>
-			( <%=link_to "forgot?", new_password_request_path %> )
+			( <%=link_to "forgot?", new_password_request_path, :tabindex => 4 %> )
 			<br/>
-		<%= password_field_tag 'password', nil %></p>
+		<%= password_field_tag 'password', nil, :tabindex => 2 %></p>
 
 		<p><%= label_tag 'remember_me', 'Remember me' %>
-		<%= check_box_tag 'remember_me', '1', @remember_me %></p>
+		<%= check_box_tag 'remember_me', '1', @remember_me, :tabindex => 3 %></p>
 
 		<p><%= submit_tag 'Log in' %></p>
 	<% end -%>

@@ -13,7 +13,7 @@ ActiveRecord::Schema.define(:version => 20090304015911) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
-    t.text     "content",    :limit => 2147483647
+    t.text     "content",    :limit => 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -78,9 +78,9 @@ ActiveRecord::Schema.define(:version => 20090304015911) do
     t.datetime "checked_at"
     t.boolean  "works"
     t.integer  "cached_page_id"
-    t.integer  "ratings_count",  :default => 0, :null => false
-    t.integer  "comments_count", :default => 0, :null => false
-    t.integer  "cached_rating",  :default => 0, :null => false
+    t.integer  "ratings_count",  :null => false
+    t.integer  "comments_count", :null => false
+    t.integer  "cached_rating",  :null => false
   end
 
   add_index "parselet_versions", ["cached_page_id"], :name => "index_parselet_versions_on_cached_page_id"
@@ -104,9 +104,9 @@ ActiveRecord::Schema.define(:version => 20090304015911) do
     t.datetime "checked_at"
     t.boolean  "works"
     t.integer  "cached_page_id"
-    t.integer  "ratings_count",  :default => 0, :null => false
-    t.integer  "comments_count", :default => 0, :null => false
-    t.integer  "cached_rating",  :default => 0, :null => false
+    t.integer  "ratings_count",  :null => false
+    t.integer  "comments_count", :null => false
+    t.integer  "cached_rating",  :null => false
   end
 
   add_index "parselets", ["cached_page_id"], :name => "index_parselets_on_cached_page_id"
