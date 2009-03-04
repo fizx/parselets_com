@@ -19,6 +19,15 @@
 </ul>
 
 
+<!-- <div style="background-color:#eee;border:1px silver solid;padding:10px;display:table;">
+<pre><%= h @parselet.pretty_code %></pre>
+</div>
+<h4>Sample output:</h4> -->
+<div style="clear:both;padding-top:15px;">
+<pre style="float:left"> code: (<%= link_to 'edit', edit_path(@parselet) %>) <input type="text" style="visibility:hidden">
+<div style="border:1px #ccc solid; border-right:0;padding:10px;height:300px;overflow:auto;width:300px"><%=h @parselet.pretty_code%></pre>
+
 <pre style="float:left"> Try on: <%=text_field_tag "foo", @parselet.example_url, :style => "width:300px"%> <input type="submit" value="go">
-<%=render "zipped", :data => @parselet.zipped_example%></div></pre>
+<div style="border:1px #ccc solid;padding:10px;height:300px;overflow:auto;width:450px"><%=h @parselet.pretty_example_data%></pre>
+</div>
 
