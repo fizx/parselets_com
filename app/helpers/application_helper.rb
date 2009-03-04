@@ -17,7 +17,7 @@ module ApplicationHelper
   end
   
   def example_link(parselet)
-    link_to h(parselet.pattern), parselet.example_url, :class => "url", :target => '_blank'
+    link_to h(parselet.example_url), parselet.example_url, :class => "url", :target => '_blank', :title => parselet.pattern
     # , :onmouseover => "this.innerText='#{h truncate(parselet.example_url, :length => 120)}'", 
     #       :onmouseout => "this.innerText='#{h parselet.pattern}'"
   end

@@ -1,12 +1,27 @@
 module ParseletsHelper
   ENTER = false # "window.event.keyCode == 13"
   
-  def key_field(path, name, key = "", value = "")
-    menu(value, path, name) + 
-    %[
-      <input class="key" type="text" name="#{h path}[#{h name}][key]" value="#{h key}"
-      onkeypress="if(#{ENTER}) return false;" onchange="this.dirty=true" onblur="if(this.dirty)re_eval()">
-     ] 
+  def key_field(path, name, key = "", value = "", edit = true)
+    if edit
+      menu(value, path, name) + 
+      %[
+        <input class="key" type="text" name="#{h path}[#{h name}][key]" value="#{h key}"
+        onkeypress="if(#{ENTER}) return false;" onchange="this.dirty=true" onblur="if(this.dirty)re_eval()">
+       ] 
+   else
+     %[
+       <span class="base">#{h key.base}</span><span class="filter">#{h key.filter}</span>
+      ]
+   end
+  end
+  
+  def value_field(path, name, value = "", edit = true)
+    %[<input class="value" type="text" name="#{h path}[#{h name}][value]" value="#{h value}"
+        onkeypress="if(#{ENTER}) return false;" onchange="this.dirty=true" onblur="if(this.dirty)re_eval()">]
+  end
+  
+  def multi_field(path, name)
+    %[<input type="hidden" name="#{h path}[#{h name}][multi]" value="true" />]
   end
   
   def menu(value, path, name)
@@ -49,14 +64,7 @@ module ParseletsHelper
     ]
   end
   
-  def value_field(path, name, value = "")
-    %[<input class="value" type="text" name="#{h path}[#{h name}][value]" value="#{h value}"
-        onkeypress="if(#{ENTER}) return false;" onchange="this.dirty=true" onblur="if(this.dirty)re_eval()">]
-  end
-  
-  def multi_field(path, name)
-    %[<input type="hidden" name="#{h path}[#{h name}][multi]" value="true" />]
-  end
+
   
   def space(str)
     "&nbsp;" * [(10 - str.length), 0].max

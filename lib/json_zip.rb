@@ -37,7 +37,7 @@ module JsonZip
       split = a.split("(")
       @base = split.shift
       join = split.join("(")
-      @filter = join && "(#{join}"
+      @filter = join.empty? ? nil : "(#{join}"
       @selector = a
       @value = b
     end

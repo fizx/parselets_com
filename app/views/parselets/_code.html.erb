@@ -1,6 +1,6 @@
 <% editor_type ||= "helpful" %>
 <% example_data ||= {} %>
-<%=render "/parselets/#{editor_type}", :path => "root", :data => data, :example_data => example_data %>
+<%=render "/parselets/#{editor_type}", :path => "root", :data => JsonZip.zip(data, example_data), :edit => true %>
 
 <Br>--------------<br>
-<%=text_field_tag "errrors", (example_data["errors"] || []).join(", "), :style => "width:90%" %>
+<%=text_field_tag "errors", (example_data["errors"] || []).join(", "), :style => "width:90%" %>

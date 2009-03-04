@@ -11,23 +11,17 @@
 </div>
 <div class="desc"><%=h @parselet.description %></div>
 
-<ul id="options">
-	<li><%=icon "document__pencil"%><strong> <%= link_to 'Edit', edit_path(@version || @parselet) %></strong></li>
+<ul id="options" style="clear:both">
+	<li><%=icon "document__pencil"%> <%= link_to 'edit', edit_path(@version || @parselet) %></li>
 	<li><%=comments @parselet %></li>
 	<li><%=icon "clock"%> <%=link_to "history", parselet_parselet_versions_path(@parselet) %></li>
 	<li><%=icon "wand" %> <%=link_to "api helper", parselet_parselet_versions_path(@parselet)%></li>
 </ul>
 
+<br><br>
 
-<!-- <div style="background-color:#eee;border:1px silver solid;padding:10px;display:table;">
-<pre><%= h @parselet.pretty_code %></pre>
-</div>
-<h4>Sample output:</h4> -->
-<div style="clear:both;padding-top:15px;">
-<pre style="float:left"> code: (<%= link_to 'edit', edit_path(@parselet) %>) <input type="text" style="visibility:hidden">
-<div style="border:1px #ccc solid; border-right:0;padding:10px;height:300px;overflow:auto;width:300px"><%=h @parselet.pretty_code%></pre>
-
-<pre style="float:left"> Try on: <%=text_field_tag "foo", @parselet.example_url, :style => "width:300px"%> <input type="submit" value="go">
-<div style="border:1px #ccc solid;padding:10px;height:300px;overflow:auto;width:450px"><%=h @parselet.pretty_example_data%></pre>
+<div style="clear:both">
+  Try on: <%=text_field_tag "foo", @parselet.example_url, :style => "width:300px"%> <input type="submit" value="go">
+  <div><%=render "helpful", :data => @parselet.zipped_example%></div>
 </div>
 
