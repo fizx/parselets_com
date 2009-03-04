@@ -14,34 +14,36 @@
     <%=javascript_include_tag :defaults %>
   </head>
   <body>
-    <div id="header">
-      <div id="user-nav">
-        <%=render "/users/user_bar" %>
+    <div id="body">
+      <div id="header">
+        <div id="user-nav">
+          <%=render "/users/user_bar" %>
+        </div>
+        <div id="logo"><%=link_to "parselets.com", "/"%></div>
+        <ul id="nav">
+          <li><%=link_to "Parselets", parselets_url %> <%=link_to icon("plus_small", "create parselet"), new_parselet_url %></li>
+          <% if admin? %>
+          	<li><%=link_to "Sprigs", sprigs_url %> <%=link_to icon("plus_small", "create sprig"), new_sprig_url %></li>
+          <% end %>
+          <li><%=link_to "Domains", domains_url %> <%=empty_icon %></li>
+          <li><%=link_to "Users", users_url %> <%=empty_icon %></li>
+          <li><%=link_to "Development Tools", users_url %> <%=empty_icon %></li>
+        </ul>
+        <div id="cheat"></div>
       </div>
-      <div id="logo"><%=link_to "parselets.com", "/"%></div>
-      <ul id="nav">
-        <li><%=link_to "Parselets", parselets_url %> <%=link_to icon("plus_small", "create parselet"), new_parselet_url %></li>
-        <% if admin? %>
-        	<li><%=link_to "Sprigs", sprigs_url %> <%=link_to icon("plus_small", "create sprig"), new_sprig_url %></li>
-        <% end %>
-        <li><%=link_to "Domains", domains_url %> <%=empty_icon %></li>
-        <li><%=link_to "Users", users_url %> <%=empty_icon %></li>
-        <li><%=link_to "Development Tools", users_url %> <%=empty_icon %></li>
-      </ul>
-      <div id="cheat"></div>
-    </div>
-    <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
-	<form id="search" action="/search" method="GET">
- 		<%=text_field_tag "q", params[:q], :id => "box" %>
-		<input type="submit" value="Search">
-	</form>
-    <div id="main">
-      <%=yield %>
-    </div>
-		<div id="footer">
-			<div class="nest">
-				&copy; 2009, Kyle Maxwell &amp; Andrew Cantino
-			</div>
-		</div>
+      <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
+  	<form id="search" action="/search" method="GET">
+   		<%=text_field_tag "q", params[:q], :id => "box" %>
+  		<input type="submit" value="Search">
+  	</form>
+      <div id="main">
+        <%=yield %>
+      </div>
+  		<div id="footer">
+  			<div class="nest">
+  				&copy; 2009, Kyle Maxwell &amp; Andrew Cantino
+  			</div>
+  		</div>
+  	</div>
   </body>
 </html>
