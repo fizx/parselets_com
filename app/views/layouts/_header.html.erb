@@ -11,6 +11,18 @@
 			  jQuery('a[rel*=facebox]').facebox();
 			})
 		</script>
+
+    <%
+      if @highlight_code || (defined?(highlight_code) && highlight_code)
+        @additional_stylesheets ||= []
+        @additional_javascripts ||= []
+        @additional_stylesheets << ["syntax_highlighter/shCore", "syntax_highlighter/shThemeDefault"]
+        @additional_javascripts << ["syntax_highlighter/shCore", "syntax_highlighter/shBrushRuby", 
+                                    "syntax_highlighter/shBrushPython", "syntax_highlighter/shBrushCpp", 
+                                    "syntax_highlighter/shBrushJScript"]
+      end
+    %>
+
     <%= javascript_include_tag :defaults %>
     <% (@additional_stylesheets || (defined?(additional_stylesheets) && additional_stylesheets) || []).each do |style_sheet| %>
       <%= stylesheet_link_tag style_sheet %>
@@ -26,6 +38,13 @@
         &gt; <%= h params[:action].capitalize %>
       <% end %>
     </title>
+
+    <% if @highlight_code || (defined?(highlight_code) && highlight_code) %>
+      <script type="text/javascript">
+        SyntaxHighlighter.all();
+      </script>
+    <% end %>
+    
   </head>
   <body>
     <div id="body">

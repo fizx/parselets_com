@@ -32,13 +32,16 @@ class ParseletsController < ApplicationController
   def parse
     @parselet = Parselet.find_by_params(params)
 
+    @highlight_code = true
+    params[:url] ||= @parselet.example_url
+    
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @parselet.parse(params[:url], :output => :xml) }
       format.json { render :json => @parselet.parse(params[:url]) }
     end
   end
-
+  
   # GET /parselets/1
   # GET /parselets/1.xml
   def show

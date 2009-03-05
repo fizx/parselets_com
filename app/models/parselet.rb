@@ -166,11 +166,15 @@ class Parselet < ActiveRecord::Base
     
     def calculate_changes
       changes = []
-      parselet_id = (respond_to?(:parselet_id) && self.parselet_id) || id
+      pid = is_a?(Version) ? parselet_id : id
+      old_version = is_a?(Version) ? version - 1 : version
             
-      unless old = Parselet::Version.find_by_parselet_id_and_version(parselet_id, self.version - 1)
+            puts [pid, old_version].inspect
+      unless old = Parselet::Version.find_by_parselet_id_and_version(pid, old_version)
+        puts "huh!"
         return self.cached_changes = "created"
       end
+      puts "woot!"
       
       {
         "signature" => "structure",
@@ -239,7 +243,7 @@ class Parselet < ActiveRecord::Base
     end
     
     def update_cached_page
-      self.cached_page ||= CachedPage.find_or_create_by_url(example_url)
+      self.cached_page = CachedPage.find_or_create_by_url(example_url)
     end
     
     def create_domain
