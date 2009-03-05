@@ -1,0 +1,183 @@
+<html>
+  <head>
+		<link href="basic.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div id="body">
+      <div id="header">
+        <div id="user-nav">
+					Not logged in <a href="#">Log in</a> / <a href="#">Sign up</a>
+        </div>
+        <div id="logo"><a href="#">parselets.com</a></div>
+        <ul id="nav">
+          <li><span class="selected">Parselets</span> <a href="#" id="create_parselet" class="create"><img src="../public/images/icons/plus_small.png"></a></li>
+          <li><a href="#">Sprigs</a> <a href="#" id="create_sprigs" class="create"><img src="../public/images/icons/plus_small.png"></a></li>
+          <li><a href="#">Domains</a></li>
+          <li><a href="#">Users</a></li>
+        </ul>
+        <div class="cheat"></div>
+      </div>
+			<div id="notice">This is an optional notice.</div>
+  		<form id="search" action="/search" method="GET">
+	   		<input type="text">
+	  		<input type="submit" value="Search">
+	  	</form>
+    	<div id="main">
+	
+				<ul id="subnav">
+					<li><a href="#"><img src="../public/images/icons/document__pencil.png" align="absmiddle"> edit</a></li>
+					<li><a href="#"><img src="../public/images/icons/balloons.png" align="absmiddle"> comments (0)</a></li>
+					<li><a href="#"><img src="../public/images/icons/clock.png" align="absmiddle"> history</a></li>
+					<li><a href="#"><img src="../public/images/icons/wand.png" align="absmiddle"> api</a></li>
+				</ul>
+				
+				<hr />
+				
+				<div class="two_column">
+					<div class="left_column">
+						<h1>Header 1</h1>
+						<h2>Header 2</h2>
+						<h3>Header 3</h3>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an <a href="#">unknown printer</a> took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of <a href="#">Letraset</a> sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p><p>	It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+					</div>
+					<div class="right_column">
+						<div class="link_group">
+							<h3>title</h3>
+							<ul>
+								<li><a href="#">option #1</a></li>
+								<li><a href="#">option #1</a></li>
+								<li><a href="#">option #1</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				
+				<hr />
+				
+				<form class="login">	
+					<div class="field"><label for="login">Login</label>
+					<input id="login" name="login" tabindex="1" type="text" /></div>
+
+					<div class="field"><label for="password">Password</label>
+						<span class="paren">(</span> <a href="/password_requests/new" tabindex="4">forgot?</a> <span class="paren">)</span>
+
+					<input id="password" name="password" tabindex="2" type="password" /></div>
+
+					<div class="field"><label for="remember_me">Remember me</label>
+					<input id="remember_me" name="remember_me" tabindex="3" type="checkbox" value="1" /></div>
+
+					<div class="buttons"><input name="commit" type="submit" value="Log in" /></div>
+				</form></div>
+				
+				<hr />
+				
+				<form class="standard">
+					<fieldset>
+						<legend>Contact Info</legend>
+						<div class="field">
+							<label>Name</label>
+							<input type="text">
+						</div>
+						<div class="field">
+							<label>Phone number</label>
+							<input type="text">
+						</div>
+						<div class="field">
+							<label>Address</label>
+							<textarea></textarea>
+						</div>
+					</fieldset>
+				
+					<div class="fieldset">
+						<div class="editor">
+							<ul class="tabs">
+								<li><a href="#">wysiwyg</a></li>
+								<li><a href="#">source</a></li>
+							</ul>
+<textarea>{
+	"foo": "bar",
+	"bar": [{
+		"baz": "hi world"
+	}]
+}</textarea>
+							<input type="text" class="status" value="status and error messages">
+						</div>
+						<div class="field">
+							<label>Name</label>
+							<input type="text">
+						</div>
+						<div class="field">
+							<label>Phone number</label>
+							<input type="text">
+						</div>
+						<div class="field">
+							<label>Address</label>
+							<textarea></textarea>
+						</div>
+					</fieldset>
+					
+					<div class="buttons">
+						<input class="submit" type="submit" />
+						<input class="reset" type="reset" />
+					</div>
+				</form>
+				
+				<hr />
+				
+				<ol class="results">
+					<li>
+					  <a href="/parselets/20"><img align="absmiddle" alt="39" border="0" class="thumb" src="../public/thumbs/6f/6f/39.jpg?1235850588" /></a>
+						<div style="margin-left:55px">
+							<h4>
+								<form action="/parselets/20/ratings" class="ratings" id="parselet-form-20" method="post" onsubmit="new Ajax.Request('/parselets/20/ratings', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+
+
+					      <input class="star" id="star-20_1" name="star-20" type="radio" value="1" />
+
+					      <input class="star" id="star-20_2" name="star-20" type="radio" value="2" />
+
+					      <input class="star" id="star-20_3" name="star-20" type="radio" value="3" />
+
+					      <input checked="checked" class="star" id="star-20_4" name="star-20" type="radio" value="4" />
+
+					      <input class="star" id="star-20_5" name="star-20" type="radio" value="5" />
+
+					    <input type="hidden" name="value" class="hvalue" value="0" />
+					    <span class="count" id="rating-count-20">&nbsp;0</span>
+
+					</form>
+							  <a href="/comments?id=20&amp;type=Parselet" class="comments_link" rel="facebox"><img align="absmiddle" alt="Balloons" border="0" src="../public//images/icons/balloons.png?1235850071" /><span class=count id='comments_parselet_20'> 0</span></a>
+								<a href="/parselets/20">youtube-video</a>
+							</h4>
+							<a href="http://www.youtube.com/watch?v=qZGz1Ajg7QU" class="url" target="_blank">http://www.youtube.com/watch?v={id}</a>
+							<p>Information about one youtube video</p>
+						</div>
+					</li><li>
+					  <a href="/parselets/17"><img align="absmiddle" alt="6b" border="0" class="thumb" src="../public//thumbs/64/ba/6b.jpg?1235850583" /></a>
+						<div style="margin-left:55px">
+							<h4>
+								<form action="/parselets/17/ratings" class="ratings" id="parselet-form-17" method="post" onsubmit="new Ajax.Request('/parselets/17/ratings', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+
+					    <img align="absmiddle" alt="This parselet has not been checked recently." border="0" src="../public//images/icons/exclamation.png?1235850071" title="This parselet has not been checked recently." /> stale
+
+					</form>
+							  <a href="/comments?id=17&amp;type=Parselet" class="comments_link" rel="facebox"><img align="absmiddle" alt="Balloons" border="0" src="../public//images/icons/balloons.png?1235850071" /><span class=count id='comments_parselet_17'> 0</span></a>
+								<a href="/parselets/17">yelp-home</a>
+							</h4>
+							<a href="http://www.yelp.com/" class="url" target="_blank">http://www.yelp.com/{city?}</a>
+							<p>Categories</p>
+						</div>
+					</li>
+				</ol>
+				<div class="pagination"><span class="disabled prev_page">&laquo; Previous</span> <span class="current">1</span> <a href="/parselets?page=2" rel="next">2</a> <a href="/parselets?page=2" class="next_page" rel="next">Next &raquo;</a></div>
+				
+				<hr />
+		  </div>
+			<div id="footer">
+				<div class="cheat">
+  				&copy; 2009, Kyle Maxwell &amp; Andrew Cantino
+		  	</div>
+		 	</div>
+	 	</div>
+  </body>
+</html>
