@@ -16,12 +16,10 @@ class Parselet < ActiveRecord::Base
     end
     
     def find_by_params(params = {})
-      if params[:id]
+      if params[:id] =~ /\A\d+\Z/
         find(params[:id])
       else
-        user_id = User.find_by_login(params[:login])
-        user_id && find_by_user_id_and_name(user_id, params[:name]) ||
-          raise(ActiveRecord::RecordNotFound.new("Couldn't find Parselet for #{params.inspect}"))
+        find_by_name(params[:id])
       end
     end
     alias_method :find_from_params, :find_by_params
