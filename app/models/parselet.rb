@@ -5,7 +5,7 @@ require "digest/md5"
 require "open-uri"
 class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
-  TAB = "    "
+  TAB = "  "
   
   module ClassMethods
     def top(n = 5)
