@@ -9,11 +9,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090304202716) do
+ActiveRecord::Schema.define(:version => 20090305224048) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
-    t.text     "content",    :limit => 16777215
+    t.text     "content",    :limit => 2147483647
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20090304202716) do
     t.integer  "ratings_count",  :default => 0, :null => false
     t.integer  "comments_count", :default => 0, :null => false
     t.integer  "cached_rating",  :default => 0, :null => false
+    t.text     "signature"
   end
 
   add_index "parselet_versions", ["cached_page_id"], :name => "index_parselet_versions_on_cached_page_id"
@@ -107,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20090304202716) do
     t.integer  "ratings_count",  :default => 0, :null => false
     t.integer  "comments_count", :default => 0, :null => false
     t.integer  "cached_rating",  :default => 0, :null => false
+    t.text     "signature"
   end
 
   add_index "parselets", ["cached_page_id"], :name => "index_parselets_on_cached_page_id"

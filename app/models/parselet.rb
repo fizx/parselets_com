@@ -24,7 +24,6 @@ class Parselet < ActiveRecord::Base
     end
     alias_method :find_from_params, :find_by_params
     
-    
     def compress_json(data, allowed = 2, base_id = "hidden")
       i = 0
       out = []
@@ -153,6 +152,7 @@ class Parselet < ActiveRecord::Base
   validates_example_url_matches_pattern
   
   before_save :create_domain
+  before_save :calculate_signature
   before_save :update_cached_page
   
   class Version < ActiveRecord::Base
@@ -162,6 +162,27 @@ class Parselet < ActiveRecord::Base
   
   # Get included into Parselet::Version later
   module VersionableMethods
+    
+    def calculate_signature
+      keys = recurse_signature(data)
+      self.signature = keys.sort.join(" ")
+    end
+    
+    def recurse_signature(object, path = "")
+      case object
+      when Hash:
+        object.map do |k, v|
+          k = k.split("(").first
+          recurse_signature v, path + "##{k}"
+        end.flatten
+      when Array:        
+        object.map do |e|
+          recurse_signature e, path + "["
+        end
+      when String:
+        path
+      end
+    end
     
     def login
       user && user.login
@@ -314,7 +335,6 @@ class Parselet < ActiveRecord::Base
       re === url.to_s
     end
     
-
     def code
       self[:code].blank? ? "{}" : self[:code]
     end

@@ -1,4 +1,6 @@
 <li>
-  <h3><%=link_to "##{version.version}, #{time_ago_in_words version.updated_at} ago", version%></h3>
-  
+  <h3>
+    <%=link_to "##{version.version}, #{time_ago_in_words version.updated_at} ago", version%>
+    <span><%=mini_gravatar(@parselet.user.email)%> by <%=link_to @parselet.user.login, @parselet.user%></span>
+  </h3>
 </li>
