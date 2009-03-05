@@ -11,14 +11,6 @@
 </div>
 <div class="desc"><%=h @parselet.description %></div>
 
-<ul id="options">
-	<li><%=icon "document__pencil"%><strong> <%= link_to 'Edit', edit_path(@version || @parselet) %></strong></li>
-	<li><%=comments @parselet %></li>
-	<li><%=icon "clock"%> <%=link_to "history", parselet_parselet_versions_path(@parselet) %></li>
-	<li><%=icon "wand" %> <%=link_to "api helper", parselet_parselet_versions_path(@parselet)%></li>
-</ul>
-
-
 <!-- <div style="background-color:#eee;border:1px silver solid;padding:10px;display:table;">
 <pre><%= h @parselet.pretty_code %></pre>
 </div>
@@ -29,3 +21,15 @@
 <div style="border:1px #ccc solid;padding:10px;height:300px;overflow:auto;width:410px"><%=@parselet.compressed_html_example_data%></pre>
 </div>
 
+<table width="100%" cellpadding="0" cellspacing="0" border="0" class="cols">
+  <tr>
+    <td width="50%" valign="top">
+      <h2>Comments (<span id="comments_<%=dom_id(@parselet)%>"><%=@parselet.comments_count%></span>)</h2>
+      <%=render "/comments/comments", :comments => @comments, :new_comment => @parselet.comments.new %>
+    </td>    
+    <td width="50%" valign="top">
+      <h3>History</h3>
+      <ol class="results"><%=render @versions%></ol>
+    </td>
+  </tr>
+</table>

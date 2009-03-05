@@ -42,7 +42,10 @@ class ParseletsController < ApplicationController
   # GET /parselets/1
   # GET /parselets/1.xml
   def show
-    @parselet = Parselet.find_by_params(params)
+    @commentable =  @parselet = Parselet.find_by_params(params)
+
+    @comments = @parselet.comments.paginate :page => params[:comments_page], :order => "created_at DESC"
+    @versions = @parselet.versions.paginate :page => params[:history_page], :order => "updated_at DESC"
 
     respond_to do |format|
       format.html # show.html.erb

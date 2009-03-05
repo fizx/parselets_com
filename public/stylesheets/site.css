@@ -8,7 +8,6 @@ body {
   background-color:white;
   position:relative;
   margin: 0 auto 0 auto;
-  width:800px;
 }
 
 #top {
@@ -170,8 +169,16 @@ form table {
   border: 1px #eee solid;
   margin-top:15px;
 }
+
+table.cols {
+  clear: both;
+  padding-top:30px;
+}
+table.cols td {
+  padding: 0 15px 0 0;
+}
   
-td {
+form td {
   vertical-align: top;
   padding: 5px 0px 15px 15px;
 }
@@ -372,8 +379,11 @@ div.desc {
 }
 
 #user-nav {
-  float:right;
-  display: inline;
+  position:absolute;
+  left:0;
+  top:0;
+  width:800px;
+  text-align:right;
   font-size:small;
 }
 
@@ -401,6 +411,7 @@ div.desc {
 }
 #main {
   padding:15px;
+  width:800px;  
 }
 
 #blurb p {
