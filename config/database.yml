@@ -5,7 +5,7 @@ development:
   database: parselets_com_development
   username: root
   password: 
-  host: localhost
+  socket: /opt/local/var/run/mysql5/mysqld.sock
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
