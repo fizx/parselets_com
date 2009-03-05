@@ -39,6 +39,11 @@ namespace :db do
       p.cached_page = nil
       p.save_without_revision
     end
+    
+    Parselet::Version.each do |p|
+      p.cached_page = nil
+      p.save
+    end
   end
 end
 
