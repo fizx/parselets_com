@@ -1,0 +1,36 @@
+<%= render 'dev/box' %>
+
+<p>
+  If you're using <%= link_to "Ruby", :action => 'ruby' %> or <%= link_to "Python", :action => 'ruby' %>, you probably want to access the API with our client libraries.
+</p>
+<p>
+  The Parselets.com API uses the following URLs:
+  <ul>
+    <li>
+      <code>
+        http://parselets.com/search/?q=<i>{query}</i>&amp;api_key=<i>{your_api_key}</i>&amp;format=<i>{json|xml}</i>
+      </code>
+    </li>
+    <li>
+      <code>
+        http://parselets.com/parselets/<i>{parselet_id}</i>?api_key=<i>{your_api_key}</i>&amp;format=<i>{json|xml}</i>
+      </code>
+    </li>
+    <li>
+      <code>
+        http://parselets.com/parse/<i>{parselet_id}</i>?url=<i>{url}</i>&amp;api_key=<i>{your_api_key}</i>&amp;format=<i>{json|xml}</i>
+      </code>
+    </li>
+  </ul>
+</p>
+<p>
+  All parameters should be URL escaped.  Inspect the returned data to see how it works, it's quite straight forward.  
+  <% if logged_in? %>
+    You can get your <code>api_key</code> from your <%= link_to "profile", edit_user_path(current_user) %>.
+  <% else %>
+    Once you <%= link_to "log in",  login_path,  { :title => "Log in" } %>, you can get your <code>api_key</code> from your profile.
+  <% end %>
+</p>
+<p>
+  <%= link_to "Let us know if you have any questions", :action => 'help' %>, and if you make a client for a new language, please let us know!
+</p>

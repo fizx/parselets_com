@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <%= stylesheet_link_tag "site" %>
+		<link href="/facebox/facebox.css" media="screen" rel="stylesheet" type="text/css" />
+		<link href="/stylesheets/jquery.rating.css" media="screen" rel="stylesheet" type="text/css" />
+		<script src="/javascripts/jquery.js"></script>
+		<script src="/javascripts/jquery.rating.js"></script>
+		<script src="/facebox/facebox.js"></script>
+		<script>
+			jQuery(document).ready(function(e) {
+			  jQuery('a[rel*=facebox]').facebox();
+			})
+		</script>
+    <%= javascript_include_tag :defaults %>
+    <% (@additional_stylesheets || (defined?(additional_stylesheets) && additional_stylesheets) || []).each do |style_sheet| %>
+      <%= stylesheet_link_tag style_sheet %>
+    <% end %>
+    <% (@additional_javascripts || (defined?(additional_javascripts) && additional_javascripts) || []).each do |javascript| %>
+      <%= javascript_include_tag javascript %>
+    <% end %>
+    <title>
+      Parselets.com &gt; <%= h(@title || "#{params[:controller].capitalize}") %>
+      <% if @title.nil? && params[:id] %>
+        &gt; <%= h params[:id].to_s.capitalize %>
+      <% elsif @title.nil? && params[:action] != 'index' %>
+        &gt; <%= h params[:action].capitalize %>
+      <% end %>
+    </title>
+  </head>
+  <body>
+    <div id="body">
+      <div id="header">
+        <div id="user-nav">
+          <%=render "/users/user_bar" %>
+        </div>
+        <div id="logo"><%=link_to "parselets.com", "/"%></div>
+        <ul id="nav">
+          <li><%=link_to_unless_current "Parselets", parselets_url %> <%=link_to icon("plus_small", "create parselet"), new_parselet_url %></li>
+          <% if admin? %>
+          	<li><%=link_to_unless_current "Sprigs", sprigs_url %> <%=link_to icon("plus_small", "create sprig"), new_sprig_url %></li>
+          <% end %>
+          <li><%=link_to_unless_current "Domains", domains_url %> <%=empty_icon %></li>
+          <li><%=link_to_unless_current "Users", users_url %> <%=empty_icon %></li>
+          <li><%=link_to_unless_current "Development Tools", dev_url %> <%=empty_icon %></li>
+        </ul>
+        <div id="cheat"></div>
+      </div>
+      <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
+  	<form id="search" action="/search" method="GET">
+   		<%=text_field_tag "q", params[:q], :id => "box" %>
+  		<input type="submit" value="Search">
+  	</form>
+    <div id="main">
