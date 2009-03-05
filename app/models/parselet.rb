@@ -153,6 +153,7 @@ class Parselet < ActiveRecord::Base
   
   before_save :create_domain
   before_save :calculate_signature
+  before_save :calculate_changes
   before_save :update_cached_page
   
   class Version < ActiveRecord::Base
@@ -162,6 +163,28 @@ class Parselet < ActiveRecord::Base
   
   # Get included into Parselet::Version later
   module VersionableMethods
+    
+    def calculate_changes
+      changes = []
+      parselet_id = (respond_to?(:parselet_id) && self.parselet_id) || id
+            
+      unless old = Parselet::Version.find_by_parselet_id_and_version(parselet_id, self.version - 1)
+        return self.cached_changes = "created"
+      end
+      
+      {
+        "signature" => "structure",
+        "code" => "code",
+        "name" => "name"
+      }.each do |method, text|
+        if(old.send(method) != self.send(method))
+          changes << text
+        end
+      end
+      self.cached_changes = "none"
+      self.cached_changes = changes.join(" ") unless changes.blank?
+      
+    end
     
     def calculate_signature
       keys = recurse_signature(data)
@@ -173,11 +196,11 @@ class Parselet < ActiveRecord::Base
       when Hash:
         object.map do |k, v|
           k = k.split("(").first
-          recurse_signature v, path + "##{k}"
+          recurse_signature v, path + "/#{k}"
         end.flatten
       when Array:        
         object.map do |e|
-          recurse_signature e, path + "["
+          recurse_signature e, path + "/"
         end
       when String:
         path

@@ -13,7 +13,7 @@ class ParseletTest < ActiveSupport::TestCase
   end
   
   def test_signature
-    assert_equal "#comment[#comment #comment[#score #comment[#time #comment[#user #comment_count #description #embed #rating #title #uploaded_at #uploader #views", parselets(:youtube).calculate_signature
+    assert_equal "/comment//comment /comment//score /comment//time /comment//user /comment_count /description /embed /rating /title /uploaded_at /uploader /views", parselets(:youtube).calculate_signature
   end
   
   def test_compress_example_data
