@@ -12,7 +12,7 @@
       <% next if key.blank? && value.blank? %>
       <div>
 		    <%=key_field path, i, key, value, edit %>:
-        <%=value_field path, i, value, edit %>
+        <%=value_handler path, i, value, edit %>
       </div>  
     <% end%>
     <% if add_key %><div><%=key_field path, data.length %>: &larr; add a key</div><% end %>

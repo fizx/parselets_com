@@ -1,7 +1,7 @@
 module ParseletsHelper
   ENTER = false # "window.event.keyCode == 13"
   
-  def key_field(path, name, key = "", value = "", edit = true)
+  def key_field(path, name, key, value, edit = true)
     if edit
       menu(value, path, name) + 
       %[
@@ -10,14 +10,30 @@ module ParseletsHelper
        ] 
    else
      %[
-       <span class="base">#{h key.base}</span><span class="filter">#{h key.filter}</span>
+       &quot;<span class="base">#{h key.base}</span><span class="filter">#{h key.filter}</span>&quot;
       ]
    end
   end
   
+  def value_handler(path, name, value, edit = true)
+    case value
+    when Hash
+      render "/parselets/helpful", :path => path, :data => value, :edit => edit
+    when Array
+      multi_field(path, name) + "[" + value_handler(path, name, value.first, edit) + "]"
+    when String
+      value_field(path, name, value, edit)
+    end
+  end
+  
   def value_field(path, name, value = "", edit = true)
-    %[<input class="value" type="text" name="#{h path}[#{h name}][value]" value="#{h value}"
-        onkeypress="if(#{ENTER}) return false;" onchange="this.dirty=true" onblur="if(this.dirty)re_eval()">]
+    
+    if edit
+      %[<input class="value" type="text" name="#{h path}[#{h name}][value]" value="#{h value}"
+          onkeypress="if(#{ENTER}) return false;" onchange="this.dirty=true" onblur="if(this.dirty)re_eval()">]
+    else
+      %[<span class="filter">#{h value}</span>#{h value.value}]
+    end
   end
   
   def multi_field(path, name)
