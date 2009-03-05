@@ -1,0 +1,54 @@
+<% content_for :language_name  do %> Ruby <% end %>
+<% content_for :bindings_url   do %> http://github.com/fizx/parsley-ruby/tree/master <% end %>
+<% content_for :language_brush do %> ruby <% end %>
+
+<% content_for :code do %>
+  require "rubygems"
+  require "online_parselets"
+  require "pp"
+
+  client = OnlineParselets::Client.new(:api_key => "your_api_key")
+  parselets = client.find("yelp")
+  parselet = parselets.first
+  yelp_data = parselet.parse(:url => "http://www.yelp.com")
+  pp yelp_data
+
+  # Reload a parselet from the server
+  parselet = client.parselet(parselet.server_id)  
+<% end %>
+
+<% content_for :code_parsley do %>
+  require "rubygems"
+  require "parsley"
+  require "open-uri"
+  
+  parselet = Parsley.new({ 
+                           "title" => "title", 
+                           "links(a)" => [
+                             { 
+                               "name" => ".", 
+                               "href" => "@href" 
+                             }
+                           ]
+                         })
+  out = parselet.parse(:file => "page.html")
+  out = parselet.parse(:file => "page.xhtml", :input => :xml)
+  json_string = parselet.parse(:file => "page.html", :output => :json)
+  # Using open-uri.
+  out = parselet.parse(:string => open("http://www.example.com/").read)
+  # Using Parsley's builtin URI fetching.
+  out = parselet.parse(:string => "http://www.example.com/")
+<% end %>
+
+<% content_for :install do %>
+  <p>
+    First, run <code>gem sources -a http://gems.github.com</code> if you haven't already, then run:<br />
+    <code>sudo gem install iterationlabs-online_parselets</code>
+  </p>
+  <p>
+    You can also <a href="http://github.com/iterationlabs/online_parselets">download the gem and install it from source</a>.
+  </p>
+  <p>
+    For faster, local parsing, please also <a href="http://github.com/fizx/parsley/blob/master/INSTALL">install Parsley itself</a>.
+  </p>
+<% end %>

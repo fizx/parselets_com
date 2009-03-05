@@ -1,0 +1,28 @@
+<% content_for :language_name  do %> Python <% end %>
+<% content_for :bindings_url   do %> http://github.com/fizx/pyparsley <% end %>
+<% content_for :language_brush do %> python <% end %>
+
+<% content_for :code do %>
+  # Code coming soon.  Please see our REST API.
+<% end %>
+
+<% content_for :install do %>
+  At the moment there is no Python package for the Parselets.com API (write us one!), but you can use the <%= link_to "REST API", :action => 'api' %>.
+<% end %>
+
+<% content_for :code_parsley do %>
+  from pyparsley import PyParsley
+  
+  parselet = PyParsley({ 
+                         "title": "title", 
+                         "links(a)": [
+                           { 
+                             "name": ".", 
+                             "href": "@href" 
+                           }
+                         ]
+                       })
+  json_string = parselet.parse(file = some_file, output = "json")
+  # Using Parsley's builtin URI fetching.
+  json_string = parselet.parse(file = "http://www.example.com/", output = "json")
+<% end %>

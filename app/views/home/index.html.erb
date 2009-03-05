@@ -3,8 +3,11 @@
 	<h3><%=link_to "#{Parselet.count - 5} more &rarr", parselets_path %></h3>
 </div>
 <div id="blurb">
-  <p>Parselets are free, open, developer-generated apis for a wide variety of websites.  <%=link_to "parselets.com" %> is a place to create and share them.  </p>
+  <p>
+    Parselets are free, open, developer-generated APIs for a wide variety of websites.  <%=link_to "Parselets.com" %> is a place to create and share them.
+  </p>
 
-  <p>Check out our <%=link_to "development tools"%> for ways to use parselets from <%=link_to "our web service"%>, <%=link_to "Ruby" %>, <%=link_to "Python" %>, <%=link_to "C/C++" %>, or <%=link_to "the *nix command-line" %>.</p>
-<p>  Parselets is brought to you by Kyle Maxwell and Andrew Cantino.</p>
+  <p>
+    Check out our <%=link_to "development tools", dev_url %> for ways to use parselets from <%= link_to "our web service", :controller => 'dev', :action => 'api' %>, <%= link_to "Ruby", :controller => 'dev', :action => 'ruby' %>, <%=link_to "Python", :controller => 'dev', :action => 'python' %>, <%=link_to "C/C++", :controller => 'dev', :action => 'c' %>, or <%=link_to "the *nix command-line", :controller => 'dev', :action => 'command_line' %>.</p>
+<p>  Parselets is brought to you by <a href="http://kylemaxwell.com">Kyle Maxwell</a> and <a href="http://andrewcantino.com">Andrew Cantino</a>.</p>
 </div>
