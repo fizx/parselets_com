@@ -10,6 +10,13 @@
   At the moment there is no Python package for the Parselets.com API (write us one!), but you can use the <%= link_to "REST API", :action => 'api' %>.
 <% end %>
 
+<% content_for :parselet_code do %>
+  # Code to run parselet <%= @parselet.id %> (<%= @parselet.name %> by <%= @parselet.user.login %>)
+  #
+  # Coming soon...
+<% end %>
+
+
 <% content_for :code_parsley do %>
   from pyparsley import PyParsley
   

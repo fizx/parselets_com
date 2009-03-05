@@ -1,0 +1,4 @@
+<p>
+  Output of parselet <%= link_to @parselet.name, parselet_url(@parselet) %> on <%= link_to h(params[:url]), params[:url] %>:
+</p>
+<%= syntax_highlight 'javascript', @parselet.pretty_parse(params[:url]) %>

@@ -15,7 +15,7 @@
 	<li><%=icon "document__pencil"%><strong> <%= link_to 'Edit', edit_path(@version || @parselet) %></strong></li>
 	<li><%=comments @parselet %></li>
 	<li><%=icon "clock"%> <%=link_to "history", parselet_parselet_versions_path(@parselet) %></li>
-	<li><%=icon "wand" %> <%=link_to "api helper", parselet_parselet_versions_path(@parselet)%></li>
+	<li><%=icon "wand" %> <%=link_to "api helper", :controller => 'dev', :action => 'ruby', :parselet_id => @parselet %></li>
 </ul>
 
 
