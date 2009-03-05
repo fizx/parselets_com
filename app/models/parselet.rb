@@ -5,6 +5,7 @@ require "digest/md5"
 require "open-uri"
 class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
+  TAB = "    "
   
   module ClassMethods
     def top(n = 5)
@@ -24,6 +25,34 @@ class Parselet < ActiveRecord::Base
       end
     end
     alias_method :find_from_params, :find_by_params
+    
+    
+    def compress_json(data, allowed = 2, base_id = "hidden")
+      i = 0
+      out = []
+      lines = data.split("\n")
+      array_stack = OrderedHash.new
+      lines.each do |line|
+        level = line[/^(\s)*/].length / TAB.length
+        if line =~ /\[\s*$/
+          array_stack[level] = 0
+        elsif line =~ (/\],?\s*$/)
+          out.last << "</span>"
+          array_stack.delete(array_stack.keys.last)
+        elsif line =~ /,\s*$/
+          if array_stack[level - 1]  # stack = array_stack[level - 1] || array_stack[level - 2]
+            array_stack[level - 1] += 1
+            if array_stack[level - 1] == allowed
+              i += 1
+              id = "#{base_id}-#{i}"
+              line += %[<a href="javascript:$('#{id}').toggle()">more...</a><span style="display:none" id="#{id}">]
+            end
+          end
+        end
+        out << line
+      end
+      return out.join("\n")
+    end
   
     def tmp_from_params(params = {})
       tmp = Parselet.new(params[:parselet] || params[:parselet_version])
@@ -238,9 +267,13 @@ class Parselet < ActiveRecord::Base
     end
 
     def pretty_example_data
-      OrderedJSON.pretty_dump(example_data).gsub("\t", "    ")
+      OrderedJSON.pretty_dump(example_data).gsub("\t", TAB)
     end
-
+    
+    def compressed_html_example_data
+      Parselet.compress_json(CGI::escapeHTML(pretty_example_data))
+    end
+    
     def pattern_tokens
       state = [:url]
       str = ""
@@ -289,7 +322,7 @@ class Parselet < ActiveRecord::Base
     end
 
     def pretty_code
-      OrderedJSON.pretty_dump(OrderedJSON.parse(code)).gsub("\t", "    ")
+      OrderedJSON.pretty_dump(OrderedJSON.parse(code)).gsub("\t", TAB)
     end
 
     def json

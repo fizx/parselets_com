@@ -1,0 +1,499 @@
+{
+    "title": "Entrepreneur sells bottled New York City tap water",
+    "link": "http:\/\/www.latimes.com\/news\/printedition\/front\/la-na-tapwater25-2009feb25,0,6720560,full.story",
+    "comment": [ 
+        {
+            "commenter": "cellis",
+            "permalink": "item?id=498337",
+            "points": "29",
+            "comment": "At 16, Zucker started a business enticing people to pay $1 to take a swing at a golf ball. The prize for a hole in one from 150 yards: $1 million. He rented space from a driving range and persuaded an insurance company to allow him to pay a premium for a million-dollar policy. No one made it, but Zucker made some extra cash.This is one of the best ideas i've ever heard."
+        }, 
+        {
+            "commenter": "mynameishere",
+            "permalink": "item?id=498399",
+            "points": "8",
+            "comment": "Clearly it hedged on finding a stupid-enough insurance company.[I then go to google up some statistics...]http:\/\/www.golftournamenthio.com\/Yep. AIG."
+        }, 
+        {
+            "commenter": "neilc",
+            "permalink": "item?id=498663",
+            "points": "3",
+            "comment": "Why does the insurance company need to be stupid?"
+        }, 
+        {
+            "commenter": "mynameishere",
+            "permalink": "item?id=498770",
+            "points": "6",
+            "comment": "If the 1:12500 odds are right, then each shot pays an average of 80 dollars. (I know nothing about actuarial science, so correct me if I'm wrong...)  Seems like you'd need an 81 dollar premium per driver to profit.Further, there's a lot of asymmetrical information possibilities. What if a pro golfer (whose odds might be 1:500) decides to show up?"
+        }, 
+        {
+            "commenter": "cellis",
+            "permalink": "item?id=498427",
+            "points": "2",
+            "comment": "US Hole In One, too. http:\/\/www.prlog.org\/10092942-hole-in-one-insurance-odds-gol... :The \"average\" golfer's chances of making a hole in one from 165 yards out are 1:12500. Heres a question for probability geeks: are the chances of anyone out of 12,500 people, each trying once, higher than for 1 person trying 12,500 times?"
+        }, 
+        {
+            "commenter": "aneesh",
+            "permalink": "item?id=498455",
+            "points": "11",
+            "comment": "Well, if you assume all 12,500 people are of the same ability as the one person (perhaps it is sufficient for their abilities to be randomly drawn from the same population distribution, but I'm not sure of this), then you're taking independent observations from the same distribution, and both situations are essentially identical.  However, you'd probably learn something after a couple thousand shots, so I'd give the 1 person a better chance."
+        }, 
+        {
+            "commenter": "willwagner",
+            "permalink": "item?id=498623",
+            "points": "3",
+            "comment": "The odds can vary a bit on where the hole is located and what kind of grass is next to the hole.  When you are looking at these averages they are hitting a golf ball on to a green, which typically is rather soft and allows the ball to stop relatively close to where it lands. A well hit shot that lands on the green with backspin, will slow the ball down quickly, and then it rolls at a speed which may be slow enough where it can fall into the hole.If you are trying to hit a ball into a hole at a driving range, the driving range could have either longer grass that slows the ball down quicker or alternatively, it could be on concrete with artificial turf, both of which would make it harder for someone like a PGA professional to find the optimum place to hit the ball.That being said, it would have been an interesting business prospect to try an arbitrage the contest by buying a large amount of tickets and hiring a PGA pro."
+        }, 
+        {
+            "commenter": "nebula",
+            "permalink": "item?id=498398",
+            "points": "6",
+            "comment": "From the insurance company's perspective, it's a $1 million bet they are taking that no one will be able to achieve it.\nFrom the participant's perspective it's a $1 ticket to a $1 million lottery. From Zucker's perspective a business (I would call it a scheme) for making money. Quite interesting.On a related note, Ansari X PRIZE (for the first private space flight) was partly funded through a similar deal with an insurance company."
+        }, 
+        {
+            "commenter": "nostrademons",
+            "permalink": "item?id=498403",
+            "points": "12",
+            "comment": "A lot of crazy promotions are.  Jordan's Furniture (in Massachusetts) ran a promotion where if the Red Sox won the world series, all furniture purchased in the month before would be free.  Their radio ads actually answered \"How are you doing this?  With an insurance policy.  That way, if the Red Sox win, we can be happy too.\"  And the Red Sox did win the pennant, and lots of people got free furniture.  http:\/\/abcnews.go.com\/Business\/PersonalFinance\/Story?id=3771...A bunch of crazy dot-coms were also funded with insurance policies, eg. treeloot.com (the infamous punch-the-monkey ads).  Berkshire Hathaway annual reports often describe a bunch of them, as they're often the ones underwriting them."
+        }, 
+        {
+            "commenter": "lacker",
+            "permalink": "item?id=499030",
+            "points": "5",
+            "comment": "Interesting. It's illegal to bet on baseball in most places. But Jordan's Furniture can buy an \"insurance policy\" that pays them money only when the Red Sox win the world series."
+        }, 
+        {
+            "commenter": "ConradHex",
+            "permalink": "item?id=499245",
+            "points": "1",
+            "comment": "The reason insurance is generally exempt from gambling laws is that you are supposed to use insurance to protect you financially from what would otherwise be a negative event. Which I think fits here..."
+        }, 
+        {
+            "commenter": "DannoHung",
+            "permalink": "item?id=498279",
+            "points": "12",
+            "comment": "I'm gonna start selling sealed, empty plastic bottles!I'll call it: \"Make your own bottled water\""
+        }, 
+        {
+            "commenter": "alecco",
+            "permalink": "item?id=498289",
+            "points": "7",
+            "comment": "There are sports water bottles, even with filters, at discount prices. Less waste.What a bizarre situation caused by consumerism."
+        }, 
+        {
+            "commenter": "Hexstream",
+            "permalink": "item?id=498593",
+            "points": "4",
+            "comment": "\"Bonus: Comes with FREE fresh air inside!\""
+        }, 
+        {
+            "commenter": "patio11",
+            "permalink": "item?id=498831",
+            "points": "7",
+            "comment": "You clearly fail at marketing bottled water:\"Bottled Air: Pure, fresh air from only organic sources.\""
+        }, 
+        {
+            "commenter": "apsec112",
+            "permalink": "item?id=498312",
+            "points": "2",
+            "comment": "I'd buy them for, say, five cents each. Bottles are useful."
+        }, 
+        {
+            "commenter": "mhb",
+            "permalink": "item?id=498475",
+            "points": "4",
+            "comment": "Make it six cents and I'll bet you can get as many bottles as you want."
+        }, 
+        {
+            "commenter": "zaius",
+            "permalink": "item?id=498668",
+            "points": "1",
+            "comment": "Hah. 11c in MI and CA over 24oz."
+        }, 
+        {
+            "commenter": "psyklic",
+            "permalink": "item?id=498462",
+            "points": "1",
+            "comment": "These already exist! I was looking in the cleaning supplies the other day, and they sell empty normal-sized Windex-like bottles, along with a very small bottle of concentrate!"
+        }, 
+        {
+            "commenter": "ibsulon",
+            "permalink": "item?id=498338",
+            "points": "1",
+            "comment": "If you can figure out a better filtration system than your competitors here: http:\/\/coffeetea.about.com\/od\/water\/tp\/waterbottles.htm -- you may have a more viable idea than you think.Tucson's tap water is pretty bad. It's chlorinated mineral water combined with a highly mineral ground water. I drink brita at home, but it's a pain on the road. However, I drink the tap here. When I go to Phoenix, I have trouble even drinking the tap, it tastes so bad in areas."
+        }, 
+        {
+            "commenter": "chiffonade",
+            "permalink": "item?id=498372",
+            "points": "7",
+            "comment": "He'd make a killing in LA selling NY water."
+        }, 
+        {
+            "commenter": "owkaye",
+            "permalink": "item?id=499787",
+            "points": "1",
+            "comment": "But since he won't a competitor could make that killing."
+        }, 
+        {
+            "commenter": "abstractbill",
+            "permalink": "item?id=498328",
+            "points": "5",
+            "comment": "It is, after all, one of the nation's healthiest water supplies -- so fresh that in 2007 the Environmental Protection Agency said it did not need filtration.Shouldn't all tap water not need filtration?  Have I been assuming too much?"
+        }, 
+        {
+            "commenter": "ibsulon",
+            "permalink": "item?id=498340",
+            "points": "3",
+            "comment": "Go to Phoenix. It may or may not be safe, but it tastes quite foul."
+        }, 
+        {
+            "commenter": "RK",
+            "permalink": "item?id=498396",
+            "points": "4",
+            "comment": "Like ibsulon said it's all a matter of taste.  When I was very young, we lived on a farm and had well water.  I would go to school in the city and I hated the taste of the water there.  Later we moved to the city and I remember how I then hated the taste of the water at my relatives' farm house.If given the choice between a bottle of \"spring\" water and filtered water, I always go with the filtered one, because I think it generally tastes better (and more like the water I drink at home).  I always find the \"bottled water is just tap water\" meme annoying, because it generally isn't \"just tap water\".  It's usually water that's been through reverse osmosis filtration and had added salts.  That's like saying that spring water is just rain water found in your local puddle."
+        }, 
+        {
+            "commenter": "jamesbritt",
+            "permalink": "item?id=498585",
+            "points": "1",
+            "comment": "I moved from NYC to Phoenix and and difference in water taste was striking.    I can't drink it.A trip back to New York last year was a real treat for the water alone."
+        }, 
+        {
+            "commenter": "ctingom",
+            "permalink": "item?id=498385",
+            "points": "1",
+            "comment": "So true, I just buy water at the store for home."
+        }, 
+        {
+            "commenter": "barryfandango",
+            "permalink": "item?id=498521",
+            "points": "2",
+            "comment": "I think the implication was that the water didn't need treatment at the municipal level because it comes so clean from the source.  Once any city water reaches your tap, it is potable and does not require extra filtration except to improve flavour.  Unless you're one of those fluoride conspiracy nuts."
+        }, 
+        {
+            "commenter": "wallflower",
+            "permalink": "item?id=498343",
+            "points": "1",
+            "comment": "> Shouldn't all tap water not need filtration? Have I been assuming too much?\"If you don't use a water filter, your body is the water filter\""
+        }, 
+        {
+            "commenter": "jerf",
+            "permalink": "item?id=498734",
+            "points": "6",
+            "comment": "My body is on the receiving end of a billion+ year heritage of successful water filtering. That statement is superficially profound, but fails at biology."
+        }, 
+        {
+            "commenter": "barryfandango",
+            "permalink": "item?id=498527",
+            "points": "4",
+            "comment": "Aquafina and Dasani, bottled water from the Coke and Pepsi companies, are made with municipal source water that is filtered to improve the taste.  Dasani here in the Toronto area comes from Brampton, Ontario tap water, and there is nothing special about Brampton tap water."
+        }, 
+        {
+            "commenter": "djahng",
+            "permalink": "item?id=498685",
+            "points": "2",
+            "comment": "I thought the reason Chez Panisse, Seattle, and SF stopped buying bottled water was not because of the quality of the water, but rather the wastefulness of the bottles themselves..."
+        }, 
+        {
+            "commenter": "gsiener",
+            "permalink": "item?id=498470",
+            "points": "2",
+            "comment": "This really bothers me.  California banned bottles for a reason, and now he's introducing more in NYC.  If people want tap water on the go, buy a reusable bottle!"
+        }, 
+        {
+            "commenter": "anamax",
+            "permalink": "item?id=498721",
+            "points": "1",
+            "comment": "> California banned bottles for a reasonWhen did CA ban bottles?"
+        }, 
+        {
+            "commenter": "madh",
+            "permalink": "item?id=498739",
+            "points": "3",
+            "comment": "Don't know about the state of CA, but the city of SF banned water bottles and water coolers (favoring tap water) within city government buildings. Makes sense plus SF water is great."
+        }, 
+        {
+            "commenter": "anamax",
+            "permalink": "item?id=499122",
+            "points": "1",
+            "comment": "\"banned\" in what sense?  If I walk into city hall carrying a bottle of water, can I be arrested?Or, did they just take water out of the vending machines and cancel water cooler contracts for the peons?"
+        }, 
+        {
+            "commenter": "madh",
+            "permalink": "item?id=501576",
+            "points": "1",
+            "comment": "The latter. The gov't will no longer provide water coolers or bottled water as tap water is acceptable and available."
+        }, 
+        {
+            "commenter": "lacker",
+            "permalink": "item?id=498334",
+            "points": "2",
+            "comment": "Someone should start doing this in San Francisco.People shouldn't be surprised by the bottled water phenomenon. You are buying the bottle, not the water, and a bottle is often worth $1."
+        }, 
+        {
+            "commenter": "Ras_",
+            "permalink": "item?id=498346",
+            "points": "10",
+            "comment": "You're buying easy access to the water."
+        }, 
+        {
+            "commenter": "nostrademons",
+            "permalink": "item?id=498406",
+            "points": "4",
+            "comment": "You could just buy a Nalgene and fill it up with tap water.  Or if you're really cheap, buy one bottle of bottled water, save it, and fill it up again with tap water later.  I do that all the time."
+        }, 
+        {
+            "commenter": "neilc",
+            "permalink": "item?id=498508",
+            "points": "4",
+            "comment": "Right, but those are both less convenient than just buying water when you feel like it, and throwing out the bottle afterward. People are happy to pay for convenience (and that seems quite rational to me)."
+        }, 
+        {
+            "commenter": "kajecounterhack",
+            "permalink": "item?id=498853",
+            "points": "1",
+            "comment": "Isn't nalgene that kind of plastic they're talking about? BPA? Cancer...?"
+        }, 
+        {
+            "commenter": "Zev",
+            "permalink": "item?id=499430",
+            "points": "1",
+            "comment": "Nalgene doesn't use BPA's. They've been focused on a few times specifically because of this. See http:\/\/www.nalgene-outdoor.com\/technical\/bpaInfo.html"
+        }, 
+        {
+            "commenter": "kajecounterhack",
+            "permalink": "item?id=499456",
+            "points": "1",
+            "comment": "http:\/\/www.msnbc.msn.com\/id\/24200402\/"
+        }, 
+        {
+            "commenter": "jjs",
+            "permalink": "item?id=498413",
+            "points": "5",
+            "comment": "The reason this works in NYC is that their tap water is basically mountain spring water, piped in from the Catskills."
+        }, 
+        {
+            "commenter": "lacker",
+            "permalink": "item?id=499027",
+            "points": "1",
+            "comment": "San Francisco water is pretty good too - it comes from Hetch Hetchy near Yosemite."
+        }, 
+        {
+            "commenter": "wallflower",
+            "permalink": "item?id=498311",
+            "points": "2",
+            "comment": "Then there is Fiji water... Probably the most egregious bottled water (in terms of energy costs to transport)http:\/\/www.triplepundit.com\/pages\/askpablo-exotic-1.php"
+        }, 
+        {
+            "commenter": "mark_h",
+            "permalink": "item?id=498818",
+            "points": "4",
+            "comment": "Try this one, from even further afield (not to mention the hype around how it is collected!):\nhttp:\/\/tasmanianrain.com\/(I'm from Tasmania, and I've never seen it -- I suspect you can only buy it in L.A.)"
+        }, 
+        {
+            "commenter": "gsiener",
+            "permalink": "item?id=498469",
+            "points": "2",
+            "comment": "Little known fact -- Fiji bottled water mostly comes as a byproduct of downtown Honolulu's cooling system.  They use a process called OTEC: http:\/\/hawaii.gov\/dbedt\/info\/energy\/renewable\/otec"
+        }, 
+        {
+            "commenter": "RK",
+            "permalink": "item?id=498380",
+            "points": "1",
+            "comment": "I've also seen a brand in the US from New Zealand..."
+        }, 
+        {
+            "commenter": "releasedatez",
+            "permalink": "item?id=498840",
+            "points": "1",
+            "comment": "I remember when I was very young, I was able to drink off of tap water in CA."
+        }, 
+        {
+            "commenter": "partoa",
+            "permalink": "item?id=498388",
+            "points": "0",
+            "comment": "It's bottled water!"
+        } 
+    ],
+    "submitter": "Erf",
+    "links": [ 
+        "Hacker News", 
+        "new", 
+        "comments", 
+        "leaders", 
+        "jobs", 
+        "submit", 
+        "login", 
+        "Entrepreneur sells bottled New York City tap water", 
+        "Erf", 
+        "53 comments", 
+        "cellis", 
+        "link", 
+        "reply", 
+        "mynameishere", 
+        "link", 
+        "http:\/\/www.golftournamenthio.com\/", 
+        "reply", 
+        "neilc", 
+        "link", 
+        "reply", 
+        "mynameishere", 
+        "link", 
+        "reply", 
+        "cellis", 
+        "link", 
+        "http:\/\/www.prlog.org\/10092942-hole-in-one-insurance-odds-gol...", 
+        "reply", 
+        "aneesh", 
+        "link", 
+        "reply", 
+        "willwagner", 
+        "link", 
+        "reply", 
+        "nebula", 
+        "link", 
+        "reply", 
+        "nostrademons", 
+        "link", 
+        "http:\/\/abcnews.go.com\/Business\/PersonalFinance\/Story?id=3771...", 
+        "reply", 
+        "lacker", 
+        "link", 
+        "reply", 
+        "ConradHex", 
+        "link", 
+        "reply", 
+        "DannoHung", 
+        "link", 
+        "reply", 
+        "alecco", 
+        "link", 
+        "reply", 
+        "Hexstream", 
+        "link", 
+        "reply", 
+        "patio11", 
+        "link", 
+        "reply", 
+        "apsec112", 
+        "link", 
+        "reply", 
+        "mhb", 
+        "link", 
+        "reply", 
+        "zaius", 
+        "link", 
+        "reply", 
+        "psyklic", 
+        "link", 
+        "reply", 
+        "ibsulon", 
+        "link", 
+        "http:\/\/coffeetea.about.com\/od\/water\/tp\/waterbottles.htm", 
+        "reply", 
+        "chiffonade", 
+        "link", 
+        "reply", 
+        "owkaye", 
+        "link", 
+        "reply", 
+        "abstractbill", 
+        "link", 
+        "reply", 
+        "ibsulon", 
+        "link", 
+        "reply", 
+        "RK", 
+        "link", 
+        "reply", 
+        "jamesbritt", 
+        "link", 
+        "reply", 
+        "ctingom", 
+        "link", 
+        "reply", 
+        "barryfandango", 
+        "link", 
+        "reply", 
+        "wallflower", 
+        "link", 
+        "reply", 
+        "jerf", 
+        "link", 
+        "reply", 
+        "barryfandango", 
+        "link", 
+        "reply", 
+        "djahng", 
+        "link", 
+        "reply", 
+        "gsiener", 
+        "link", 
+        "reply", 
+        "anamax", 
+        "link", 
+        "reply", 
+        "madh", 
+        "link", 
+        "reply", 
+        "anamax", 
+        "link", 
+        "reply", 
+        "madh", 
+        "link", 
+        "reply", 
+        "lacker", 
+        "link", 
+        "reply", 
+        "Ras_", 
+        "link", 
+        "reply", 
+        "nostrademons", 
+        "link", 
+        "reply", 
+        "neilc", 
+        "link", 
+        "reply", 
+        "kajecounterhack", 
+        "link", 
+        "reply", 
+        "Zev", 
+        "link", 
+        "http:\/\/www.nalgene-outdoor.com\/technical\/bpaInfo.html", 
+        "reply", 
+        "kajecounterhack", 
+        "link", 
+        "http:\/\/www.msnbc.msn.com\/id\/24200402\/", 
+        "reply", 
+        "jjs", 
+        "link", 
+        "reply", 
+        "lacker", 
+        "link", 
+        "reply", 
+        "wallflower", 
+        "link", 
+        "http:\/\/www.triplepundit.com\/pages\/askpablo-exotic-1.php", 
+        "reply", 
+        "mark_h", 
+        "link", 
+        "http:\/\/tasmanianrain.com\/", 
+        "reply", 
+        "gsiener", 
+        "link", 
+        "http:\/\/hawaii.gov\/dbedt\/info\/energy\/renewable\/otec", 
+        "reply", 
+        "RK", 
+        "link", 
+        "reply", 
+        "releasedatez", 
+        "link", 
+        "reply", 
+        "partoa", 
+        "link", 
+        "reply", 
+        "stuntgoat", 
+        "link", 
+        "reply" 
+    ]
+}
