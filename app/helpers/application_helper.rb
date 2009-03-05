@@ -33,6 +33,15 @@ module ApplicationHelper
   def gravatar_url_for(email, options = {})
     "http://www.gravatar.com/avatar.php?s=#{options[:s] || 50}&d=#{CGI::escape("http://parselets.com/images/spacer.gif")}&gravatar_id=#{Digest::MD5.hexdigest(email)}"
   end
+  
+  def syntax_highlight(brush = 'ruby', string = nil, &block)
+    out = <<-STR
+      <div class='code'>
+        <pre class="brush: #{brush}; light: true">#{string || capture(&block)}</pre>
+      </div>
+    STR
+    string ? out : concat(out)
+  end
     
   def thumb(object, link = nil)
     is_model = object.is_a?(ActiveRecord::Base)

@@ -2,6 +2,8 @@ class DevController < ApplicationController
   layout "simple"
 
   #skip_before_filter :login_required, :only   => %w[index]
+  
+  before_filter :find_parselet, :only => %w[ruby python]
 
   def index
     title "Development Tools"
@@ -38,6 +40,10 @@ class DevController < ApplicationController
   end
   
 protected
+
+  def find_parselet
+    @parselet = Parselet.find_by_id(params[:parselet_id])
+  end
 
   def show_language(language)
     title "Using Parsley and Parselets with #{language}"
