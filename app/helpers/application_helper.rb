@@ -37,7 +37,7 @@ module ApplicationHelper
   def syntax_highlight(brush = 'ruby', options = {}, &block)
     out = <<-STR
       <div class='code'>
-        <pre class="brush: #{brush}; light: true#{"; #{options[:options]}" if options[:options]}">#{options[:content] || capture(&block)}</pre>
+        <pre class="brush: #{brush}; light: true#{"; #{options[:options]}" if options[:options]}">#{h(options[:content] || capture(&block))}</pre>
       </div>
     STR
     puts "hi"
