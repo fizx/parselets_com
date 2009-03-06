@@ -165,6 +165,8 @@ class Parselet < ActiveRecord::Base
     belongs_to :user
     belongs_to :revision_user, :class_name => "User"
     belongs_to :cached_page
+    before_save :calculate_changes
+    before_save :calculate_signature
   end
   
   # Get included into Parselet::Version later

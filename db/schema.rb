@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090306012417) do
+ActiveRecord::Schema.define(:version => 20090306063311) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(:version => 20090306012417) do
     t.text     "signature"
     t.text     "cached_changes"
     t.integer  "revision_user_id"
+    t.datetime "created_at"
   end
 
   add_index "parselet_versions", ["cached_page_id"], :name => "index_parselet_versions_on_cached_page_id"
