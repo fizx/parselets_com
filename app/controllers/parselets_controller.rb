@@ -47,8 +47,7 @@ class ParseletsController < ApplicationController
   # GET /parselets/1
   # GET /parselets/1.xml
   def show
-    @commentable =  @parselet = Parselet.find_by_params(params)
-
+    @parselet = Parselet.find_by_params(params)
     @comments = @parselet.comments.paginate :page => params[:comments_page], :order => "created_at DESC"
     @versions = @parselet.versions.paginate :page => params[:history_page], :order => "version DESC"
 

@@ -8,6 +8,10 @@ module ApplicationHelper
     image_tag("/images/icons/#{name}.png", :border => 0, :align => "absmiddle", :alt => alt, :title => alt)
   end
   
+  def parselet_edit_path(parselet)
+    "/parselets/#{parselet.name}/#{parselet.version}/edit"
+  end
+  
   def ratings(parselet)
     render "/widgets/rating", :parselet => parselet
   end

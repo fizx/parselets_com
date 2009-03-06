@@ -32,13 +32,7 @@ class ApplicationController < ActionController::Base
     end
     true
   end
-  
-  def edit_path(model)
-    klass = model.class.to_s.underscore.gsub("/", "_")
-    send("edit_#{klass}_path", model)
-  end
-  helper_method :edit_path
-      
+        
   def admin_required
     unless authorized? && admin?
       access_denied

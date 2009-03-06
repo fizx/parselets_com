@@ -16,11 +16,15 @@ class Parselet < ActiveRecord::Base
     end
     
     def find_by_params(params = {})
-      if params[:id] =~ /\A\d+\Z/
+      parselet = if params[:id] =~ /\A\d+\Z/
         find(params[:id])
       else
         find_by_name(params[:id])
       end
+      if params[:version] && params[:version].to_i < parselet.version
+        parselet.revert_to(params[:version].to_i)
+      end
+      parselet
     end
     alias_method :find_from_params, :find_by_params
     
@@ -216,6 +220,10 @@ class Parselet < ActiveRecord::Base
       when String:
         path
       end
+    end
+    
+    def to_param
+      name
     end
     
     def login
