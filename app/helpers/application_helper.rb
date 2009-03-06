@@ -34,13 +34,14 @@ module ApplicationHelper
     "http://www.gravatar.com/avatar.php?s=#{options[:s] || 50}&d=#{CGI::escape("http://parselets.com/images/spacer.gif")}&gravatar_id=#{Digest::MD5.hexdigest(email)}"
   end
   
-  def syntax_highlight(brush = 'ruby', string = nil, &block)
+  def syntax_highlight(brush = 'ruby', options = {}, &block)
     out = <<-STR
       <div class='code'>
-        <pre class="brush: #{brush}; light: true">#{string || capture(&block)}</pre>
+        <pre class="brush: #{brush}; light: true#{"; #{options[:options]}" if options[:options]}">#{h(options[:content] || capture(&block))}</pre>
       </div>
     STR
-    string ? out : concat(out)
+    puts "hi"
+    options[:content].nil? ? concat(out) : out
   end
     
   def thumb(object, link = nil)

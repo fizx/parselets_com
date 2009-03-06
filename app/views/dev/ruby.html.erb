@@ -23,7 +23,7 @@
     example_element, example_value = @parselet.pick_example_element
   %>
   
-  <% content_for :parselet_code do %>
+  <% content_for :online_parselet_code_from_parselet do %>
     #!/usr/bin/env ruby
     require "rubygems"
     require "online_parselets"
@@ -34,9 +34,32 @@
     client = OnlineParselets::Client.new(:api_key => "<%= logged_in? ? current_user.api_key : "your_api_key_from_your_profile" %>")
     parselet = client.parselet(<%= @parselet.id %>)
     data = parselet.parse(:url => "<%= @parselet.example_url %>")
+
     pp data
-    # The result should look like: <%= parse_parselet_url(@parselet) %>
+    # The result should look much like: <%= parse_parselet_url(@parselet) %>
     <% if example_element.strip.length > 0 %>
+
+    puts data<%= example_element.strip %> # Outputs: <%= truncate example_value.inspect %>
+    <% end %>
+  <% end %>
+
+  <% content_for :parsley_code_from_parselet do %>
+    require "rubygems"
+    require "parsley"
+    require "open-uri"
+    require "pp"
+  
+    json_string = <<-STR<%= "\n#{@parselet.pretty_code.strip}".gsub(/\n/, "\n      ") %>
+    STR
+    
+    parselet = Parsley.new(json_string)
+    content = open("<%= @parselet.example_url %>").read
+    data = parselet.parse(:string => content)
+
+    pp data
+    # The result should look much like: <%= parse_parselet_url(@parselet) %>
+    <% if example_element.strip.length > 0 %>
+
     puts data<%= example_element.strip %> # Outputs: <%= truncate example_value.inspect %>
     <% end %>
   <% end %>
