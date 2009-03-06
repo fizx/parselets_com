@@ -135,13 +135,18 @@ class Parselet < ActiveRecord::Base
     ],
     :conditions => "parselets.deleted_at IS NULL AND user_id IS NOT NULL",
     :order => "parselets.updated_at DESC", :delta => true
-  
+    
+  belongs_to :revision_user, :class_name => "User"
   belongs_to :user
   belongs_to :domain
   has_many :comments, :as => :commentable
   has_many :ratings, :as => :ratable
   
   belongs_to :cached_page
+  
+  validates_each(:cached_changes) do |r, a, v|
+    r.errors.add("", "Try changing something.") if v == "none"
+  end
   
   validates_uniqueness_of :name
   validates_format_of :name, :with => /\A[a-z0-9\-_]*\Z/, :message => "contains invalid characters"
@@ -158,6 +163,7 @@ class Parselet < ActiveRecord::Base
   
   class Version < ActiveRecord::Base
     belongs_to :user
+    belongs_to :revision_user, :class_name => "User"
     belongs_to :cached_page
   end
   
@@ -167,19 +173,18 @@ class Parselet < ActiveRecord::Base
     def calculate_changes
       changes = []
       pid = is_a?(Version) ? parselet_id : id
-      old_version = is_a?(Version) ? version - 1 : version
-            
-            puts [pid, old_version].inspect
+      old_version = version - 1 
       unless old = Parselet::Version.find_by_parselet_id_and_version(pid, old_version)
-        puts "huh!"
         return self.cached_changes = "created"
       end
-      puts "woot!"
       
       {
         "signature" => "structure",
         "code" => "code",
-        "name" => "name"
+        "name" => "keyword",
+        "description" => "description",
+        "pattern" => "pattern", 
+        "example_url" => "example url"
       }.each do |method, text|
         if(old.send(method) != self.send(method))
           changes << text

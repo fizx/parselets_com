@@ -48,7 +48,7 @@ class ParseletsController < ApplicationController
     @commentable =  @parselet = Parselet.find_by_params(params)
 
     @comments = @parselet.comments.paginate :page => params[:comments_page], :order => "created_at DESC"
-    @versions = @parselet.versions.paginate :page => params[:history_page], :order => "updated_at DESC"
+    @versions = @parselet.versions.paginate :page => params[:history_page], :order => "version DESC"
 
     respond_to do |format|
       format.html # show.html.erb
@@ -77,6 +77,7 @@ class ParseletsController < ApplicationController
   # POST /parselets.xml
   def create
     @parselet = Parselet.tmp_from_params(params)
+    @parselet.revision_user = current_user
 
     respond_to do |format|
       if @parselet.save
@@ -95,6 +96,7 @@ class ParseletsController < ApplicationController
   def update
     @parselet = Parselet.find_by_params(params)
     @parselet.code = Parselet.tmp_from_params(params).code
+    @parselet.revision_user = current_user
 
     respond_to do |format|
       if @parselet.update_attributes(params[:parselet])

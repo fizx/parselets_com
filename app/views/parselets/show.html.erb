@@ -3,8 +3,8 @@
 	<%=thumb @parselet, edit_path(@parselet)%> 
 	<div style="margin-left:55px">
 		<%=ratings @parselet %>
-		<h1><%=link_to h(@parselet.name), edit_path(@parselet) %>
-			<span><%=mini_gravatar(@parselet.user.email)%> by <%=link_to @parselet.user.login, @parselet.user%></span>
+		<h1><%=link_to h("#{@parselet.name}/#{@parselet.version}"), edit_path(@parselet) %>
+			<span> by <%=link_to @parselet.user.login, @parselet.user%></span>
 		</h1>
 		<div><%=example_link @parselet%> <%=link_to "cached", @parselet.cached_page, :class => "small" %></div>
 	</div>
