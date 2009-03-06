@@ -47,26 +47,28 @@
     
   </head>
   <body>
-    <div id="body">
-      <div id="header">
+    <div id="header">
+      <div class="content">
         <div id="user-nav">
           <%=render "/users/user_bar" %>
         </div>
-        <div id="logo"><%=link_to "parselets.com", "/"%></div>
+        <%=link_to "parselets.com", "/", :id => "logo"%>
         <ul id="nav">
-          <li><%=link_to_unless_current "Parselets", parselets_url %> <%=link_to icon("plus_small", "create parselet"), new_parselet_url %></li>
+          <li><%=link_to_unless_current "parselets", parselets_url %> <%=link_to icon("plus_small", "create parselet"), new_parselet_url %></li>
           <% if admin? %>
-          	<li><%=link_to_unless_current "Sprigs", sprigs_url %> <%=link_to icon("plus_small", "create sprig"), new_sprig_url %></li>
+          	<li><%=link_to_unless_current "sprigs", sprigs_url %> <%=link_to icon("plus_small", "create sprig"), new_sprig_url %></li>
           <% end %>
-          <li><%=link_to_unless_current "Domains", domains_url %> <%=empty_icon %></li>
-          <li><%=link_to_unless_current "Users", users_url %> <%=empty_icon %></li>
-          <li><%=link_to_unless_current "Development Tools", dev_url %> <%=empty_icon %></li>
+          <li><%=link_to_unless_current "domains", domains_url %> <%=empty_icon %></li>
+          <li><%=link_to_unless_current "users", users_url %> <%=empty_icon %></li>
+          <li><%=link_to_unless_current "dev tools", dev_url %> <%=empty_icon %></li>
         </ul>
+      	<form id="search" action="/search" method="GET">
+       		<%=text_field_tag "q", params[:q], :id => "box", :value => "search" %>
+      		<input type="submit" value="Search">
+      	</form>
         <div id="cheat"></div>
       </div>
+    </div>
+    <div id="body">
       <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
-  	<form id="search" action="/search" method="GET">
-   		<%=text_field_tag "q", params[:q], :id => "box" %>
-  		<input type="submit" value="Search">
-  	</form>
     <div id="main">
