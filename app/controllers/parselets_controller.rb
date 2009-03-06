@@ -34,11 +34,13 @@ class ParseletsController < ApplicationController
 
     @highlight_code = true
     params[:url] ||= @parselet.example_url
+
+    @json = @parselet.pretty_parse(params[:url])
     
     respond_to do |format|
       format.html
       format.xml  { render :xml => @parselet.parse(params[:url], :output => :xml) }
-      format.json { render :json => @parselet.parse(params[:url]) }
+      format.json { render :json => @json }
     end
   end
   

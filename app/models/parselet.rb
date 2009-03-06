@@ -256,13 +256,13 @@ class Parselet < ActiveRecord::Base
     def parse(url, options = {})
       return {} if url.nil? || url !~ /^http:\/\//i
       content = CachedPage.find_or_create_by_url(url).content
-      Parsley.new(sanitized_code).parse(:string => content, :output => options[:output] || :json)
+      OrderedJSON.parse Parsley.new(sanitized_code).parse(:string => content, :output => options[:output] || :json)
     rescue ParsleyError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
       {"errors" => e.message.split("\n")}
     end
     
     def pretty_parse(url, options = {})
-      OrderedJSON.pretty_dump(OrderedJSON.parse(parse(url, options))).gsub("\t", TAB)
+      OrderedJSON.pretty_dump(parse(url, options)).gsub("\t", TAB)
     end
 
     def set_working(val)
