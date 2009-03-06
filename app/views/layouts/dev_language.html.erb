@@ -12,23 +12,23 @@
 <h3>Example Code Using the Parselets.com API</h3>
 
 <% if @parselet %>
-  <div id='example_code_for_specific_parselet'>
+  <div>
     <p>
       Here is example code in <%= language_name %> for the <%= link_to @parselet.name, parselet_path(@parselet) %> parselet:
     </p>
     <% syntax_highlight brush do %>
-      <%= yield :parselet_code %>
+      <%= yield :online_parselet_code_from_parslet %>
     <% end %>
   </div>
   
   <div>
-    <a href="#" onclick="$('example_code').show(); return false;">
+    <a href="#" onclick="$('example_online_code').show(); return false;">
       Click here to view a more generic example of using the Parselets.com API with <%= language_name %>.
     </a>
   </div>
 <% end %>
 
-<div id='example_code' style='display: <%= @parselet.nil? ? 'block' : 'none' %>'>
+<div id='example_online_code' style='display: <%= @parselet.nil? ? 'block' : 'none' %>'>
   <p>
     The Parselets.com API allows you to search for and load Parselets for existing websites.  Here is an example:
   </p>
@@ -45,10 +45,24 @@
 <h3>Example Code with the Parsley <%= language_name %> Binding</h3>
 <p>
   You can also use Parsley directly without touching the Parselets.com API.  First <a href="http://github.com/fizx/parsley/blob/master/INSTALL">install Parsley</a>, then <%= link_to "install the bindings", yield(:bindings_url).strip %>.  Here is some example code using Parsley directly from <%= language_name %>:
+</p>
+
+<% if @parselet %>
+  <% syntax_highlight brush, :options => 'smart-tabs: false' do %>
+    <%= yield :parsley_code_from_parselet %>
+  <% end %>
+  <div>
+    <a href="#" onclick="$('example_offline_code').show(); return false;">
+      Click here to view a more generic example of Parsley used with <%= language_name %>.
+    </a>
+  </div>
+<% end %>
+
+<div id='example_offline_code' style='display: <%= @parselet.nil? ? 'block' : 'none' %>'>
   <% syntax_highlight brush do %>
     <%= yield :code_parsley %>
   <% end %>
-</p>
+</div>
 
 <%= yield %>
 
