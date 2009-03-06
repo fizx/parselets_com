@@ -1,7 +1,13 @@
 <li>
   <h3>
     <%=link_to "##{version.version}, #{time_ago_in_words version.updated_at} ago", version%>
-    <span><%=mini_gravatar(@parselet.user.email)%> by <%=link_to @parselet.user.login, @parselet.user%></span>
+    <span>by 
+    <% if version.revision_user %>
+      <%=link_to version.revision_user.login, version.revision_user%>
+    <% else%>
+      Unknown
+    <% end %>
+    </span>
     <%=version.status%>
     Changes: <%=version.cached_changes%>
   </h3>

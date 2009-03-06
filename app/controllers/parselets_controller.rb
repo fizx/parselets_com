@@ -77,7 +77,7 @@ class ParseletsController < ApplicationController
   # POST /parselets.xml
   def create
     @parselet = Parselet.tmp_from_params(params)
-    @parselet.revision_user = current_user
+    @parselet.revision_user_id = current_user.id
 
     respond_to do |format|
       if @parselet.save
@@ -96,7 +96,7 @@ class ParseletsController < ApplicationController
   def update
     @parselet = Parselet.find_by_params(params)
     @parselet.code = Parselet.tmp_from_params(params).code
-    @parselet.revision_user = current_user
+    @parselet.revision_user_id = current_user.id
 
     respond_to do |format|
       if @parselet.update_attributes(params[:parselet])

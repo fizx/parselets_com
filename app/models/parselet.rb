@@ -144,9 +144,9 @@ class Parselet < ActiveRecord::Base
   
   belongs_to :cached_page
   
-  validates_each(:cached_changes) do |r, a, v|
-    r.errors.add("", "Try changing something.") if v == "none"
-  end
+  # validates_each(:cached_changes) do |r, a, v|
+  #     r.errors.add("", "Try changing something.") if v == "none"
+  #   end
   
   validates_uniqueness_of :name
   validates_format_of :name, :with => /\A[a-z0-9\-_]*\Z/, :message => "contains invalid characters"
