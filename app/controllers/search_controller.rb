@@ -8,6 +8,9 @@ class SearchController < ApplicationController
       wants.json do
         do_search :class_names => "Parselet"
         render :json => remove_broken(@search.results).to_json
+      end
+      wants.xml do
+        do_search :class_names => "Parselet"
         render :xml => remove_broken(@search.results).to_xml
       end
     end

@@ -17,6 +17,31 @@
   parselet = client.parselet(parselet.server_id)  
 <% end %>
 
+<% if @parselet %>
+  <% 
+    example_data = @parselet.example_data
+    example_element, example_value = @parselet.pick_example_element
+  %>
+  
+  <% content_for :parselet_code do %>
+    #!/usr/bin/env ruby
+    require "rubygems"
+    require "online_parselets"
+    require "pp"
+
+    # Code to run parselet <%= @parselet.id %> (<%= @parselet.name %> by <%= @parselet.user.login %>)
+
+    client = OnlineParselets::Client.new(:api_key => "<%= logged_in? ? current_user.api_key : "your_api_key_from_your_profile" %>")
+    parselet = client.parselet(<%= @parselet.id %>)
+    data = parselet.parse(:url => "<%= @parselet.example_url %>")
+    pp data
+    # The result should look like: <%= parse_parselet_url(@parselet) %>
+    <% if example_element.strip.length > 0 %>
+    puts data<%= example_element.strip %> # Outputs: <%= truncate example_value.inspect %>
+    <% end %>
+  <% end %>
+<% end %>
+
 <% content_for :code_parsley do %>
   require "rubygems"
   require "parsley"

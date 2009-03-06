@@ -5,7 +5,7 @@ require "digest/md5"
 require "open-uri"
 class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
-  TAB = "  "
+  TAB = " " * 2
   
   module ClassMethods
     def top(n = 5)
@@ -16,12 +16,10 @@ class Parselet < ActiveRecord::Base
     end
     
     def find_by_params(params = {})
-      if params[:id]
+      if params[:id] =~ /\A\d+\Z/
         find(params[:id])
       else
-        user_id = User.find_by_login(params[:login])
-        user_id && find_by_user_id_and_name(user_id, params[:name]) ||
-          raise(ActiveRecord::RecordNotFound.new("Couldn't find Parselet for #{params.inspect}"))
+        find_by_name(params[:id])
       end
     end
     alias_method :find_from_params, :find_by_params
@@ -197,7 +195,7 @@ class Parselet < ActiveRecord::Base
     end
     
     def update_cached_page
-      self.cached_page ||= CachedPage.find_or_create_by_url(example_url)
+      self.cached_page = CachedPage.find_or_create_by_url(example_url)
     end
     
     def create_domain
@@ -235,11 +233,16 @@ class Parselet < ActiveRecord::Base
     end
 
     def example_data
+      @cached_example_data ||= example_data_uncached
+    end
+    
+    def example_data_uncached
       return {} if example_url.blank?
       content = (cached_page || update_cached_page).content
       out = Parsley.new(sanitized_code).parse(:string => content, :output => :json)
       answer = OrderedJSON.parse(out)
       set_working true
+      @example_data = answer
       answer
     rescue ParsleyError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
       set_working false
@@ -253,9 +256,13 @@ class Parselet < ActiveRecord::Base
     def parse(url, options = {})
       return {} if url.nil? || url !~ /^http:\/\//i
       content = CachedPage.find_or_create_by_url(url).content
-      Parsley.new(sanitized_code).parse(:string => content, :output => options[:output] || :json)
+      OrderedJSON.parse Parsley.new(sanitized_code).parse(:string => content, :output => options[:output] || :json)
     rescue ParsleyError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
       {"errors" => e.message.split("\n")}
+    end
+    
+    def pretty_parse(url, options = {})
+      OrderedJSON.pretty_dump(parse(url, options)).gsub("\t", TAB)
     end
 
     def set_working(val)
@@ -315,7 +322,37 @@ class Parselet < ActiveRecord::Base
       re = Regexp.new("\\A" + url_chunks.join(".*?") + "\\Z")
       re === url.to_s
     end
-    
+
+    def pick_example_element(data = nil)
+      if data.nil?
+        if example_data && !example_data['errors']
+          return pick_example_element(example_data)
+        else
+          return ['', '']
+        end
+      end
+      count = 0
+      data.each do |*item|
+        if data.is_a?(Hash)
+          key = item.first
+          value = item.last
+          element = ".#{key}"
+        elsif data.is_a?(Array)
+          value = item.first
+          element = "[#{count}]"
+        end
+        if value
+          if value.is_a?(Array) || value.is_a?(Hash)
+            next_element, last_value = pick_example_element(value)
+            return [element + next_element, last_value]
+          else
+            return [element, value.to_s]
+          end
+        end
+        count += 1
+      end
+      return ['', '']
+    end
 
     def code
       self[:code].blank? ? "{}" : self[:code]
