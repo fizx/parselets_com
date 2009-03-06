@@ -1,6 +1,6 @@
 class RatingsController < ApplicationController
   before_filter :admin_required, :except => "create"
-  
+  before_filter :login_required, :only => "create"
   
   # GET /ratings
   # GET /ratings.xml
