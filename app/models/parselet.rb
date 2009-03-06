@@ -336,7 +336,7 @@ class Parselet < ActiveRecord::Base
         if data.is_a?(Hash)
           key = item.first
           value = item.last
-          element = ".#{key}"
+          element = "['#{key}']"
         elsif data.is_a?(Array)
           value = item.first
           element = "[#{count}]"
