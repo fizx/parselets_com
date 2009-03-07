@@ -19,7 +19,9 @@
 			    if(old.size() == 0) old = jQuery("<div/>");
 			    if(target.size() > 0) {
 			      try {
-			        target.html(differ.diff_prettyHtml(differ.diff_main(old.html(), jQuery(this).html())).replace(/{{{/g, "<strong>").replace(/}}}/g, "</strong>"));
+			        var diff = differ.diff_main(old.html(), jQuery(this).html());
+			        differ.diff_cleanupSemantic(diff);
+			        target.html(differ.diff_prettyHtml(diff).replace(/{{{/g, "<strong>").replace(/}}}/g, "</strong>"));
 			        target.toggle();
 		        } catch(e){
 		          alert(e);
