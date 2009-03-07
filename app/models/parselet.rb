@@ -3,6 +3,7 @@ require "parsley"
 require "ordered_json"
 require "digest/md5"
 require "open-uri"
+require "cgi"
 class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
   TAB = " " * 2
@@ -175,6 +176,15 @@ class Parselet < ActiveRecord::Base
   
   # Get included into Parselet::Version later
   module VersionableMethods
+    
+    def summary
+      [ ["Keyword", name], 
+        ["Description", description], 
+        ["Pattern", pattern], ["Example Url", example_url], 
+        ["Code", pretty_code]].map {|title, content|
+          %[{{{#{title}}}}\n#{content}\n\n]
+        }.join("").strip
+    end
     
     def calculate_changes
       changes = []
