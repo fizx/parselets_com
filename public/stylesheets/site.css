@@ -5,10 +5,31 @@ body {
 }
 
 #body {
-  background-color:white;
   position:relative;
   margin: 0 auto 0 auto;
   width: 900px;
+}
+
+#body_wrapper {
+  background-color: white;
+  clear:both;
+  float:right;
+  width: 100%;
+  padding-bottom: 40px;
+}
+
+#footer {
+	clear:both;
+	padding:0px;
+}
+
+#footer .nest{
+background-color:#eee;
+	clear:both;
+	padding:5px;
+	font-size:small;
+	border-top:1px silver solid;
+	text-align:center;
 }
 
 #right_column {
@@ -418,21 +439,6 @@ a.result_title:hover {
   margin: 15px 15px;
 }
 
-#footer {
-	clear:both;
-	padding-top:40px;
-}
-
-#footer .nest{
-background-color:#eee;
-	clear:both;
-	padding:5px;
-	font-size:small;
-	border-top:1px silver solid;
-	text-align:center;
-}
-
-
 div.desc {
 	clear:both;
 	font-size:smaller;
@@ -491,9 +497,9 @@ a#logo {
 }
 
 #main {
+  padding: 15px;
 }
 
 #blurb p {
-  padding: 15px;
 	font-size:1em;
 }
