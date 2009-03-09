@@ -1,31 +1,38 @@
 
 <div>
-	<%=thumb @parselet, edit_path(@parselet)%> 
+	<%=thumb @parselet, parselet_edit_path(@parselet)%> 
 	<div style="margin-left:55px">
 		<%=ratings @parselet %>
-		<h1><%=link_to h(@parselet.name), edit_path(@parselet) %>
-			<span><%=mini_gravatar(@parselet.user.email)%> by <%=link_to @parselet.user.login, @parselet.user%></span>
+		<h1><%=link_to h(@parselet.name), parselet_edit_path(@parselet) %>
+			v<%=@parselet.version%>
+			
+			<% @parselet.revision_user ||= @parselet.user%>
+			<span> by <%=link_to @parselet.revision_user.login, @parselet.revision_user%></span>
 		</h1>
 		<div><%=example_link @parselet%> <%=link_to "cached", @parselet.cached_page, :class => "small" %></div>
 	</div>
 </div>
 <div class="desc"><%=h @parselet.description %></div>
 
-<ul id="options">
-	<li><%=icon "document__pencil"%><strong> <%= link_to 'Edit', edit_path(@version || @parselet) %></strong></li>
-	<li><%=comments @parselet %></li>
-	<li><%=icon "clock"%> <%=link_to "history", parselet_parselet_versions_path(@parselet) %></li>
-	<li><%=icon "wand" %> <%=link_to "api helper", :controller => 'dev', :action => 'ruby', :parselet_id => @parselet %></li>
-</ul>
-
-
 <!-- <div style="background-color:#eee;border:1px silver solid;padding:10px;display:table;">
 <pre><%= h @parselet.pretty_code %></pre>
 </div>
 <h4>Sample output:</h4> -->
 <div style="clear:both;padding-top:15px;">
-<pre style="float:left"> code: (<%= link_to 'edit', edit_path(@parselet) %>) <input type="text" style="visibility:hidden">
+<pre style="float:left"> code: (<%= link_to 'edit', parselet_edit_path(@parselet) %>) <input type="text" style="visibility:hidden">
 <div style="border:1px #ccc solid; border-right:0;padding:10px;height:300px;overflow:auto;width:300px"><%=h @parselet.pretty_code%></pre><pre style="float:left"> Try on: <%=text_field_tag "foo", @parselet.example_url, :style => "width:300px"%> <input type="submit" value="go">
 <div style="border:1px #ccc solid;padding:10px;height:300px;overflow:auto;width:410px"><%=@parselet.compressed_html_example_data%></pre>
 </div>
 
+<table width="100%" cellpadding="0" cellspacing="0" border="0" class="cols">
+  <tr>
+    <td width="50%" valign="top">
+      <h2>History</h2>
+      <ol class="results"><%=render @versions%></ol>
+    </td>
+    <td width="50%" valign="top">
+      <h2>Comments (<span id="comments_<%=dom_id(@parselet)%>"><%=@parselet.comments_count%></span>)</h2>
+      <%=render "/comments/comments", :comments => @comments, :new_comment => @parselet.comments.new %>
+    </td>    
+  </tr>
+</table>

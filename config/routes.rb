@@ -15,6 +15,9 @@ ActionController::Routing::Routes.draw do |map|
   map.dev "/dev/:action/:id", :controller => 'dev'
   map.dev "/dev/:action", :controller => 'dev'
   
+  map.edit_parselet "/parselets/:id/:version/edit", :controller => 'parselets', :action => 'edit'
+  map.parselets_with_version "/parselets/:id/:version", :controller => 'parselets', :action => 'show'
+  
   map.resources :comments
   map.resources :password_requests
   map.resources :cached_pages

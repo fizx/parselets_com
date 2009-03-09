@@ -12,9 +12,23 @@ class ParseletTest < ActiveSupport::TestCase
     })
   end
   
+  def test_signature
+    assert_equal "/comment//comment /comment//score /comment//time /comment//user /comment_count /description /embed /rating /title /uploaded_at /uploader /views", parselets(:youtube).calculate_signature
+  end
+  
   def test_compress_example_data
     example_data = File.read(File.dirname(__FILE__) + "/../fixtures/example_data.txt")
-    puts Parselet.compress_json(example_data)
+    Parselet.compress_json(example_data)
+  end
+  
+  def test_changes
+    parselet = parselets(:youtube)
+    parselet.save!
+    assert_equal 1, parselet.version
+    parselet.code = "{}"
+    parselet.save!
+    assert_equal 2, parselet.version
+    assert_equal "code", parselet.cached_changes
   end
   
   def indifferent(object)
@@ -47,10 +61,10 @@ class ParseletTest < ActiveSupport::TestCase
   end
   
   def test_find_by_params
-    params = {:name => "youtube-video", :login => "kyle"}
+    params = {:id => "youtube-video"}
     assert_not_nil Parselet.find_by_params(params)
     
-    params = {:name => "MyString", :login => "quentin"}
+    params = {:id => "MyString"}
 
     assert_equal parselets(:one), Parselet.find_by_params(params)
     
@@ -58,9 +72,7 @@ class ParseletTest < ActiveSupport::TestCase
     assert_equal parselets(:one), Parselet.find_by_params(params)
     
     params = {:something => "else"}
-    assert_raises(ActiveRecord::RecordNotFound) do
-      Parselet.find_by_params(params)
-    end
+    assert_nil Parselet.find_by_params(params)
   end
   
   def test_pattern_tokens

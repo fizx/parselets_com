@@ -32,6 +32,8 @@ class User < ActiveRecord::Base
     end
   end
   
+  validates_format_of :login, :with => /[^0-9]/, :message => "cannot be entirely numeric"
+  
   def api_key
     "#{login}-#{crypted_password[0..8]}"
   end

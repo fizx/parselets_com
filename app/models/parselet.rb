@@ -3,6 +3,7 @@ require "parsley"
 require "ordered_json"
 require "digest/md5"
 require "open-uri"
+require "cgi"
 class InvalidStateError < RuntimeError; end
 class Parselet < ActiveRecord::Base  
   TAB = " " * 2
@@ -16,14 +17,17 @@ class Parselet < ActiveRecord::Base
     end
     
     def find_by_params(params = {})
-      if params[:id] =~ /\A\d+\Z/
-        find(params[:id])
-      else
-        find_by_name(params[:id])
+      parselet = if params[:id] =~ /\A\d+\Z/
+                   find(params[:id])
+                 else
+                   find_by_name(params[:id])
+                 end
+      if params[:version] && params[:version].to_i < parselet.version
+        parselet.revert_to(params[:version].to_i)
       end
+      parselet
     end
     alias_method :find_from_params, :find_by_params
-    
     
     def compress_json(data, allowed = 2, base_id = "hidden")
       i = 0
@@ -136,13 +140,18 @@ class Parselet < ActiveRecord::Base
     ],
     :conditions => "parselets.deleted_at IS NULL AND user_id IS NOT NULL",
     :order => "parselets.updated_at DESC", :delta => true
-  
+    
+  belongs_to :revision_user, :class_name => "User"
   belongs_to :user
   belongs_to :domain
   has_many :comments, :as => :commentable
   has_many :ratings, :as => :ratable
   
   belongs_to :cached_page
+  
+  # validates_each(:cached_changes) do |r, a, v|
+  #     r.errors.add("", "Try changing something.") if v == "none"
+  #   end
   
   validates_uniqueness_of :name
   validates_format_of :name, :with => /\A[a-z0-9\-_]*\Z/, :message => "contains invalid characters"
@@ -153,15 +162,79 @@ class Parselet < ActiveRecord::Base
   validates_example_url_matches_pattern
   
   before_save :create_domain
+  before_save :calculate_signature
+  before_save :calculate_changes
   before_save :update_cached_page
   
   class Version < ActiveRecord::Base
     belongs_to :user
+    belongs_to :revision_user, :class_name => "User"
     belongs_to :cached_page
+    before_save :calculate_changes
+    before_save :calculate_signature
   end
   
   # Get included into Parselet::Version later
   module VersionableMethods
+    
+    def summary
+      [ ["Keyword", name], 
+        ["Description", description], 
+        ["Pattern", pattern], ["Example Url", example_url], 
+        ["Code", pretty_code]].map {|title, content|
+          %[{{{#{title}}}}\n#{content}\n\n]
+        }.join("").strip
+    end
+    
+    def calculate_changes
+      changes = []
+      pid = is_a?(Version) ? parselet_id : id
+      old_version = version - 1 
+      unless old = Parselet::Version.find_by_parselet_id_and_version(pid, old_version)
+        return self.cached_changes = "created"
+      end
+      
+      {
+        "signature" => "structure",
+        "code" => "code",
+        "name" => "keyword",
+        "description" => "description",
+        "pattern" => "pattern", 
+        "example_url" => "example url"
+      }.each do |method, text|
+        if(old.send(method) != self.send(method))
+          changes << text
+        end
+      end
+      self.cached_changes = "none"
+      self.cached_changes = changes.join(" ") unless changes.blank?
+      
+    end
+    
+    def calculate_signature
+      keys = recurse_signature(data)
+      self.signature = keys.sort.join(" ")
+    end
+    
+    def recurse_signature(object, path = "")
+      case object
+      when Hash:
+        object.map do |k, v|
+          k = k.split("(").first
+          recurse_signature v, path + "/#{k}"
+        end.flatten
+      when Array:        
+        object.map do |e|
+          recurse_signature e, path + "/"
+        end
+      when String:
+        path
+      end
+    end
+    
+    def to_param
+      name
+    end
     
     def login
       user && user.login
@@ -336,7 +409,7 @@ class Parselet < ActiveRecord::Base
         if data.is_a?(Hash)
           key = item.first
           value = item.last
-          element = ".#{key}"
+          element = "['#{key}']"
         elsif data.is_a?(Array)
           value = item.first
           element = "[#{count}]"

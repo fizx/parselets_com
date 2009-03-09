@@ -4,11 +4,37 @@
 		<link href="/facebox/facebox.css" media="screen" rel="stylesheet" type="text/css" />
 		<link href="/stylesheets/jquery.rating.css" media="screen" rel="stylesheet" type="text/css" />
 		<script src="/javascripts/jquery.js"></script>
+		<script src="/javascripts/diff_match_patch.js"></script>
 		<script src="/javascripts/jquery.rating.js"></script>
 		<script src="/facebox/facebox.js"></script>
 		<script>
 			jQuery(document).ready(function(e) {
+			  var differ = new diff_match_patch();
+			  
 			  jQuery('a[rel*=facebox]').facebox();
+			  
+			  jQuery('.summary').each(function(){
+			    var old = jQuery("#" + (parseInt(this.id) - 1) + "-version-summary");
+			    var target = jQuery("#" + parseInt(this.id) + "-version-diff");
+			    if(old.size() == 0) old = jQuery("<div/>");
+			    if(target.size() > 0) {
+			      try {
+			        var diff = differ.diff_main(old.html(), jQuery(this).html());
+			        differ.diff_cleanupSemantic(diff);
+			        var arr = differ.diff_prettyHtml(diff).split("{{{");
+			        var buffer = "";
+			        for(var i = 0; i < arr.length; i++) {
+			          if(arr[i].indexOf("<INS") > -1 || arr[i].indexOf("<DEL") > -1) {
+			            buffer += "{{{" + arr[i]
+			          }
+			        }
+			        target.html(buffer.replace(/{{{/g, "<strong>").replace(/}}}/g, "</strong>"));
+			        target.toggle();
+		        } catch(e){
+		          alert(e);
+		        }
+			    }
+			  })
 			})
 		</script>
 
