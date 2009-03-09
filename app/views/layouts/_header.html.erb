@@ -41,6 +41,10 @@
         	e.cancelBubble = true;
         	if (e.stopPropagation) e.stopPropagation();
 			  });
+			  
+			  jQuery('#box').focus(function(e) {
+			    if (jQuery(this).val() == 'search') jQuery(this).select();
+			  });
 			})
 		</script>
 
@@ -99,7 +103,7 @@
           <%= menu_option "dev tools", dev_url %>
         </ul>
       	<form id="search" action="/search" method="GET">
-       		<%=text_field_tag "q", params[:q], :id => "box", :value => "search" %>
+       		<%=text_field_tag "q", params[:q], :id => "box", :value => params[:q] || "search" %>
       		<input type="submit" value="Search">
       	</form>
         <div id="cheat"></div>
