@@ -47,6 +47,14 @@ module ApplicationHelper
     puts "hi"
     options[:content].nil? ? concat(out) : out
   end
+  
+  def menu_option(name, url, &block)
+    out = "<li#{" class='selected'" if current_page?(url)}>"
+    out += "#{link_to_unless_current name, url}"
+    out += capture(&block) if block_given?
+    out += "</li>"
+    concat(out)
+  end
     
   def thumb(object, link = nil)
     is_model = object.is_a?(ActiveRecord::Base)

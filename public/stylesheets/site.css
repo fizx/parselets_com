@@ -1,7 +1,7 @@
 body {
   font-family:sans-serif;
   margin:0;
-  background-color:#FFF;
+  background-color:#eee;
 }
 
 #body {
@@ -256,11 +256,15 @@ p{
   background: url(/images/header/tabs.png) no-repeat top left;
   line-height: 38px;
   position: relative;
-  top: 1px;
+  top: 0px;
   font-size: 18px;
   font-weight: bold;
   letter-spacing: -1px;
   text-align: center;
+}
+
+#nav li.selected {
+  border-bottom: 1px solid #FFF;
 }
 
 #nav li:first-child {
@@ -391,18 +395,28 @@ div.desc {
 
 #user-nav {
   float: right;
-  display: inline;
-  font-size: small;
+  display: block;
+  margin-right: 15px;
+  font-size: 0.8em;
 }
 
 #user-nav div {
+  position: relative;
+  color: #999;
+  top: 8px;
   display: inline;
+  background-color: #4E453E;
+  padding: 8px;
+}
+
+#user-nav a {
+  color: #528DC0;
 }
 
 #header {
   overflow: hidden;
   background: #26201A url(/images/header/banner_bg.jpg) repeat-x top left;
-  border-bottom: 1px #000 solid;
+  xborder-bottom: 1px #000 solid;
 }
 
 #header > .content {
