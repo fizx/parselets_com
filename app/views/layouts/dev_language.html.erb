@@ -1,69 +1,73 @@
 <%= render 'layouts/header', :highlight_code => true %>
 
-<%= render 'dev/box' %>
+<div class='doc'>
 
-<%
-  language_name = yield(:language_name).to_s.strip
-  brush = yield(:language_brush).to_s.strip
-%>
+  <%= render 'dev/box' %>
 
-<h2>Getting Started with Parselets in <%= language_name %></h2>
+  <%
+    language_name = yield(:language_name).to_s.strip
+    brush = yield(:language_brush).to_s.strip
+  %>
 
-<h3>Example Code Using the Parselets.com API</h3>
+  <h2>Getting Started with Parselets in <%= language_name %></h2>
 
-<% if @parselet %>
-  <div>
+  <h3>Example Code Using the Parselets.com API</h3>
+
+  <% if @parselet %>
+    <div>
+      <p>
+        Here is example code in <%= language_name %> for the <%= link_to @parselet.name, parselet_path(@parselet) %> parselet:
+      </p>
+      <% syntax_highlight brush do %>
+        <%= yield :online_parselet_code_from_parselet %>
+      <% end %>
+    </div>
+  
+    <div>
+      <a href="#" onclick="$('example_online_code').show(); return false;">
+        Click here to view a more generic example of using the Parselets.com API with <%= language_name %>.
+      </a>
+    </div>
+  <% end %>
+
+  <div id='example_online_code' style='display: <%= @parselet.nil? ? 'block' : 'none' %>'>
     <p>
-      Here is example code in <%= language_name %> for the <%= link_to @parselet.name, parselet_path(@parselet) %> parselet:
+      The Parselets.com API allows you to search for and load Parselets for existing websites.  Here is an example:
     </p>
     <% syntax_highlight brush do %>
-      <%= yield :online_parselet_code_from_parselet %>
+      <%= yield :code %>
     <% end %>
   </div>
-  
-  <div>
-    <a href="#" onclick="$('example_online_code').show(); return false;">
-      Click here to view a more generic example of using the Parselets.com API with <%= language_name %>.
-    </a>
-  </div>
-<% end %>
 
-<div id='example_online_code' style='display: <%= @parselet.nil? ? 'block' : 'none' %>'>
+  <h3>Installation for <%= language_name %></h3>
+  <div>
+    <%= yield :install %>
+  </div>
+
+  <h3>Example Code with the Parsley <%= language_name %> Binding</h3>
   <p>
-    The Parselets.com API allows you to search for and load Parselets for existing websites.  Here is an example:
+    You can also use Parsley directly without touching the Parselets.com API.  First <a href="http://github.com/fizx/parsley/blob/master/INSTALL">install Parsley</a>, then <%= link_to "install the bindings", yield(:bindings_url).strip %>.  Here is some example code using Parsley directly from <%= language_name %>:
   </p>
-  <% syntax_highlight brush do %>
-    <%= yield :code %>
+
+  <% if @parselet %>
+    <% syntax_highlight brush, :options => 'smart-tabs: false' do %>
+      <%= yield :parsley_code_from_parselet %>
+    <% end %>
+    <div>
+      <a href="#" onclick="$('example_offline_code').show(); return false;">
+        Click here to view a more generic example of Parsley used with <%= language_name %>.
+      </a>
+    </div>
   <% end %>
-</div>
 
-<h3>Installation for <%= language_name %></h3>
-<div>
-  <%= yield :install %>
-</div>
-
-<h3>Example Code with the Parsley <%= language_name %> Binding</h3>
-<p>
-  You can also use Parsley directly without touching the Parselets.com API.  First <a href="http://github.com/fizx/parsley/blob/master/INSTALL">install Parsley</a>, then <%= link_to "install the bindings", yield(:bindings_url).strip %>.  Here is some example code using Parsley directly from <%= language_name %>:
-</p>
-
-<% if @parselet %>
-  <% syntax_highlight brush, :options => 'smart-tabs: false' do %>
-    <%= yield :parsley_code_from_parselet %>
-  <% end %>
-  <div>
-    <a href="#" onclick="$('example_offline_code').show(); return false;">
-      Click here to view a more generic example of Parsley used with <%= language_name %>.
-    </a>
+  <div id='example_offline_code' style='display: <%= @parselet.nil? ? 'block' : 'none' %>'>
+    <% syntax_highlight brush do %>
+      <%= yield :code_parsley %>
+    <% end %>
   </div>
-<% end %>
 
-<div id='example_offline_code' style='display: <%= @parselet.nil? ? 'block' : 'none' %>'>
-  <% syntax_highlight brush do %>
-    <%= yield :code_parsley %>
-  <% end %>
+  <%= yield %>
+
 </div>
-
-<%= yield %>
 
 <%= render 'layouts/footer' %>
