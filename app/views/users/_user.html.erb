@@ -1,11 +1,11 @@
-<li>
-  <%=gravatar(user.email)%>
-	<div style="float:left">
-		<h4><%=link_to user.login, user %>
+<% result_item parselets_path(:user => user.key) do %>
+  <%= gravatar(user.email) %>
+	<div class="result_body">
+		<h4><%= link_to user.login, user, :class => 'result_title stop_prop' %>
 		<small>(
-		<%=link_to "#{user.parselets.count} parselets", parselets_path(:user => user.key)%>
+		<%= link_to "#{user.parselets.count} parselets", parselets_path(:user => user.key), :class => 'stop_prop extra' %>
 		)</small>
 		</h4>
 		<p>member for <%=time_ago_in_words user.created_at %></p>
 	</div>
-</li>
+<% end %>

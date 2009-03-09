@@ -34,7 +34,13 @@
 		          alert(e);
 		        }
 			    }
-			  })
+			  });
+			  
+			  jQuery('.stop_prop').click(function(e) {
+			    if (!e) var e = window.event;
+        	e.cancelBubble = true;
+        	if (e.stopPropagation) e.stopPropagation();
+			  });
 			})
 		</script>
 

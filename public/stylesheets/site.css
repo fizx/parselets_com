@@ -11,11 +11,17 @@ body {
   width: 900px;
 }
 
-#top {
+#right_column {
 	border-left:1px silver solid;
 	float:right;
 	margin-left:15px;
-	padding-left:15px;
+	padding-left:0px;
+}
+
+#right_column h3 {
+  float: left;
+  margin-top: 10px;
+  margin-left: 15px;
 }
 
 ul#options {
@@ -190,7 +196,7 @@ td {
 }
 
 .thumb {
-  width:50px;
+  width: 80px;
   float:left;
   margin-right:5px;
   clear: left;
@@ -352,7 +358,7 @@ h1 {
 }*/
 
 a.url {
-	color:green;
+	color: #528DC0;
 	font-size:small;
 }
 
@@ -367,9 +373,49 @@ ol>li {
 	width:100%;
 	float:left;
 	clear:both;
+	padding: 15px 0px;
 	border-bottom:1px silver solid;
-	margin-bottom:15px;
-	padding-bottom:15px;
+	cursor: pointer;
+}
+
+a.extra {
+  color: #528DC0;
+}
+
+.results>li:hover {
+  background-color: #EEF4F9;
+}
+
+.results>li>div {
+	margin: 0px 15px;
+	color: #999;
+}
+
+a.result_title, a.result_title:visited {
+	color: #393128;
+	text-decoration:none;
+}
+a.result_title:hover {
+	text-decoration:underline;  
+}
+
+.result_body {
+  float: left;
+  margin-left: 15px;
+}
+
+.result_right {
+  float: right;
+}
+
+.results>li>div h4 {
+  font-size: 1.2em;
+  color: #3A3129;
+}
+
+.paginate {
+  float: left;
+  margin: 15px 15px;
 }
 
 #footer {
@@ -445,9 +491,9 @@ a#logo {
 }
 
 #main {
-  padding:15px;
 }
 
 #blurb p {
+  padding: 15px;
 	font-size:1em;
 }

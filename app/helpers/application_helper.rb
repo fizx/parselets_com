@@ -22,7 +22,7 @@ module ApplicationHelper
   end
   
   def example_link(parselet)
-    link_to h(parselet.pattern), parselet.example_url, :class => "url", :target => '_blank'
+    link_to h(parselet.pattern), parselet.example_url, :class => "url stop_prop", :target => '_blank'
     # , :onmouseover => "this.innerText='#{h truncate(parselet.example_url, :length => 120)}'", 
     #       :onmouseout => "this.innerText='#{h parselet.pattern}'"
   end
@@ -56,6 +56,18 @@ module ApplicationHelper
     out += "</li>"
     block_given? ? concat(out) : out
   end
+  
+  def result_item(url, &block)
+    url = url_for(url) unless url.is_a?(String)
+    url = escape_javascript url
+    concat <<-STR
+      <li onclick="window.location = '#{url}'; return false;">
+        <div>
+          #{capture &block}
+        </div>
+      </li>
+    STR
+  end
     
   def thumb(object, link = nil)
     is_model = object.is_a?(ActiveRecord::Base)
@@ -66,7 +78,7 @@ module ApplicationHelper
   end
   
   def comments(model, small = false)
-    link_to icon("balloons") + (small ? "<span class=count id='comments_#{dom_id(model)}'> #{model.comments_count}</span>" : " comments (#{model.comments_count})"), {:controller => "comments", :id => model.id, :type => model.class}, :class => "comments_link", :rel => "facebox"
+    link_to icon("balloons") + (small ? "<span class=count id='comments_#{dom_id(model)}'> #{model.comments_count}</span>" : " comments (#{model.comments_count})"), {:controller => "comments", :id => model.id, :type => model.class}, :class => "comments_link stop_prop", :rel => "facebox"
   end
   
   def status(parselet, small = false)
