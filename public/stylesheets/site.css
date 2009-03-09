@@ -94,7 +94,7 @@ form#search {
   float: right;
   width: auto;
   margin-top: 2px;
-  margin-right: 15px;
+  margin-right: 28px;
 }
 
 form#search input[type=text] {
@@ -271,6 +271,10 @@ p{
   margin-left: 28px;
 }
 
+#nav li img {
+  margin-left: 5px;
+}
+
 #nav li a {
   color: #999;
   text-decoration: none;
@@ -396,7 +400,7 @@ div.desc {
 #user-nav {
   float: right;
   display: block;
-  margin-right: 15px;
+  margin-right: 28px;
   font-size: 0.8em;
 }
 
