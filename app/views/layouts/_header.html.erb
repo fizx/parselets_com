@@ -81,9 +81,6 @@
         <div id="logo"><%=link_to "parselets.com", "/"%></div>
         <ul id="nav">
           <li><%=link_to_unless_current "Parselets", parselets_url %> <%=link_to icon("plus_small", "create parselet"), new_parselet_url %></li>
-          <% if admin? %>
-          	<li><%=link_to_unless_current "Sprigs", sprigs_url %> <%=link_to icon("plus_small", "create sprig"), new_sprig_url %></li>
-          <% end %>
           <li><%=link_to_unless_current "Domains", domains_url %> <%=empty_icon %></li>
           <li><%=link_to_unless_current "Users", users_url %> <%=empty_icon %></li>
           <li><%=link_to_unless_current "Development Tools", dev_url %> <%=empty_icon %></li>
