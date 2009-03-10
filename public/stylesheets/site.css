@@ -391,7 +391,9 @@ ol>li {
 	float:left;
 	clear:both;
 	padding: 15px 0px;
-	border-bottom:1px silver solid;
+  border-bottom: 1px solid silver;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
 	cursor: pointer;
 }
 
@@ -401,6 +403,12 @@ a.extra {
 
 .results>li:hover {
   background-color: #EEF4F9;
+  border-left: 1px solid silver;
+  border-right: 1px solid silver;
+  border-top: 1px solid silver;
+  position: relative;
+  top: -1px;
+  margin-bottom: -1px;
 }
 
 .results>li>div {
@@ -498,6 +506,16 @@ a#logo {
 
 #blurb p {
 	font-size:1em;
+	margin-left: 12px;
+}
+
+.doc {
+  color: #666;
+  margin-left: 12px;
+}
+
+.doc p {
+  line-height: 1.4em;
 }
 
 .doc ul, .doc ol, .doc li {
@@ -512,10 +530,12 @@ a#logo {
   text-decoration: underline;
 }
 .doc h1, .doc h2, .doc h3, .doc h4, .doc h5, .doc h6 {
-  margin-top: 10px;
+  margin: 10px 0px 8px 0px;
 }
 .doc li {
   margin-left: 20px;
+  font-size: 0.9em;
+  margin-bottom: 5px;
 }
 
 .doc h1 {
@@ -535,13 +555,17 @@ a#logo {
   font-size:0.9em;
 }
 
+.doc .code span.block {
+  margin-bottom: 5px;
+}
+
 .doc_box {
   position: relative;
   left:-2px;
   width: 200px;
   float: right;
   margin: 0px 10px 10px 10px;
-  padding: 5px;
+  padding: 7px 5px 4px 5px;
   border: 1px solid silver;
   z-index:10;
 }
