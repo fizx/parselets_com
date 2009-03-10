@@ -4,8 +4,9 @@ require "ostruct"
 
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-  def icon(name, alt = nil)
-    image_tag("/images/icons/#{name}.png", :border => 0, :align => "absmiddle", :alt => alt, :title => alt)
+  def icon(name, alt = nil, directory = 'icons')
+    extension = (name =~ /\.\w{3,4}$/) ? '' : '.png'
+    image_tag("/images/#{directory.length > 0 ? "#{directory}/" : ''}#{name}#{extension}", :border => 0, :align => "absmiddle", :alt => alt, :title => alt)
   end
   
   def parselet_edit_path(parselet)
@@ -17,11 +18,11 @@ module ApplicationHelper
   end
   
   def empty_icon
-    image_tag("/images/spacer.gif", :width => 16, :height => 16, :border => 0, :align => "absmiddle")
+    image_tag("/images/spacer.gif", :width => 14, :height => 14, :border => 0, :align => "absmiddle")
   end
   
   def example_link(parselet)
-    link_to h(parselet.pattern), parselet.example_url, :class => "url", :target => '_blank'
+    link_to h(parselet.pattern), parselet.example_url, :class => "url stop_prop", :target => '_blank'
     # , :onmouseover => "this.innerText='#{h truncate(parselet.example_url, :length => 120)}'", 
     #       :onmouseout => "this.innerText='#{h parselet.pattern}'"
   end
@@ -47,6 +48,26 @@ module ApplicationHelper
     puts "hi"
     options[:content].nil? ? concat(out) : out
   end
+  
+  def menu_option(name, url, &block)
+    out = "<li#{" class='selected'" if current_page?(url)}>"
+    out += "#{link_to_unless_current name, url}"
+    out += capture(&block) if block_given?
+    out += "</li>"
+    block_given? ? concat(out) : out
+  end
+  
+  def result_item(url, &block)
+    url = url_for(url) unless url.is_a?(String)
+    url = escape_javascript url
+    concat <<-STR
+      <li onclick="window.location = '#{url}'; return false;">
+        <div>
+          #{capture &block}
+        </div>
+      </li>
+    STR
+  end
     
   def thumb(object, link = nil)
     is_model = object.is_a?(ActiveRecord::Base)
@@ -57,7 +78,7 @@ module ApplicationHelper
   end
   
   def comments(model, small = false)
-    link_to icon("balloons") + (small ? "<span class=count id='comments_#{dom_id(model)}'> #{model.comments_count}</span>" : " comments (#{model.comments_count})"), {:controller => "comments", :id => model.id, :type => model.class}, :class => "comments_link", :rel => "facebox"
+    link_to icon("balloons") + (small ? "<span class=count id='comments_#{dom_id(model)}'> #{model.comments_count}</span>" : " comments (#{model.comments_count})"), {:controller => "comments", :id => model.id, :type => model.class}, :class => "comments_link stop_prop", :rel => "facebox"
   end
   
   def status(parselet, small = false)

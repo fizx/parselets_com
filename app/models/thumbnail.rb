@@ -9,11 +9,14 @@ class Thumbnail < ActiveRecord::Base
   
   before_save :download
   DEFAULT_PATH = "/images/spacer.gif"
+  DEBUG_PATH = "/images/debug_thumbnail.jpg"
   MAX_TRIES = 5
   
   def self.path_for(url)
-    return DEFAULT_PATH unless thumbnail_service_ready?
-    
+    if !thumbnail_service_ready?
+      return (RAILS_ENV == 'development') ? DEBUG_PATH : DEFAULT_PATH
+    end
+
     File.exists?(filesystem_path(url)) ? 
       relative_path(url) : 
       try_url(url)

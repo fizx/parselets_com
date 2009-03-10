@@ -18,10 +18,10 @@ class Parselet < ActiveRecord::Base
     
     def find_by_params(params = {})
       parselet = if params[:id] =~ /\A\d+\Z/
-        find(params[:id])
-      else
-        find_by_name(params[:id])
-      end
+                   find(params[:id])
+                 else
+                   find_by_name(params[:id])
+                 end
       if params[:version] && params[:version].to_i < parselet.version
         parselet.revert_to(params[:version].to_i)
       end

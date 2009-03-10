@@ -8,8 +8,9 @@
       Unknown
     <% end %>
     </span>
+    <%= "<strong>(currently displayed)</strong>" if params[:version].to_s == version.version.to_s %>
     </h3>
-    <%=version.status%>
+    Status: <%= version.status %>
     <pre id="<%=version.version%>-version-diff" style="display:none"></pre>
     <pre id="<%=version.version%>-version-summary" class="summary" style="display:none"><%=h version.summary%></pre>
 </li>

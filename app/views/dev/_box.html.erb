@@ -1,8 +1,15 @@
-<div style="width:700px">
-  Use Parselets with: <%= link_to "Ruby", :action => 'ruby' %>, 
-  <%= link_to "Python", :action => 'python' %>, 
-  <%= link_to "C/C++", :action => 'c' %>, 
-  <%= link_to "the command line", :action => 'command_line' %>, 
-  or
-  <%= link_to "other languages", :action => 'other_languages' %>.
+<div class='doc_box'>
+  <ul>
+    <li><%= link_to_unless_current "Development Home", :action => 'index' %>
+      <ul>
+        <li><%= link_to_unless_current "Ruby", :action => 'ruby' %></li>
+        <li><%= link_to_unless_current "Python", :action => 'python' %></li> 
+        <li><%= link_to_unless_current "C/C++", :action => 'c' %></li>
+        <li><%= link_to_unless_current "the command line", :action => 'command_line' %></li>
+        <li><%= link_to_unless_current "other languages", :action => 'other_languages' %></li>
+      </ul>
+    </li>
+    <li><%= link_to_unless_current "Parselets.com API", :action => 'api' %></li>
+    <li><%= link_to_unless_current "Getting Help", :action => 'help' %></li>
+  </ul>
 </div>

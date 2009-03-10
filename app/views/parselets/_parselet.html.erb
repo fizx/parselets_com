@@ -1,12 +1,14 @@
-<li>
-  <%=thumb(parselet)%>
-	<div style="margin-left:55px">
+<% result_item(parselet) do %>
+  <%= thumb(parselet) %>
+	<div class="result_right">
+	  <%= ratings parselet %>
+	  <%= comments parselet, :small %>
+  </div>
+	<div class="result_body">
 		<h4>
-			<%=ratings parselet %>
-		  <%=comments parselet, :small %>
-			<%=link_to h(parselet.name), parselet %>
+			<%=link_to h(parselet.name), parselet, :class => 'result_title stop_prop' %>
 		</h4>
-		<%=example_link(parselet)%>
+		<%= example_link(parselet) %>
 		<p><%=h truncate(parselet.description, :length => 250) %></p>
 	</div>
-</li>
+<% end %>

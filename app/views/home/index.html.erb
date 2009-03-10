@@ -1,7 +1,8 @@
-<div id="top">
-	<ol><%=render @parselets %></ol>
+<div id="right_column">
+	<ol class="results frontpage"><%=render @parselets %></ol>
 	<h3><%=link_to "#{Parselet.count - 5} more &rarr", parselets_path %></h3>
 </div>
+
 <div id="blurb">
   <p>
     Parselets are free, open, developer-generated APIs for a wide variety of websites.  <%=link_to "Parselets.com" %> is a place to create and share them.
