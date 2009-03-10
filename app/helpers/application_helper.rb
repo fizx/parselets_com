@@ -9,6 +9,10 @@ module ApplicationHelper
     image_tag("/images/#{directory.length > 0 ? "#{directory}/" : ''}#{name}#{extension}", :border => 0, :align => "absmiddle", :alt => alt, :title => alt)
   end
   
+  def wikify(text)
+    text.gsub(/\[\[([\w\-]+)\]\]/, '<a href="/parselets/\1">\1</a>')
+  end
+  
   def parselet_edit_path(parselet)
     "/parselets/#{parselet.name}/#{parselet.version}/edit"
   end

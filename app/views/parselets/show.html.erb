@@ -12,7 +12,7 @@
 		<div><%=example_link @parselet%> <%=link_to "cached", @parselet.cached_page, :class => "small" %></div>
 	</div>
 </div>
-<div class="desc"><%=h @parselet.description %></div>
+<div class="desc"><%=wikify(simple_format(h(@parselet.description))) %></div>
 
 <!-- <div style="background-color:#eee;border:1px silver solid;padding:10px;display:table;">
 <pre><%= h @parselet.pretty_code %></pre>
