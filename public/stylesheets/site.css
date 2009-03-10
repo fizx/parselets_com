@@ -85,6 +85,7 @@ div {
 .column {
 	float:left;
 	margin-right:15px;
+	margin-left:13px;
 	padding-right:15px;
 	border-right:1px silver solid;
 }
