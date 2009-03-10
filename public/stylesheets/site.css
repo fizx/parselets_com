@@ -4,6 +4,14 @@ body {
   background-color:#eee;
 }
 
+#notice {
+  border:1px #ccc solid;
+  background-color: #fff9db;
+  padding: 7px 12px 7px 12px;
+  margin-bottom:15px;
+/*  margin: 0 13px 15px 14px;*/
+}
+
 #body {
   position:relative;
   margin: 0 auto 0 auto;
@@ -441,6 +449,11 @@ a.result_title:hover {
 .result_body {
   float: left;
   margin-left: 15px;
+  width:600px;
+}
+
+#right_column .result_body {
+  width:auto;
 }
 
 .result_right {
@@ -497,11 +510,6 @@ div.desc {
   width: 900px;
   margin: 0 auto;
   overflow: hidden;
-}
-
-#notice {
-  padding:7px 15px 7px 15px;
-  background-color:#ffc;
 }
 
 a#logo {
