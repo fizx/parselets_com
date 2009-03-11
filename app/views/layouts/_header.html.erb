@@ -4,11 +4,47 @@
 		<link href="/facebox/facebox.css" media="screen" rel="stylesheet" type="text/css" />
 		<link href="/stylesheets/jquery.rating.css" media="screen" rel="stylesheet" type="text/css" />
 		<script src="/javascripts/jquery.js"></script>
+		<script src="/javascripts/diff_match_patch.js"></script>
 		<script src="/javascripts/jquery.rating.js"></script>
 		<script src="/facebox/facebox.js"></script>
 		<script>
 			jQuery(document).ready(function(e) {
+			  var differ = new diff_match_patch();
+			  
 			  jQuery('a[rel*=facebox]').facebox();
+			  
+			  jQuery('.summary').each(function(){
+			    var old = jQuery("#" + (parseInt(this.id) - 1) + "-version-summary");
+			    var target = jQuery("#" + parseInt(this.id) + "-version-diff");
+			    if(old.size() == 0) old = jQuery("<div/>");
+			    if(target.size() > 0) {
+			      try {
+			        var diff = differ.diff_main(old.html(), jQuery(this).html());
+			        differ.diff_cleanupSemantic(diff);
+			        var arr = differ.diff_prettyHtml(diff).split("{{{");
+			        var buffer = "";
+			        for(var i = 0; i < arr.length; i++) {
+			          if(arr[i].indexOf("<INS") > -1 || arr[i].indexOf("<DEL") > -1) {
+			            buffer += "{{{" + arr[i]
+			          }
+			        }
+			        target.html(buffer.replace(/{{{/g, "<strong>").replace(/}}}/g, "</strong>"));
+			        target.toggle();
+		        } catch(e){
+		          alert(e);
+		        }
+			    }
+			  });
+			  
+			  jQuery('.stop_prop').click(function(e) {
+			    if (!e) var e = window.event;
+        	e.cancelBubble = true;
+        	if (e.stopPropagation) e.stopPropagation();
+			  });
+			  
+			  jQuery('#box').focus(function(e) {
+			    if (jQuery(this).val() == 'search') jQuery(this).val('');
+			  });
 			})
 		</script>
 
@@ -47,26 +83,28 @@
     
   </head>
   <body>
-    <div id="body">
-      <div id="header">
+    <div id="header">
+      <div class="content">
         <div id="user-nav">
           <%=render "/users/user_bar" %>
         </div>
-        <div id="logo"><%=link_to "parselets.com", "/"%></div>
+        <%=link_to "parselets.com", "/", :id => "logo"%>
         <ul id="nav">
-          <li><%=link_to_unless_current "Parselets", parselets_url %> <%=link_to icon("plus_small", "create parselet"), new_parselet_url %></li>
-          <% if admin? %>
-          	<li><%=link_to_unless_current "Sprigs", sprigs_url %> <%=link_to icon("plus_small", "create sprig"), new_sprig_url %></li>
+          <% menu_option "parselets", parselets_url do %>
+            <%=link_to icon("plus_icon.jpg", "create parselet", ''), new_parselet_url %>
           <% end %>
-          <li><%=link_to_unless_current "Domains", domains_url %> <%=empty_icon %></li>
-          <li><%=link_to_unless_current "Users", users_url %> <%=empty_icon %></li>
-          <li><%=link_to_unless_current "Development Tools", dev_url %> <%=empty_icon %></li>
+          <%= menu_option "domains", domains_url %>
+          <%= menu_option "users", users_url %>
+          <%= menu_option "dev tools", dev_url %>
         </ul>
+      	<form id="search" action="/search" method="GET">
+       		<%=text_field_tag "q", params[:q], :id => "box", :value => params[:q] || "search" %>
+      		<input type="submit" value="Search">
+      	</form>
         <div id="cheat"></div>
       </div>
-      <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
-  	<form id="search" action="/search" method="GET">
-   		<%=text_field_tag "q", params[:q], :id => "box" %>
-  		<input type="submit" value="Search">
-  	</form>
-    <div id="main">
+    </div>
+    <div id='body_wrapper'>
+      <div id="body">
+        <div id="main">
+          <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>

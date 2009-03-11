@@ -3,3 +3,4 @@ db/*.sqlite3
 tmp
 config/ultrasphinx/development.conf
 public/thumbs
+**/.DS_Store

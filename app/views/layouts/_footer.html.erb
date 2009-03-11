@@ -1,9 +1,14 @@
+        </div>
       </div>
-  		<div id="footer">
-  			<div class="nest">
-  				&copy; 2009, Kyle Maxwell &amp; Andrew Cantino
-  			</div>
-  		</div>
-  	</div>
+    </div>
+    <div id="footer">
+    	<div class="nest">
+    	  <% if admin? %>
+        	admin: <%=link_to_unless_current "Sprigs", sprigs_url %> <%=link_to icon("plus_small", "create sprig"), new_sprig_url %> -
+        <% end %>
+			  
+    		&copy; 2009, Kyle Maxwell &amp; Andrew Cantino
+    	</div>
+    </div>
   </body>
 </html>

@@ -1,5 +1,7 @@
 <h1>Versions of <%=@parselet.name%></h1>
-<ol>
+<ol class="results">
   <%=render @parselet_versions %>
 </ol>
-<%=will_paginate @parselet_versions %>
+<div class="paginate">
+  <%=will_paginate @parselet_versions %>
+</div>
