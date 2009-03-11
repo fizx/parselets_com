@@ -15,7 +15,7 @@ class Parselet < ActiveRecord::Base
       SQL
     end
     
-    def find_by_params(params = {})
+    def find_by_params(params = {}, versionable = true)
       parselet = if params[:id] =~ /\A\d+\Z/
         find(params[:id])
       else
@@ -325,7 +325,9 @@ class Parselet < ActiveRecord::Base
     end
     
     def pretty_parse(url, options = {})
+      logger.info "pretty_parse"
       OrderedJSON.pretty_dump(parse(url, options)).gsub("\t", TAB)
+      logger.info "success"
     end
 
     def set_working(val)
@@ -337,7 +339,9 @@ class Parselet < ActiveRecord::Base
     end
 
     def pretty_example_data
+      logger.info "pretty_example_data"
       OrderedJSON.pretty_dump(example_data).gsub("\t", TAB)
+      logger.info "success"
     end
     
     def compressed_html_example_data
@@ -422,7 +426,9 @@ class Parselet < ActiveRecord::Base
     end
 
     def pretty_code
+      logger.info "pretty_code"
       OrderedJSON.pretty_dump(OrderedJSON.parse(code)).gsub("\t", TAB)
+      logger.info "success"
     end
 
     def json

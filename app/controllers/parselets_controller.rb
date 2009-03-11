@@ -95,7 +95,7 @@ class ParseletsController < ApplicationController
   # PUT /parselets/1
   # PUT /parselets/1.xml
   def update
-    @parselet = Parselet.find_by_params(params)
+    @parselet = Parselet.find_by_params(params, false)
     @parselet.code = Parselet.tmp_from_params(params).code
     @parselet.revision_user_id = current_user.id
 
