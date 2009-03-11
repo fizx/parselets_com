@@ -1,78 +1,63 @@
 <% form_for(@parselet, :url => {  :action => @parselet.new_record? ? "create" : "update" }, :html => {:id => "parselet_form"}) do |f| %>
   <%= f.error_messages %>
 
-  <table cellpadding="5" cellspacing="0" border="0">
-    <tr>
-      <th colspan="2">Basic info</th>
-    </tr>
-    <tr>
-      <td>
-        <%= f.label :keyword %><br />
-        <%= f.text_field :name, :disabled => !(admin? || @parselet.new_record?) %>
-      </td>
-      <td class="info" width="100%">A short name to reference your parselet by.  It should be alphanumeric+underscore.</td>
-    </tr>
-    <tr>
-      <td>
-        <%= f.label :description %><br />
-        <%= f.text_area :description %>
-      </td>
-      <td class="info">Human-readable description of the parselet, indexed by search. </td>
-    </tr>
-  </table>
-  
-  <table cellpadding="5" cellspacing="0" border="0">
-    <tr>
-      <th colspan="2">Scope</th>
-    </tr>
-    <tr>
-      <td>
-        <%= f.label :example_url %><br />
-        <%= f.text_field :example_url %>
-      </td>
-      <td class="info">A url that will be used to validate, preview, etc. your parselet.  It must match the pattern.</td>
-    </tr>
-    <tr>
-      <td>
-        <%= f.label :pattern %>
-        <br />
-        <%= f.text_field :pattern %>
-      </td>
-      <td class="info">A pattern that describes urls expected to match this parselet.  Put parameters or unknown chunks of the url in curly braces.
-			<br><br>
-			<h4>Examples:</h4>
-			<ul>
-				<li>http://www.youtube.com/watch?v={id} </li>
-				<li>http://yelp.com/{city?} &larr; (the question mark denotes an optional parameter)</li>
-			</ul>
-    </tr>
-  </table>
-  
-  <table cellpadding="5" cellspacing="0" border="0">
-    <tr>
-      <th colspan="2">
-		<%=hidden_field_tag "editor_helpful", "true"%>
-		<%=hidden_field_tag "root-command", "" %>
-        <div class="tab"><%=link_to_function "Helpful", "helpful(true)", :class => "selected", :id => "hyes" %></div>
-        <div class="tab"><%=link_to_function "Simple", "helpful(false)", :id => "hno" %></div>
-      </th>
-    </tr>
-    <tr>
-      <td id="code_container" colspan="2">
-          <%# begin %>
-					<%=render "/parselets/code", :editor_type => "helpful", :path => "root", :data => @parselet.json, :example_data => @parselet.example_data %>
-					<%# rescue %>
-					<%#=render "code", :editor_type => "simple", :path => "root", :data => @parselet.json, :example_data => @parselet.example_data %>
-					<%# end %>
-			</td>
-    </tr>
-  </table>
+  <%= render 'cancel_save' %>
 
-  <table cellpadding="5" cellspacing="0" border="0">
-    <tr>
-      <th class="buttons">
-        <%=submit_tag "Save"%>
-      </th>
-    </tr>
-	</table>
+  <div class='section'>
+    <h3>Basic info</h3>
+    <div class='section_body'>
+      <div class='section_row'>
+        <%= f.label :keyword %>
+        <%= f.text_field :name, :disabled => !(admin? || @parselet.new_record?), :class => 'text' %>
+        <span class='section_info'>A short name to reference your parselet by.  It should be alphanumeric+underscore.</span>
+      </div>
+      <div class='section_row'>
+        <%= f.label :description %>
+        <%= f.text_area :description %>
+        <span class='section_info'>Human-readable description of the parselet, indexed by search.</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class='section'>
+    <h3>Scope</h3>
+    <div class='section_body'>
+      <div class='section_row'>
+        <%= f.label :example_url %>
+        <%= f.text_field :example_url, :class => 'text' %>
+        <span class='section_info'>A url that will be used to validate, preview, etc. your parselet.  It must match the pattern.</span>
+      </div>
+      <div class='section_row'>
+        <%= f.label :pattern %>
+        <%= f.text_field :pattern, :class => 'text' %>
+        <span class='section_info'>
+          A pattern that describes urls expected to match this parselet.  Put parameters or unknown chunks of the url in curly braces.
+          <p />
+          <h4>Examples:</h4>
+    			<ul>
+    				<li>http://www.youtube.com/watch?v={id} </li>
+    				<li>http://yelp.com/{city?} &larr; (the question mark denotes an optional parameter)</li>
+    			</ul>
+        </span>
+      </div>
+    </div>
+  </div>
+  
+  <div class='section'>
+    <h3>Parselet Editor</h3>
+    <div class='code'>
+      <textarea id="simple_code" name="parselet[code]"></textarea>
+    </div>
+  </div>
+  
+  <script>
+    jQuery(document).ready(function(){
+      jQuery('#simple_code').val(JSON.stringify(<%= @parselet.pretty_code %>, null, 2));
+      var j = new ParseletEditor(jQuery("#simple_code"), 400, 300);
+      j.doTruncation(true);
+      j.showFunctionButtons();
+    });
+  </script>
+  
+  <%= render 'cancel_save' %>
 <% end %>

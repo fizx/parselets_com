@@ -4,19 +4,20 @@ require "ruby-debug"
 class ParseletsController < ApplicationController
   layout "simple"
   around_filter :dynamic_scope
+  before_filter :include_editor, :only => [:new, :edit]
   
-  def code
-    @editor_type = params["editor_helpful"].blank? ? "simple" : "helpful"
-    @parselet = Parselet.tmp_from_params(params)
-    render :update do |page|
-      page.replace_html "code_container", :partial => "code",
-        :locals => {:path => "root", 
-                    :data => @parselet.data, 
-                    :example_data => @parselet.example_data,
-                    :editor_type => @editor_type }
-      page << "$('root-command').value = ''"
-    end
-  end
+  # def code
+  #   @editor_type = params["editor_helpful"].blank? ? "simple" : "helpful"
+  #   @parselet = Parselet.tmp_from_params(params)
+  #   render :update do |page|
+  #     page.replace_html "code_container", :partial => "code",
+  #       :locals => {:path => "root", 
+  #                   :data => @parselet.data, 
+  #                   :example_data => @parselet.example_data,
+  #                   :editor_type => @editor_type }
+  #     page << "$('root-command').value = ''"
+  #   end
+  # end
   
   # GET /parselets
   # GET /parselets.xml
@@ -28,12 +29,17 @@ class ParseletsController < ApplicationController
       format.xml  { render :xml => @parselets }
     end
   end
-  
+
   def parse
-    @parselet = Parselet.find_by_params(params)
+    if params[:editor]
+      @parselet = Parselet.tmp_from_params(params)
+      params[:url] = @parselet.example_url
+    else
+      @parselet = Parselet.find_by_params(params)
+      params[:url] ||= @parselet.example_url
+    end
 
     @highlight_code = true
-    params[:url] ||= @parselet.example_url
 
     @json = @parselet.pretty_parse(params[:url])
     
@@ -121,5 +127,11 @@ class ParseletsController < ApplicationController
       format.html { redirect_to(parselets_url) }
       format.xml  { head :ok }
     end
+  end
+  
+protected
+
+  def include_editor
+    @include_editor = true
   end
 end

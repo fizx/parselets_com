@@ -3,4 +3,4 @@
 <%=render "/parselets/#{editor_type}", :path => "root", :data => data, :example_data => example_data %>
 
 <Br>--------------<br>
-<%=text_field_tag "errrors", (example_data["errors"] || []).join(", "), :style => "width:90%" %>
+<%=text_field_tag "errors", (example_data["errors"] || []).join(", "), :style => "width:90%" %>

@@ -2,6 +2,7 @@ body {
   font-family:sans-serif;
   margin:0;
   background-color:#eee;
+  color: #393128;
 }
 
 #notice {
@@ -10,6 +11,10 @@ body {
   padding: 7px 12px 7px 12px;
   margin-bottom:15px;
 /*  margin: 0 13px 15px 14px;*/
+}
+
+.faded {
+  color: #CCCCCC;
 }
 
 #body {
@@ -380,7 +385,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-size:1.3em;
+	font-size:1.5em;
 }
 
 a.url {
@@ -532,9 +537,12 @@ a#logo {
 	margin-left: 12px;
 }
 
+.shift {
+  margin-left: 12px;
+}
+
 .doc {
   color: #666;
-  margin-left: 12px;
 }
 
 .doc p {
@@ -591,4 +599,53 @@ a#logo {
   padding: 7px 5px 4px 5px;
   border: 1px solid silver;
   z-index:10;
+}
+
+.save_button {
+  float: right;
+  height: 24px;
+  width: 63px !important;
+  display: block;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+.section{
+  float:left;
+  clear:both;
+  width:900px;
+}
+.section h3{
+  margin-top: 20px;
+}
+.section_body{
+  background-color: #F2F2F2;
+  padding:0px 20px 20px 20px;
+  margin:0px;
+  float:left;
+  width:805px;
+}
+.section_row{
+  float:left;
+  clear:both;
+  width:805px;
+}
+.section_row label{
+  clear:both;
+  display:block;
+  float:left;
+  margin-top:20px;
+  font-weight:bold;
+  font-size:0.9em;
+}
+.section_row input.text, .section_row textarea{
+  float:left;
+  clear:left;
+  width: 300px;
+}
+.section_info{
+  font-size:0.7em;
+  float:left;
+  margin-left: 50px;
+  margin-top: 5px;
+  width:400px;
 }
