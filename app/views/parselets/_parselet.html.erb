@@ -9,6 +9,6 @@
 			<%=link_to h(parselet.name), parselet, :class => 'result_title stop_prop' %>
 		</h4>
 		<%= example_link(parselet) %>
-		<p><%=h truncate(parselet.description, :length => 250) %></p>
+		<p><%=wikify(h(truncate(parselet.description, :length => 250))) %></p>
 	</div>
 <% end %>
