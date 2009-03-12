@@ -7,9 +7,9 @@ ActionController::Routing::Routes.draw do |map|
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.search '/search', :controller => 'search', :action => 'index'
   
-  map.parselet_code "/parselet_code", :controller => 'parselets', :action => 'code'
   map.sprig_code "/sprig_code", :controller => 'parselets', :action => 'code'
   
+  map.connect "/parse", :controller => 'parselets', :action => 'parse', :for_editor => true
   map.parse "/parse/:id", :controller => 'parselets', :action => 'parse'
   
   map.dev "/dev/:action/:id", :controller => 'dev'

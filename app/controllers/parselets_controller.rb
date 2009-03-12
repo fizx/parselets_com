@@ -31,7 +31,7 @@ class ParseletsController < ApplicationController
   end
 
   def parse
-    if params[:editor]
+    if params[:for_editor]
       @parselet = Parselet.tmp_from_params(params)
       params[:url] = @parselet.example_url
     else

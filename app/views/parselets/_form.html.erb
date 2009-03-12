@@ -45,17 +45,47 @@
   
   <div class='section'>
     <h3>Parselet Editor</h3>
+    
+    <ul class="code_tabs">
+      <li id='result_tab'><a href="#">result</a></li>
+      <li id='simple_tab'><a href="#">simple</a></li>
+      <li class='selected' id='helpful_tab'><a href="#">helpful</a></li>
+    </ul>
+    
     <div class='code'>
-      <textarea id="simple_code" name="parselet[code]"></textarea>
+      <textarea id="simple_code" name="parselet[code]" style='display:none' class='code_window'></textarea>
+      <textarea id="result" style='display:none' class='code_window'></textarea>
     </div>
   </div>
   
   <script>
     jQuery(document).ready(function(){
       jQuery('#simple_code').val(JSON.stringify(<%= @parselet.pretty_code %>, null, 2));
-      var j = new ParseletEditor(jQuery("#simple_code"), 400, 300);
-      j.doTruncation(true);
-      j.showFunctionButtons();
+      var editor = new ParseletEditor(jQuery("#simple_code"), jQuery('#result'), 
+                                      jQuery('#parselet_form'), '/parse?format=json');
+      editor.showHelpful();
+      
+      $('#helpful_tab').click(function(e) {
+        $('#helpful_tab').addClass('selected');
+        $('#simple_tab').removeClass('selected');
+        $('#result_tab').removeClass('selected');
+        editor.showHelpful();
+        return false;
+      });
+      $('#simple_tab').click(function(e) {
+        $('#simple_tab').addClass('selected');
+        $('#helpful_tab').removeClass('selected');
+        $('#result_tab').removeClass('selected');
+        editor.showSimple();
+        return false;
+      });
+      $('#result_tab').click(function(e) {
+        $('#result_tab').addClass('selected');
+        $('#helpful_tab').removeClass('selected');
+        $('#simple_tab').removeClass('selected');
+        editor.showResult();
+        return false;
+      });
     });
   </script>
   
