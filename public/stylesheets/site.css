@@ -649,3 +649,64 @@ a#logo {
   margin-top: 5px;
   width:400px;
 }
+
+/* Code editing */
+
+.code {
+  background-color: #FFF9DB;
+  border: 1px solid #dddddd;
+  padding:0px 20px 20px 20px;
+  margin:0px;
+  float:left;
+  width:805px;
+}
+
+.code_window {
+  margin-top:20px;
+  width:805px;
+  height:200px;
+}
+
+.code_tabs {
+  margin-right: 53px;
+}
+
+.code_tabs li {
+  float: right;
+  height: 36px;
+  width: 102px;
+  background: url(/images/code/tab_left.png) no-repeat top left;
+  line-height: 38px;
+  position: relative;
+  top: 0px;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+  top: 1px;
+  border-bottom: 1px solid #dddddd;
+	cursor: pointer;
+  margin-left: 8px;
+}
+
+.code_tabs li.selected {
+  background: url(/images/code/tab_left_selected.png) no-repeat top left;
+  border-bottom: 1px solid #FFF9DB;
+}
+
+.code_tabs li a {
+  color: #999;
+  text-decoration: none;
+}
+
+.code_tabs li.selected a {
+  color: #000;
+  text-decoration: none;
+}
+
+.code_tabs li a:hover {
+  color: #8FC100;
+}
+
