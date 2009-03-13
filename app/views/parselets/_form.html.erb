@@ -53,6 +53,10 @@
     </ul>
     
     <div class='code'>
+      <div id='code_controls'>
+        <a href='#' id='undo'>Undo</a>
+        <a href='#' id='redo'>Redo</a>
+      </div>
       <textarea id="simple_code" name="parselet[code]" style='display:none' class='code_window'></textarea>
       <textarea id="result" style='display:none' class='code_window'></textarea>
     </div>
@@ -66,26 +70,32 @@
       editor.showHelpful();
       
       $('#helpful_tab').click(function(e) {
-        $('#helpful_tab').addClass('selected');
-        $('#simple_tab').removeClass('selected');
-        $('#result_tab').removeClass('selected');
-        editor.showHelpful();
+        if (editor.showHelpful()) {
+          $('#helpful_tab').addClass('selected');
+          $('#simple_tab').removeClass('selected');
+          $('#result_tab').removeClass('selected');
+        }
         return false;
       });
       $('#simple_tab').click(function(e) {
-        $('#simple_tab').addClass('selected');
-        $('#helpful_tab').removeClass('selected');
-        $('#result_tab').removeClass('selected');
-        editor.showSimple();
+        if (editor.showSimple()) {
+          $('#simple_tab').addClass('selected');
+          $('#helpful_tab').removeClass('selected');
+          $('#result_tab').removeClass('selected');
+        }
         return false;
       });
       $('#result_tab').click(function(e) {
-        $('#result_tab').addClass('selected');
-        $('#helpful_tab').removeClass('selected');
-        $('#simple_tab').removeClass('selected');
-        editor.showResult();
+        if (editor.showResult()) {
+          $('#result_tab').addClass('selected');
+          $('#helpful_tab').removeClass('selected');
+          $('#simple_tab').removeClass('selected');
+        }
         return false;
       });
+      
+      $('#undo').click(function(e) { editor.undo(); return false; });
+      $('#redo').click(function(e) { editor.redo(); return false; });
     });
   </script>
   
