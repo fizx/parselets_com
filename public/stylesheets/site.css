@@ -751,6 +751,12 @@ a#logo {
 .code .curly_bracket_lt {
   clear: left;
 }
+.menu_placeholder {
+  width: 12px;
+}
+.code .new_row {
+  color: #999;
+}
 
 .cover {
   z-index: 15;

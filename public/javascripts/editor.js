@@ -82,7 +82,7 @@ ParseletEditor.prototype.tryParselet = function() {
   var self = this;
 	$.post(this.parseletUrl, this.form.serialize(), function(data) {
 	  self.result_json = data;
-	  var pp = JSON.stringify(data, null, 2);
+	  var pp = JSON.stringify(data, this.replacer, 2);
 	  if (pp != self.result.val()) {
   	  self.result.val(pp);
   	  self.rebuild();
@@ -106,7 +106,7 @@ ParseletEditor.prototype.simpleIsValid = function() {
 ParseletEditor.prototype.simpleJson = function(json) {
   var simple = this.simple.get(0);
   if (json) {
-    simple.value = JSON.stringify(json, null, 2);
+    simple.value = JSON.stringify(json, this.replacer, 2);
     return json;
   } else {
     if (simple.value.length == 0) return this.simpleJson({});
@@ -121,7 +121,7 @@ ParseletEditor.prototype.simpleJson = function(json) {
 
 ParseletEditor.prototype.rebuild = function() {
   this.helpful.empty();
-  this.build(this.json, null, null, null, this.helpful, this.result_json);
+  this.build(this.json, null, null, null, this.helpful);
   this.setUndoRedoButtons();
 };
 
@@ -135,10 +135,10 @@ ParseletEditor.prototype.handlePossibleChangeInHelpful = function() {
   }
 };
 
-ParseletEditor.prototype.functionWrap = function(e) {
-  return function() {
-    return e;
-  };
+ParseletEditor.prototype.firstKey = function(object) {
+  for (var i in object) {
+    return i;
+  }
 };
 
 // Oh the hoops you have to jump through with closures sometimes...
@@ -158,7 +158,6 @@ ParseletEditor.prototype.makeMenuFunction = function(json, key) {
     $('body').append(cover).append(menu.hide());
     menu.css('top', (offset.top + 10) + 'px').css('left', (offset.left + 10) + 'px');
 
-
     menu.append($('<li><a href="#" onclick="return false;">delete</a></li>').click(function(e) {
       delete json[key];
       self.handlePossibleChangeInHelpful();
@@ -166,17 +165,32 @@ ParseletEditor.prototype.makeMenuFunction = function(json, key) {
     }));
     
     menu.append($('<li><a href="#" onclick="return false;">toggle multivalued</a></li>').click(function(e) {
-      delete json[key];
+      if (json[key] instanceof Array) {
+        json[key] = json[key][0];
+      } else {
+        json[key] = [ json[key] ];
+      }
       self.handlePossibleChangeInHelpful();
       return close_menu(e);
     }));
 
     menu.append($('<li><a href="#" onclick="return false;">toggle object</a></li>').click(function(e) {
-      delete json[key];
+      if (json[key] instanceof Array) {
+        if (json[key][0] instanceof Object) {
+          json[key][0] = json[key][0][self.firstKey(json[key][0])];
+        } else {
+          json[key][0] = { "add a new key": json[key][0] };
+        }
+      } else {
+        if (json[key] instanceof Object) {
+          json[key] = json[key][self.firstKey(json[key])];
+        } else {
+          json[key] = { "add a new key": json[key] };
+        }
+      }
       self.handlePossibleChangeInHelpful();
       return close_menu(e);
     }));
-    
 
     menu.click(function(e) { stop_prop(e); });
     menu.fadeIn(250);
@@ -184,25 +198,27 @@ ParseletEditor.prototype.makeMenuFunction = function(json, key) {
   };
 };
 
-ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, elem, result) {
+ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, elem) {
   var self = this;
-  var r = function(struct, index) { try { return struct[index]; } catch(e) { return null; } };
-
   if (json instanceof Array) {
-    this.build((json[0] || ""), json, 0, 'value', elem, r(result, 0));
+    this.build((json[0] || ""), json, 0, 'value', elem);
   } else if (json instanceof Object) {
     var elements = $('<div class="hash"></div>');
+    json["add a new key"] = 'add a new value';
     for(var i in json) {
       var row = $('<div class="row"></div>');
 
       var key = $('<div class="key"></div>');
-      key.append($('<div><a href="#" class="code_menu_button down" onclick="return false;">&#9660;</a></div>').
-                  click(this.makeMenuFunction(json, i)));
+      if (i != "add a new key")
+        key.append($('<div><a href="#" class="code_menu_button down" onclick="return false;">&#9660;</a></div>').
+                    click(this.makeMenuFunction(json, i)));
+      else
+        key.append($('<div class="code_menu_button menu_placeholder">&nbsp;</div>'));
       this.build(i, json, i, 'key', key);
       row.append(key);
 
       var value = $('<div class="value"></div>');
-      this.build(json[i], json, i, 'value', value, r(result, i));
+      this.build(json[i], json, i, 'value', value);
 
       row.append('<div class="colon">:</div>');
       if ((json[i] instanceof Array) && (json[i][0] instanceof Object)) {
@@ -218,6 +234,7 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
         row.append('<div class="bracket">]</div>');
       } else if (json[i] instanceof Object) {
         row.append('<div class="curly_bracket_rt">{</div>');
+        value.addClass("multilined");
         row.append(value);
         row.append('<div class="curly_bracket_lt">}</div>');
       } else {
@@ -228,22 +245,31 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
     }
     elem.append(elements);
   } else {
-    elem.append($('<input type="text" />').val(json).blur(function() {
-      if(type == 'key') {
-        var new_key = $(this).val();
-        if (new_key != parent_key) {
-          self.orderedKeyRename(parent_json, parent_key, new_key);
+    var new_row = json == "add a new key" || json == "add a new value";
+    elem.append($('<input type="text"' + (new_row ? ' class="new_row"' : '') + '/>').val(json).blur(function() {
+      if ($(this).val() == '') {
+        if(type == 'key') {
+          $(this).val(parent_key);
+        } else {
+          $(this).val(parent_json[parent_key]);
         }
+        if (new_row) $(this).addClass('new_row');
       } else {
-        parent_json[parent_key] = $(this).val();
+        if(type == 'key') {
+          var new_key = $(this).val();
+          if (new_key != parent_key) {
+            self.orderedKeyRename(parent_json, parent_key, new_key);
+          }
+        } else {
+          parent_json[parent_key] = $(this).val();
+        }
       }
       self.handlePossibleChangeInHelpful();
+    }).focus(function() {
+      if (new_row) $(this).val('').removeClass('new_row');
     }));
   }
 };
-
-
-
 
 ParseletEditor.prototype.orderedKeyRename = function(json, old_key, new_key) {
   for(var i in json) {
@@ -257,8 +283,13 @@ ParseletEditor.prototype.orderedKeyRename = function(json, old_key, new_key) {
   }
 };
 
+ParseletEditor.prototype.replacer = function(key, value) {
+  if (key == 'add a new key') return undefined;
+  return value;
+};
+
 ParseletEditor.prototype.thingsHaveChanged = function() {
-  return (this.json && JSON.stringify(this.json, null, 2) != JSON.stringify(this.simpleJson(), null, 2));
+  return (this.json && JSON.stringify(this.json, this.replacer, 2) != JSON.stringify(this.simpleJson(), this.replacer, 2));
 };
 
 ParseletEditor.prototype.historyTruncate = function() {
@@ -332,7 +363,7 @@ ParseletEditor.prototype.setUndoRedoButtons = function() {
 
   if (this.historyPointer + 1 < this.history.length) this.redo_button.removeClass('disabled');
   if (this.historyPointer > 0) this.undo_button.removeClass('disabled');
-  if (JSON.stringify(this.json, null, 2) != this.simple.get(0).value) this.undo_button.removeClass('disabled');
+  if (JSON.stringify(this.json, this.replacer, 2) != this.simple.get(0).value) this.undo_button.removeClass('disabled');
   
   console.log("called");
 };
