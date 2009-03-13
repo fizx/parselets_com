@@ -67,7 +67,7 @@
     jQuery(document).ready(function(){
       jQuery('#simple_code').val(JSON.stringify(<%= @parselet.pretty_code %>, null, 2));
       var editor = new ParseletEditor(jQuery("#simple_code"), jQuery('#result'), jQuery('#helpful'), 
-                                      jQuery('#parselet_form'), '/parse?format=json');
+                                      jQuery('#parselet_form'), '/parse?format=json', $('#undo'), $('#redo'));
       editor.showHelpful();
       
       $('#helpful_tab').click(function(e) {

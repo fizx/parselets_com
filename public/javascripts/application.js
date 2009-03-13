@@ -2,7 +2,6 @@ function stop_prop(e) {
   if (!e) var e = window.event;
 	e.cancelBubble = true;
 	if (e.stopPropagation) e.stopPropagation();
-	return false;
 }
 
 // var is_helpful = true;

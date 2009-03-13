@@ -6,10 +6,13 @@ function ParseletEditorBase() {
   this.result_json = null;
 }
 
-function ParseletEditor(wrapped, result, helpful, form, parseletUrl) {
+function ParseletEditor(wrapped, result, helpful, form, parseletUrl, undo, redo) {
   if (wrapped == null || (wrapped.get && wrapped.get(0) == null)) throw "Must provide an element to wrap.";
   this.simple = $(wrapped);
-  this.result = $(result)
+  this.result = $(result);
+  this.undo_button = undo;
+  this.redo_button = redo;
+  this.setUndoRedoButtons();
   this.parseletUrl = parseletUrl;
   this.form = $(form);
   this.helpful = helpful;
@@ -145,7 +148,8 @@ ParseletEditor.prototype.makeMenuFunction = function(json, key) {
     var close_menu = function(e) {
       cover.remove();
       menu.fadeOut(250, function() { $(this).remove() });
-      if (e) return stop_prop(e);
+      if (e) stop_prop(e);
+      return false;
     };
     cover.bind('click', close_menu);
     $('body').append(cover).append(menu.hide());
@@ -171,7 +175,7 @@ ParseletEditor.prototype.makeMenuFunction = function(json, key) {
     }));
     
 
-    menu.click(function(e) { return stop_prop(e); });
+    menu.click(function(e) { stop_prop(e); });
     menu.fadeIn(250);
     return false;
   };
@@ -276,6 +280,7 @@ ParseletEditor.prototype.restore = function() {
     this.simple.get(0).value = this.history[this.historyPointer];
     this.reloadFromSimple();
     this.tryParselet();
+    this.setUndoRedoButtons();
   }
 };
 
@@ -308,4 +313,12 @@ ParseletEditor.prototype.redo = function() {
       this.restore();
     }
   }
+};
+
+ParseletEditor.prototype.setUndoRedoButtons = function() {
+  this.undo_button.addClass('disabled');
+  this.redo_button.addClass('disabled');
+
+  if (this.historyPointer + 1 < this.history.length) this.redo_button.removeClass('disabled');
+  if (this.historyPointer > 0) this.undo_button.removeClass('disabled');
 };
