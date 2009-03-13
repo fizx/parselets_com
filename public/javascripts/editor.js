@@ -8,6 +8,7 @@ function ParseletEditorBase() {
 
 function ParseletEditor(wrapped, result, helpful, form, parseletUrl, undo, redo) {
   if (wrapped == null || (wrapped.get && wrapped.get(0) == null)) throw "Must provide an element to wrap.";
+  var self = this;
   this.simple = $(wrapped);
   this.result = $(result);
   this.undo_button = undo;
@@ -18,6 +19,7 @@ function ParseletEditor(wrapped, result, helpful, form, parseletUrl, undo, redo)
   this.helpful = helpful;
   this.reloadFromSimple();
   this.saveToSimple();
+  this.simple.blur(function() { self.setUndoRedoButtons(); });
   this.saveSimpleState();
   this.rebuild();
 }
@@ -120,6 +122,7 @@ ParseletEditor.prototype.simpleJson = function(json) {
 ParseletEditor.prototype.rebuild = function() {
   this.helpful.empty();
   this.build(this.json, null, null, null, this.helpful, this.result_json);
+  this.setUndoRedoButtons();
 };
 
 ParseletEditor.prototype.handlePossibleChangeInHelpful = function() {
@@ -321,4 +324,7 @@ ParseletEditor.prototype.setUndoRedoButtons = function() {
 
   if (this.historyPointer + 1 < this.history.length) this.redo_button.removeClass('disabled');
   if (this.historyPointer > 0) this.undo_button.removeClass('disabled');
+  if (JSON.stringify(this.json, null, 2) != this.simple.get(0).value) this.undo_button.removeClass('disabled');
+  
+  console.log("called");
 };

@@ -710,6 +710,12 @@ a#logo {
   top: 11px;
 }
 
+#code_controls .disabled {
+  color: #999999;
+  cursor: default;
+  text-decoration: none;
+}
+
 .code .hash {
   float: left;
   clear: both;
