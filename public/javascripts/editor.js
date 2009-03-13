@@ -308,7 +308,6 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
 
 ParseletEditor.prototype.setFocus = function(elem) {
   this.findNextFocus = $.inArray(elem, $.makeArray($('input')));
-  console.log(this.findNextFocus);
 };
 
 ParseletEditor.prototype.showResult = function(result) {
@@ -408,6 +407,4 @@ ParseletEditor.prototype.setUndoRedoButtons = function() {
   if (this.historyPointer + 1 < this.history.length) this.redo_button.removeClass('disabled');
   if (this.historyPointer > 0) this.undo_button.removeClass('disabled');
   if (JSON.stringify(this.json, this.replacer, 2) != this.simple.get(0).value) this.undo_button.removeClass('disabled');
-  
-  console.log("called");
 };
