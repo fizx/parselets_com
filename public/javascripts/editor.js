@@ -278,7 +278,7 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
       }
     };
 
-    elem.append($('<input type="text"' + (new_row ? ' class="new_row"' : '') + '/>').val(json).blur(function() {
+    elem.append($('<input type="text"' + (new_row ? ' class="new_row"' : '') + '/>').val(json).blur(function(e) {
       blur(this);
     }).focus(function() {
       if (new_row) $(this).val('').removeClass('new_row');
@@ -302,6 +302,8 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
       }
     }).keyup(function(e) {
       if (e.keyCode == 16) self.shift = false;
+    }).mousedown(function(e) {
+      self.setFocus(this);
     }));
   }
 };
