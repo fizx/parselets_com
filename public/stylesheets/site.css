@@ -95,10 +95,6 @@ div {
 	border-right:1px silver solid;
 }
 
-.down {
-  text-decoration:none;
-	font-size: small;
-}
 .x {
 	position:absolute;
 	left: 189px;
@@ -116,7 +112,7 @@ ul.menu {
 	margin:0;
 	padding:0;
 	list-style:none;
-	z-index:10;
+	z-index:20;
 }
 
 .ratings {
@@ -711,7 +707,7 @@ a#logo {
 #code_controls {
   float: right;
   position: relative;
-  top: 15px;
+  top: 11px;
 }
 
 .code .hash {
@@ -724,6 +720,7 @@ a#logo {
 }
 .code .row {
   clear: both;
+  margin-top: 5px;
 }
 .code .key > input {
   width: 125px;
@@ -733,6 +730,7 @@ a#logo {
 }
 .code .multilined {
   clear: both;
+  margin-top: 5px;
 }
 .code .colon {
   margin: 0px 7px;
@@ -746,4 +744,18 @@ a#logo {
 }
 .code .curly_bracket_lt {
   clear: left;
+}
+
+.cover {
+  z-index: 15;
+  position: absolute;
+  top:0px;
+  left:0px;
+}
+.code_menu_button {
+  text-decoration: none;
+	font-size: small;
+	margin: 0px 6px 0px 0px;
+	position: relative;
+	top: 4px;
 }

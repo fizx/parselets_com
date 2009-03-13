@@ -27,9 +27,8 @@ ParseletEditor.prototype.hideAll = function() {
 };
 
 ParseletEditor.prototype.showHelpful = function() {
-  if (this.reloadFromSimple()) {
+  if (this.handleTransition()) {
     this.mode = 'helpful';
-    this.saveSimpleState();
     this.hideAll();
     this.helpful.show();
     return true;
@@ -38,18 +37,18 @@ ParseletEditor.prototype.showHelpful = function() {
 };
 
 ParseletEditor.prototype.showSimple = function() {
-  this.mode = 'simple';
-  this.saveToSimple();
-  this.hideAll();
-  this.simple.show();
-  return true;
+  if (this.handleTransition()) {
+    this.mode = 'simple';
+    this.hideAll();
+    this.simple.show();
+    return true;
+  }
+  return false;
 };
 
 ParseletEditor.prototype.showResult = function() {
-  this.saveToSimple();
-  if (this.reloadFromSimple()) {
+  if (this.handleTransition()) {
     this.mode = 'result';
-    this.saveSimpleState();
     this.hideAll();
     this.result.show();
     return true;
@@ -57,27 +56,37 @@ ParseletEditor.prototype.showResult = function() {
   return false;
 };
 
+ParseletEditor.prototype.handleTransition = function() {
+  if (this.mode == 'simple') {
+    if (!this.simpleIsValid()) {
+      alert("Sorry, there appears to be an error in your JSON input.  Please fix it before continuing.");
+      return false;
+    }
+    
+    if (this.saveSimpleState()) {
+      this.reloadFromSimple();
+      this.tryParselet();
+    }
+  } else {
+    this.handlePossibleChangeInHelpful();
+  }
+  return true;
+};
+
 ParseletEditor.prototype.tryParselet = function() {
   var self = this;
 	$.post(this.parseletUrl, this.form.serialize(), function(data) {
 	  self.result_json = data;
-	  self.result.val(JSON.stringify(data, null, 2));
-	  self.rebuild();
+	  var pp = JSON.stringify(data, null, 2);
+	  if (pp != self.result.val()) {
+  	  self.result.val(pp);
+  	  self.rebuild();
+	  }
 	}, "json");
 };
 
-ParseletEditor.prototype.reloadFromSimple = function() {
-  if (this.simpleIsValid()) {
-    this.json = this.simpleJson();
-    return true;
-  } else {
-    alert("Sorry, there appears to be an error in your JSON input.  Please fix it before continuing.");
-    return false;
-  }
-};
-
 ParseletEditor.prototype.saveToSimple = function() {
-  if (this.mode != 'simple') this.simpleJson(this.json);
+  this.simpleJson(this.json);
 };
 
 ParseletEditor.prototype.simpleIsValid = function() {
@@ -106,53 +115,87 @@ ParseletEditor.prototype.simpleJson = function(json) {
 };
 
 ParseletEditor.prototype.rebuild = function() {
-  if (this.mode != 'helpful') return;
-  // var changed = this.thingsHaveChanged();
-  // if (changed || force) {
-    // this.saveToSimple();
-    // this.saveSimpleState();
-    // if (changed) this.tryParselet();
-    this.helpful.empty();
-    this.build(this.json, this.helpful, this.result_json);
-  // }
+  this.helpful.empty();
+  this.build(this.json, null, null, null, this.helpful, this.result_json);
 };
 
-ParseletEditor.prototype.build = function(json, parent, result) {
+ParseletEditor.prototype.handlePossibleChangeInHelpful = function() {
+  if (this.thingsHaveChanged()) {
+    this.saveToSimple();
+    this.saveSimpleState();
+    this.json = this.simpleJson();
+    this.tryParselet();
+    this.rebuild();
+  }
+};
+
+ParseletEditor.prototype.functionWrap = function(e) {
+  return function() {
+    return e;
+  };
+};
+
+// Oh the hoops you have to jump through with closures sometimes...
+ParseletEditor.prototype.makeMenuFunction = function(json, key) {
+  var self = this;
+  return function(e) {
+    var offset = $(this).offset();
+    var menu = $('<ul class="menu"></ul>');
+    var cover = $('<div class="cover"></div>').css('width', $('body').width() + 'px').css('height', $('body').height() + 'px');
+    var close_menu = function(e) {
+      cover.remove();
+      menu.fadeOut(250, function() { $(this).remove() });
+      if (e) return stop_prop(e);
+    };
+    cover.bind('click', close_menu);
+    $('body').append(cover).append(menu.hide());
+    menu.css('top', (offset.top + 10) + 'px').css('left', (offset.left + 10) + 'px');
+
+
+    menu.append($('<li><a href="#" onclick="return false;">delete</a></li>').click(function(e) {
+      delete json[key];
+      self.handlePossibleChangeInHelpful();
+      return close_menu(e);
+    }));
+    
+    menu.append($('<li><a href="#" onclick="return false;">toggle multivalued</a></li>').click(function(e) {
+      delete json[key];
+      self.handlePossibleChangeInHelpful();
+      return close_menu(e);
+    }));
+
+    menu.append($('<li><a href="#" onclick="return false;">toggle object</a></li>').click(function(e) {
+      delete json[key];
+      self.handlePossibleChangeInHelpful();
+      return close_menu(e);
+    }));
+    
+
+    menu.click(function(e) { return stop_prop(e); });
+    menu.fadeIn(250);
+    return false;
+  };
+};
+
+ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, elem, result) {
+  var self = this;
   var r = function(struct, index) { try { return struct[index]; } catch(e) { return null; } };
 
   if (json instanceof Array) {
-    // parent.append('<div class="bracket">[</div>');
-    this.build((json[0] || ""), parent, r(result, 0));
-    // parent.append('<div class="bracket">]</div>');
+    this.build((json[0] || ""), json, 0, 'value', elem, r(result, 0));
   } else if (json instanceof Object) {
     var elements = $('<div class="hash"></div>');
     for(var i in json) {
       var row = $('<div class="row"></div>');
 
       var key = $('<div class="key"></div>');
-      key.append($('<div><a href="#" class="code_menu_button down" onclick="return false;">&#9660;</a></div>').click(function(e) {
-        var offset = $(this).offset();
-        var menu = $('<ul class="menu"></ul>');
-        menu.css('top', offset.top + 'px').css('left', offset.left + 'px');
-        menu.append($('<li><a href="#" onclick="return false;">delete</a></li>').click(function() {
-          console.log("delete");
-        }));
-
-        
-        menu.click(function(e) {
-          return stop_prop(e);
-        });
-        
-        var doc_click = function() { console.log("doc click"); menu.remove(); $('body').unbind('click', doc_click); };        
-        $('body').bind('click', doc_click);
-        $(this).append(menu);
-        return false;
-      }));
-      this.build(i, key);
+      key.append($('<div><a href="#" class="code_menu_button down" onclick="return false;">&#9660;</a></div>').
+                  click(this.makeMenuFunction(json, i)));
+      this.build(i, json, i, 'key', key);
       row.append(key);
 
       var value = $('<div class="value"></div>');
-      this.build(json[i], value, r(result, i));
+      this.build(json[i], json, i, 'value', value, r(result, i));
 
       row.append('<div class="colon">:</div>');
       if ((json[i] instanceof Array) && (json[i][0] instanceof Object)) {
@@ -176,9 +219,20 @@ ParseletEditor.prototype.build = function(json, parent, result) {
       
       elements.append(row);
     }
-    parent.append(elements);
+    elem.append(elements);
   } else {
-    parent.append($('<input type="text" />').val(json));
+    elem.append($('<input type="text" />').val(json).blur(function() {
+      if(type == 'key') {
+        var new_key = $(this).val();
+        if (new_key != parent_key) {
+          parent_json[new_key] = parent_json[parent_key];
+          delete parent_json[parent_key];
+        }
+      } else {
+        parent_json[parent_key] = $(this).val();
+      }
+      self.handlePossibleChangeInHelpful();
+    }));
   }
 };
 
@@ -200,9 +254,7 @@ ParseletEditor.prototype.historyTruncate = function() {
 
 ParseletEditor.prototype.saveSimpleStateIfChanged = function() {
   if (this.simpleIsValid()) {
-    if (this.thingsHaveChanged()) {
-      this.saveSimpleState();
-    }
+    this.saveSimpleState();
   } else {
     if (confirm("The current parselet is malformed.  If you continue, the parselet will be reverted to the last valid state.  Do you wish to continue?")) {
       this.historyPointer += 1;
@@ -214,12 +266,16 @@ ParseletEditor.prototype.saveSimpleStateIfChanged = function() {
   return true;
 };
 
+ParseletEditor.prototype.reloadFromSimple = function() {
+  this.json = this.simpleJson();
+  this.rebuild();
+};
+
 ParseletEditor.prototype.restore = function() {
   if (this.history[this.historyPointer]) {
     this.simple.get(0).value = this.history[this.historyPointer];
     this.reloadFromSimple();
     this.tryParselet();
-    this.rebuild();
   }
 };
 
@@ -230,12 +286,10 @@ ParseletEditor.prototype.saveSimpleState = function() {
       this.historyTruncate();
       this.history.push(text);
       this.historyPointer += 1;
-      
-      // Also do a few other needed things.
-      this.tryParselet();
-      this.rebuild();
+      return true;
     }
   }
+  return false;
 };
 
 ParseletEditor.prototype.undo = function() {
