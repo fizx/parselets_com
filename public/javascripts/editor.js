@@ -3,7 +3,8 @@ function ParseletEditorBase() {
   this.historyPointer = -1;
   this.json = null;
   this.mode = 'helpful';
-  this.result_json = null;
+  this.findNextFocus = null;
+  this.shift = false;
 }
 
 function ParseletEditor(wrapped, result, helpful, form, parseletUrl, undo, redo) {
@@ -81,11 +82,10 @@ ParseletEditor.prototype.handleTransition = function() {
 ParseletEditor.prototype.tryParselet = function() {
   var self = this;
 	$.post(this.parseletUrl, this.form.serialize(), function(data) {
-	  self.result_json = data;
 	  var pp = JSON.stringify(data, this.replacer, 2);
 	  if (pp != self.result.val()) {
   	  self.result.val(pp);
-  	  self.rebuild();
+  	  self.showResult(data);
 	  }
 	}, "json");
 };
@@ -123,6 +123,11 @@ ParseletEditor.prototype.rebuild = function() {
   this.helpful.empty();
   this.build(this.json, null, null, null, this.helpful);
   this.setUndoRedoButtons();
+  this.refocus();
+};
+
+ParseletEditor.prototype.refocus = function() {
+  if (this.findNextFocus && this.findNextFocus != -1 && $('input').get(this.findNextFocus)) $('input').get(this.findNextFocus).focus();
 };
 
 ParseletEditor.prototype.handlePossibleChangeInHelpful = function() {
@@ -132,7 +137,9 @@ ParseletEditor.prototype.handlePossibleChangeInHelpful = function() {
     this.json = this.simpleJson();
     this.tryParselet();
     this.rebuild();
+    return true;
   }
+  return false;
 };
 
 ParseletEditor.prototype.firstKey = function(object) {
@@ -246,29 +253,66 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
     elem.append(elements);
   } else {
     var new_row = json == "add a new key" || json == "add a new value";
-    elem.append($('<input type="text"' + (new_row ? ' class="new_row"' : '') + '/>').val(json).blur(function() {
-      if ($(this).val() == '') {
+
+    var blur = function(elem, force_refocus) {
+      var elem = $(elem);
+      if (elem.val() == '') {
         if(type == 'key') {
-          $(this).val(parent_key);
+          elem.val(parent_key);
         } else {
-          $(this).val(parent_json[parent_key]);
+          elem.val(parent_json[parent_key]);
         }
-        if (new_row) $(this).addClass('new_row');
+        if (new_row) elem.addClass('new_row');
       } else {
         if(type == 'key') {
-          var new_key = $(this).val();
+          var new_key = elem.val();
           if (new_key != parent_key) {
             self.orderedKeyRename(parent_json, parent_key, new_key);
           }
         } else {
-          parent_json[parent_key] = $(this).val();
+          parent_json[parent_key] = elem.val();
         }
       }
-      self.handlePossibleChangeInHelpful();
+      if (!self.handlePossibleChangeInHelpful()) {
+        if (force_refocus) self.refocus();
+      }
+    };
+
+    elem.append($('<input type="text"' + (new_row ? ' class="new_row"' : '') + '/>').val(json).blur(function() {
+      blur(this);
     }).focus(function() {
       if (new_row) $(this).val('').removeClass('new_row');
+    }).keydown(function(e) {
+      if (e.keyCode == 16) {
+        self.shift = true;
+      } else {
+        if (e.keyCode == 9 || e.keyCode == 13) { // Tab and enter
+          self.setFocus(this);
+          if (self.findNextFocus != -1) {
+            if (self.shift)
+              self.findNextFocus -= 1;
+            else
+              self.findNextFocus += 1;
+          }
+          blur(this, true);
+          return false;
+        } else {
+          self.findNextFocus = null;
+        }
+      }
+    }).keyup(function(e) {
+      if (e.keyCode == 16) self.shift = false;
     }));
   }
+};
+
+ParseletEditor.prototype.setFocus = function(elem) {
+  this.findNextFocus = $.inArray(elem, $.makeArray($('input')));
+  console.log(this.findNextFocus);
+};
+
+ParseletEditor.prototype.showResult = function(result) {
+  
 };
 
 ParseletEditor.prototype.orderedKeyRename = function(json, old_key, new_key) {
