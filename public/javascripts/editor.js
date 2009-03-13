@@ -232,8 +232,7 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
       if(type == 'key') {
         var new_key = $(this).val();
         if (new_key != parent_key) {
-          parent_json[new_key] = parent_json[parent_key];
-          delete parent_json[parent_key];
+          self.orderedKeyRename(parent_json, parent_key, new_key);
         }
       } else {
         parent_json[parent_key] = $(this).val();
@@ -246,8 +245,17 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
 
 
 
-
-
+ParseletEditor.prototype.orderedKeyRename = function(json, old_key, new_key) {
+  for(var i in json) {
+    var tmp = json[i];
+    delete json[i];
+    if (i == old_key) {
+      json[new_key] = tmp;
+    } else {
+      json[i] = tmp;
+    }
+  }
+};
 
 ParseletEditor.prototype.thingsHaveChanged = function() {
   return (this.json && JSON.stringify(this.json, null, 2) != JSON.stringify(this.simpleJson(), null, 2));
