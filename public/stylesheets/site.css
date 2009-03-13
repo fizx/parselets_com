@@ -109,8 +109,6 @@ div {
 
 ul.menu {
 	position:absolute;
-	top:15px;
-	left:-5px;
 	width:200px;
 	border:1px silver solid;
 	border-bottom:0px;
@@ -118,7 +116,7 @@ ul.menu {
 	margin:0;
 	padding:0;
 	list-style:none;
-	z-index:2;
+	z-index:10;
 }
 
 .ratings {
@@ -710,3 +708,42 @@ a#logo {
   color: #8FC100;
 }
 
+#code_controls {
+  float: right;
+  position: relative;
+  top: 15px;
+}
+
+.code .hash {
+  float: left;
+  clear: both;
+  margin-left: 20px;
+}
+.code .hash div, .code .hash input {
+  float: left;
+}
+.code .row {
+  clear: both;
+}
+.code .key > input {
+  width: 125px;
+}
+.code .value > input {
+  width: 250px;
+}
+.code .multilined {
+  clear: both;
+}
+.code .colon {
+  margin: 0px 7px;
+  font-weight: bold;
+}
+.code .bracket {
+  margin: 0px 5px;
+}
+.code .curly_bracket_rt {
+  clear: right;
+}
+.code .curly_bracket_lt {
+  clear: left;
+}

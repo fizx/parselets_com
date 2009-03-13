@@ -54,10 +54,11 @@
     
     <div class='code'>
       <div id='code_controls'>
-        <a href='#' id='undo'>Undo</a>
+        <a href='#' id='undo'>Undo</a> | 
         <a href='#' id='redo'>Redo</a>
       </div>
       <textarea id="simple_code" name="parselet[code]" style='display:none' class='code_window'></textarea>
+      <div id='helpful'></div>
       <textarea id="result" style='display:none' class='code_window'></textarea>
     </div>
   </div>
@@ -65,7 +66,7 @@
   <script>
     jQuery(document).ready(function(){
       jQuery('#simple_code').val(JSON.stringify(<%= @parselet.pretty_code %>, null, 2));
-      var editor = new ParseletEditor(jQuery("#simple_code"), jQuery('#result'), 
+      var editor = new ParseletEditor(jQuery("#simple_code"), jQuery('#result'), jQuery('#helpful'), 
                                       jQuery('#parselet_form'), '/parse?format=json');
       editor.showHelpful();
       
