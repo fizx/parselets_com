@@ -5,9 +5,12 @@ function ParseletEditorBase() {
   this.mode = 'helpful';
   this.findNextFocus = null;
   this.shift = false;
+  this.PATH_CLEANUP_REGEX_PAREN = /^([^\(]*)\(.*$/g;
+  this.PATH_CLEANUP_REGEX_OPTIONS = /[\?\!]+$/g;
+  this.last_result_data = null;
 }
 
-function ParseletEditor(wrapped, result, helpful, form, parseletUrl, undo, redo) {
+function ParseletEditor(wrapped, result, helpful, form, parseletUrl, undo, redo, result_loading_img) {
   if (wrapped == null || (wrapped.get && wrapped.get(0) == null)) throw "Must provide an element to wrap.";
   var self = this;
   this.simple = $(wrapped);
@@ -18,10 +21,12 @@ function ParseletEditor(wrapped, result, helpful, form, parseletUrl, undo, redo)
   this.parseletUrl = parseletUrl;
   this.form = $(form);
   this.helpful = helpful;
+  this.result_loading_img = result_loading_img;
   this.reloadFromSimple();
   this.saveToSimple();
   this.simple.blur(function() { self.setUndoRedoButtons(); });
   this.saveSimpleState();
+  this.tryParselet();
   this.rebuild();
 }
 ParseletEditor.prototype = new ParseletEditorBase();
@@ -81,17 +86,29 @@ ParseletEditor.prototype.handleTransition = function() {
 
 ParseletEditor.prototype.tryParselet = function() {
   var self = this;
+  self.result_loading_img.show();
 	$.post(this.parseletUrl, this.form.serialize(), function(data) {
 	  var pp = JSON.stringify(data, this.replacer, 2);
-	  if (pp != self.result.val()) {
-  	  self.result.val(pp);
-  	  self.showResult(data);
-	  }
+	  self.result.val(pp);
+	  self.showResultInHelpful(data, self.last_result_data);
+    self.maybeShowErrors(data);
+	  self.last_result_data = data;
+    self.result_loading_img.hide();
 	}, "json");
 };
 
 ParseletEditor.prototype.saveToSimple = function() {
   this.simpleJson(this.json);
+};
+
+ParseletEditor.prototype.maybeShowErrors = function(data) {
+  var errors_div = $('#code_errors').hide();
+  if (data["errors"] && data["errors"].length > 0) {
+    errors_div.empty().show();
+    for (var i in data["errors"]) {
+      errors_div.append($('<div class="error">').text(data["errors"][i]));
+    }
+  }
 };
 
 ParseletEditor.prototype.simpleIsValid = function() {
@@ -121,7 +138,9 @@ ParseletEditor.prototype.simpleJson = function(json) {
 
 ParseletEditor.prototype.rebuild = function() {
   this.helpful.empty();
-  this.build(this.json, null, null, null, this.helpful);
+  this.helpful.append("<div id='code_errors' />");
+  this.build(this.json, null, null, null, this.helpful, '-');
+  if (this.last_result_data) this.showResultInHelpful(this.last_result_data);
   this.setUndoRedoButtons();
   this.refocus();
 };
@@ -205,10 +224,10 @@ ParseletEditor.prototype.makeMenuFunction = function(json, key) {
   };
 };
 
-ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, elem) {
+ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, elem, path) {
   var self = this;
   if (json instanceof Array) {
-    this.build((json[0] || ""), json, 0, 'value', elem);
+    this.build((json[0] || ""), json, 0, 'value', elem, path + 'AR');
   } else if (json instanceof Object) {
     var elements = $('<div class="hash"></div>');
     json["add a new key"] = 'add a new value';
@@ -221,11 +240,12 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
                     click(this.makeMenuFunction(json, i)));
       else
         key.append($('<div class="code_menu_button menu_placeholder">&nbsp;</div>'));
-      this.build(i, json, i, 'key', key);
+      this.build(i, json, i, 'key', key, null);
       row.append(key);
 
       var value = $('<div class="value"></div>');
-      this.build(json[i], json, i, 'value', value);
+      var lpath = path + '-' + self.cleanKeyForPath(i)
+      this.build(json[i], json, i, 'value', value, lpath);
 
       row.append('<div class="colon">:</div>');
       if ((json[i] instanceof Array) && (json[i][0] instanceof Object)) {
@@ -233,12 +253,19 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
         row.append('<div class="curly_bracket_rt">{</div>');
         value.addClass("multilined");
         row.append(value);
+
         row.append('<div class="curly_bracket_lt">}</div>');
         row.append('<div class="bracket">]</div>');
+        
+        if (lpath) row.append($('<div class="value_result">&nbsp;</div>').attr('id', lpath));
+        
       } else if (json[i] instanceof Array) {
         row.append('<div class="bracket">[</div>');
         row.append(value);
         row.append('<div class="bracket">]</div>');
+
+        if (lpath) row.append($('<div class="value_result">&nbsp;</div>').attr('id', lpath));
+
       } else if (json[i] instanceof Object) {
         row.append('<div class="curly_bracket_rt">{</div>');
         value.addClass("multilined");
@@ -246,6 +273,7 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
         row.append('<div class="curly_bracket_lt">}</div>');
       } else {
         row.append(value);
+        if (lpath) row.append($('<div class="value_result">&nbsp;</div>').attr('id', lpath));
       }
       
       elements.append(row);
@@ -278,6 +306,7 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
       }
     };
 
+    // Crazyness to get focus, tab, enter, shift-tab, clicks, etc. to work hopefully correctly on rebuilds.
     elem.append($('<input type="text"' + (new_row ? ' class="new_row"' : '') + '/>').val(json).blur(function(e) {
       blur(this);
     }).focus(function() {
@@ -312,8 +341,55 @@ ParseletEditor.prototype.setFocus = function(elem) {
   this.findNextFocus = $.inArray(elem, $.makeArray($('input')));
 };
 
-ParseletEditor.prototype.showResult = function(result) {
-  
+ParseletEditor.prototype.cleanKeyForPath = function(i) {
+  return i.replace(this.PATH_CLEANUP_REGEX_PAREN, '$1').replace(this.PATH_CLEANUP_REGEX_OPTIONS, '');
+};
+
+ParseletEditor.prototype.showResultInHelpful = function(data, old_data, path) {
+  if (!path) {
+    path = '-';
+    $('.value_result, .array_result').text('');
+  }
+  var self = this;
+  var t = function(obj, index) { try { return obj[index]; } catch(e) { return null; } };
+
+  if (data instanceof Array) {
+    var elem = document.getElementById(path);
+    if (elem) {
+      var num_as_word = (data.length == 1) ? " entry" : " entries";
+      if (typeof data[0] === "string") {
+        $(elem).text("// " + data.length + num_as_word + ", first: " + self.truncate(data[0]));
+      } else {
+        $(elem).text("// " + data.length + num_as_word);
+      }
+      
+      if (old_data && (old_data.length != data.length || (typeof data[0] === "string" && old_data[0] != data[0])))
+        $(elem).animate({ 'backgroundColor': '#FFFF00' }, 500, function(e) { $(this).animate({ 'backgroundColor': '#FFF9DB' }, 500); });
+    }
+
+    this.showResultInHelpful(data[0], t(old_data, 0), path + 'AR')
+  } else if (data instanceof Object) {
+    for (var i in data) {
+      this.showResultInHelpful(data[i], t(old_data, i), path + '-' + self.cleanKeyForPath(i))
+    }
+  } else {
+    var elem = document.getElementById(path);
+    if (elem) {
+      $(elem).text("// " + self.truncate(data));
+      if (old_data && old_data != data)
+        $(elem).animate({ 'backgroundColor': '#FFFF00' }, 500, function(e) { $(this).animate({ 'backgroundColor': '#FFF9DB' }, 500); });
+    }
+  }
+};
+
+ParseletEditor.prototype.truncate = function(str, length, ending) {
+  if (!length) length = 150;
+  if (!ending) ending = '...';
+  if (str.length > length) {
+    return str.substring(0, length) + ending;
+  } else {
+    return str;
+  }
 };
 
 ParseletEditor.prototype.orderedKeyRename = function(json, old_key, new_key) {

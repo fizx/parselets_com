@@ -47,7 +47,7 @@
     <h3>Parselet Editor</h3>
     
     <ul class="code_tabs">
-      <li id='result_tab'><a href="#">result</a></li>
+      <li id='result_tab'><a href="#">result</a><img id='result_loading_img' src="/images/results_loader.gif" width=16 height=16 /></li>
       <li id='simple_tab'><a href="#">simple</a></li>
       <li class='selected' id='helpful_tab'><a href="#">helpful</a></li>
     </ul>
@@ -67,7 +67,8 @@
     jQuery(document).ready(function(){
       jQuery('#simple_code').val(JSON.stringify(<%= @parselet.pretty_code %>, null, 2));
       var editor = new ParseletEditor(jQuery("#simple_code"), jQuery('#result'), jQuery('#helpful'), 
-                                      jQuery('#parselet_form'), '/parse?format=json', $('#undo'), $('#redo'));
+                                      jQuery('#parselet_form'), '/parse?format=json', $('#undo'), $('#redo'), 
+                                      $('#result_loading_img'));
       editor.showHelpful();
       
       $('#helpful_tab').click(function(e) {

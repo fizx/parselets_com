@@ -704,6 +704,13 @@ a#logo {
   color: #8FC100;
 }
 
+#result_loading_img {
+  position: relative;
+  top: 2px;
+  display: none;
+  left: 7px;
+}
+
 #code_controls {
   float: right;
   position: relative;
@@ -757,6 +764,16 @@ a#logo {
 .code .new_row {
   color: #999;
 }
+.code .array_result, .code .value_result {
+  color: #999;
+  font-size: 0.8em;
+  max-width: 275px;
+  margin-left: 15px;
+  float: right;
+  text-indent: -10px;
+  position: relative;
+  top: 4px;
+}
 
 .cover {
   z-index: 15;
@@ -770,4 +787,15 @@ a#logo {
 	margin: 0px 6px 0px 0px;
 	position: relative;
 	top: 4px;
+}
+
+#code_errors {
+  margin: 10px;
+  padding: 10px;
+  background-color: #8ab40b;
+  width: 663px;
+  display: none;
+}
+#code_errors .error {
+  color: #FFF;
 }
