@@ -8,6 +8,7 @@ function ParseletEditorBase() {
   this.PATH_CLEANUP_REGEX_PAREN = /^([^\(]*)\(.*$/g;
   this.PATH_CLEANUP_REGEX_OPTIONS = /[\?\!]+$/g;
   this.last_result_data = null;
+  this.trying_parselet = null;
 }
 
 function ParseletEditor(wrapped, result, helpful, form, parseletUrl, undo, redo, result_loading_img) {
@@ -85,16 +86,20 @@ ParseletEditor.prototype.handleTransition = function() {
 };
 
 ParseletEditor.prototype.tryParselet = function() {
-  var self = this;
-  self.result_loading_img.show();
-	$.post(this.parseletUrl, this.form.serialize(), function(data) {
-	  var pp = JSON.stringify(data, this.replacer, 2);
-	  self.result.val(pp);
-	  self.showResultInHelpful(data, self.last_result_data);
-    self.maybeShowErrors(data);
-	  self.last_result_data = data;
-    self.result_loading_img.hide();
-	}, "json");
+  if (this.trying_parselet == null || this.trying_parselet < (new Date()).getTime() - 5000) {
+    this.trying_parselet = (new Date()).getTime();
+    var self = this;
+    self.result_loading_img.show();
+  	$.post(this.parseletUrl, this.form.serialize(), function(data) {
+  	  var pp = JSON.stringify(data, this.replacer, 2);
+  	  self.result.val(pp);
+  	  self.showResultInHelpful(data, self.last_result_data);
+      self.maybeShowErrors(data);
+  	  self.last_result_data = data;
+      self.result_loading_img.hide();
+      self.trying_parselet = null;
+  	}, "json");
+  }
 };
 
 ParseletEditor.prototype.saveToSimple = function() {
