@@ -790,11 +790,13 @@ a#logo {
 }
 
 #code_errors {
-  margin: 10px;
+  margin: 20px 10px 10px 10px;
   padding: 10px;
   background-color: #8ab40b;
   width: 663px;
   display: none;
+  float: left;
+  clear: both;
 }
 #code_errors .error {
   color: #FFF;

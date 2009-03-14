@@ -138,8 +138,8 @@ ParseletEditor.prototype.simpleJson = function(json) {
 
 ParseletEditor.prototype.rebuild = function() {
   this.helpful.empty();
-  this.helpful.append("<div id='code_errors' />");
   this.build(this.json, null, null, null, this.helpful, '-');
+  this.helpful.append("<div id='code_errors' />");
   if (this.last_result_data) this.showResultInHelpful(this.last_result_data);
   this.setUndoRedoButtons();
   this.refocus();
