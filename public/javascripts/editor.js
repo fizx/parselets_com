@@ -161,9 +161,15 @@ ParseletEditor.prototype.handlePossibleChangeInHelpful = function() {
   return false;
 };
 
-ParseletEditor.prototype.firstKey = function(object) {
-  for (var i in object) {
-    return i;
+ParseletEditor.prototype.firstValidValue = function(object) {
+  if (object instanceof Array) {
+    return this.firstValidValue(object[0]);
+  } else if (object instanceof Object) {
+    for (var i in object) {
+      return this.firstValidValue(object[i]);
+    }
+  } else {
+    return object;
   }
 };
 
@@ -203,16 +209,14 @@ ParseletEditor.prototype.makeMenuFunction = function(json, key) {
     menu.append($('<li><a href="#" onclick="return false;">toggle object</a></li>').click(function(e) {
       if (json[key] instanceof Array) {
         if (json[key][0] instanceof Object) {
-          json[key][0] = json[key][0][self.firstKey(json[key][0])];
+          json[key][0] = self.firstValidValue(json[key][0]);
         } else {
-          json[key][0] = { "add a new key": json[key][0] };
+          json[key][0] = { "new_key": json[key][0] };
         }
+      } else if (json[key] instanceof Object) {
+        json[key] = self.firstValidValue(json[key]);
       } else {
-        if (json[key] instanceof Object) {
-          json[key] = json[key][self.firstKey(json[key])];
-        } else {
-          json[key] = { "add a new key": json[key] };
-        }
+        json[key] = { "new_key": json[key] };
       }
       self.handlePossibleChangeInHelpful();
       return close_menu(e);
@@ -230,7 +234,7 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
     this.build((json[0] || ""), json, 0, 'value', elem, path + 'AR');
   } else if (json instanceof Object) {
     var elements = $('<div class="hash"></div>');
-    json["add a new key"] = 'add a new value';
+    json["add a new key"] = json["add a new key"] || 'add a new value';
     for(var i in json) {
       var row = $('<div class="row"></div>');
 
@@ -280,7 +284,7 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
     }
     elem.append(elements);
   } else {
-    var new_row = json == "add a new key" || json == "add a new value";
+    var new_row = json == "new_key" || json == "add a new key" || json == "add a new value";
 
     var blur = function(elem, force_refocus) {
       var elem = $(elem);
@@ -300,6 +304,7 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
         } else {
           parent_json[parent_key] = elem.val();
         }
+        if (elem.val() == 'new_key') elem.addClass('new_row');
       }
       if (!self.handlePossibleChangeInHelpful()) {
         if (force_refocus) self.refocus();
