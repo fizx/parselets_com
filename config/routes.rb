@@ -9,6 +9,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.sprig_code "/sprig_code", :controller => 'parselets', :action => 'code'
   
+  map.rate "/rate", :controller => 'ratings', :action => 'create'
+  
   map.connect "/parse", :controller => 'parselets', :action => 'parse', :for_editor => true
   map.parse "/parse/:id", :controller => 'parselets', :action => 'parse'
   

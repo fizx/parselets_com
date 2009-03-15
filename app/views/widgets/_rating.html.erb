@@ -1,5 +1,5 @@
 <div class='stop_prop'>
-  <% form_remote_tag :url => parselet_ratings_path(parselet), :html => {:class => "ratings", :id => "parselet-form-#{parselet.id}"} do %>
+  <% form_remote_tag :url => rate_path(:parselet_id => parselet.id), :html => {:class => "ratings", :id => "parselet-form-#{parselet.id}"} do %>
     <% if parselet.status == "ok" %>
       <% (1..5).each do |i| %>
         <%=radio_button_tag "star-#{parselet.id}", i.to_s, i== (parselet.average_rating || 0).round, :class => "star" %>

@@ -65,7 +65,7 @@ module ApplicationHelper
     url = url_for(url) unless url.is_a?(String)
     url = escape_javascript url
     concat <<-STR
-      <li onclick="window.location = '#{url}'; return false;">
+      <li notonclick="window.location = '#{url}'; return false;">
         <div>
           #{capture &block}
         </div>

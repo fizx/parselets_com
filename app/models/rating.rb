@@ -15,6 +15,8 @@ class Rating < ActiveRecord::Base
   def self.rate(object, user, score)
     rating = object.ratings.find_or_initialize_by_user_id(user.id)
     rating.score = score
+    rating.save
+    object.update_attribute(:ratings_count, object.ratings.count)
     rating
   end
 end

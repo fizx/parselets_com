@@ -402,7 +402,7 @@ ol.results>li {
   border-bottom: 1px solid silver;
   border-left: 1px solid #fff;
   border-right: 1px solid #fff;
-	cursor: pointer;
+/*	cursor: pointer;*/
 }
 
 ol.results.frontpage>li {
