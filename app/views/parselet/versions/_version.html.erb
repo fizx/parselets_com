@@ -1,16 +1,31 @@
-<li>
-  <h3>
-    <%=link_to "##{version.version}, #{time_ago_in_words version.created_at} ago", :controller => "parselets", :action => "show", :id => version.parselet, :version => version.version %>
-    <span>by 
-    <% if version.revision_user %>
-      <%=link_to version.revision_user.login, version.revision_user%>
-    <% else%>
-      Unknown
-    <% end %>
-    </span>
-    <%= "<strong>(currently displayed)</strong>" if params[:version].to_s == version.version.to_s %>
-    </h3>
-    Status: <%= version.status %>
-    <pre id="<%=version.version%>-version-diff" style="display:none"></pre>
+<li class="v">
+	<style>
+	.v {
+		margin-bottom: 15px;
+	}
+		.version {
+			float:left;
+			padding:7px;
+			border:1px silver solid;
+			background-color:#EEF4F9;
+			width:30px;
+			text-align:center;
+			margin-right:10px;
+		}
+		.vdiff {
+			width:360px;
+			overflow:auto;
+			background-color:#eee;
+			margin-top:10px;
+		}
+		
+	</style>
+	<h1 class="version">
+		<%=version.version%>
+	</h1>
+	<%=link_to "#{time_ago_in_words(version.created_at)} ago by #{version.revision_login}", {:controller => "parselets", 
+		:action => "show", :id => version.parselet, :version => version.version}, :class=>"url"
+	 %>
+    <div class="vdiff"><pre id="<%=version.version%>-version-diff" style="display:none;padding:10px"></pre></div>
     <pre id="<%=version.version%>-version-summary" class="summary" style="display:none"><%=h version.summary%></pre>
 </li>

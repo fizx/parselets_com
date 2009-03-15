@@ -54,9 +54,9 @@ class ParseletsController < ApplicationController
   # GET /parselets/1.xml
   def show
     @parselet = Parselet.find_by_params(params)
-    @comments = @parselet.comments.paginate :page => params[:comments_page], :order => "created_at DESC"
-    @versions = @parselet.versions.paginate :page => params[:history_page], :order => "version DESC"
-
+    @comments = @parselet.comments.paginate :per_page => 10, :page => params[:comments_page], :order => "created_at DESC"
+    @versions = @parselet.versions.paginate :per_page => 10, :page => params[:history_page], :order => "version DESC"
+    @extra =    @parselet.versions.paginate :per_page => 10, :page => @versions.next_page, :order => "version DESC"
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @parselet }

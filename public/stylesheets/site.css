@@ -213,17 +213,6 @@ input.value {
   color: #ccc;
 }
 
-form table {
-  width:750px;
-  border: 1px #eee solid;
-  margin-top:15px;
-}
-  
-td {
-  vertical-align: top;
-  padding: 5px 0px 15px 15px;
-}
-
 .thumb {
   width: 80px;
   float:left;
@@ -378,8 +367,16 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
 }
 
+.right_shift{
+	position:relative;
+	left:-13px;
+}
+
 h1 {
 	font-size:1.5em;
+}
+a {
+	color: #528DC0;
 }
 
 a.url {
@@ -403,6 +400,11 @@ ol.results>li {
   border-left: 1px solid #fff;
   border-right: 1px solid #fff;
 /*	cursor: pointer;*/
+}
+
+h3.with_tabs {
+	margin-top:30px;
+	margin-bottom:-30px
 }
 
 ol.results.frontpage>li {

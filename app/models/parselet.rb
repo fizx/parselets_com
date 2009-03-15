@@ -182,6 +182,10 @@ class Parselet < ActiveRecord::Base
     belongs_to :user
     belongs_to :revision_user, :class_name => "User"
     belongs_to :cached_page
+    
+    def revision_login
+      revision_user ? "by #{revision_user.login}" : "by anonymous"
+    end
   end
   
   # Get included into Parselet::Version later
