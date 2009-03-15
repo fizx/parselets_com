@@ -35,15 +35,8 @@ namespace :db do
     sys "ssh www-data@parselets.com 'mysqldump --ignore-table=parselets_com_production.cached_pages #{mysql_config('production')} > ~/dump.sql'"
     sys "rsync -avz --partial --progress www-data@parselets.com:dump.sql #{MYSQLDUMP_FILE}"
     sys "cat #{MYSQLDUMP_FILE} | mysql #{mysql_config} "
-    Parselet.each do |p|
-      p.cached_page = nil
-      p.save_without_revision
-    end
-    
-    Parselet::Version.each do |p|
-      p.cached_page = nil
-      p.save
-    end
+    Parselet.update_all "cached_page_id = NULL"
+    Parselet::Version.update_all "cached_page_id = NULL"
   end
 end
 
