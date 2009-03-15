@@ -163,15 +163,25 @@ class Parselet < ActiveRecord::Base
   
   before_save :create_domain
   before_save :calculate_signature
-  before_save :calculate_changes
   before_save :update_cached_page
+  
+  def update_cached_page
+    self.cached_page = CachedPage.find_or_create_by_url(example_url)
+  end
+  
+  def create_domain
+    self.domain = Domain.from_url(example_url)
+  end
+  
+  def calculate_signature
+    keys = recurse_signature(data)
+    self.signature = keys.sort.join(" ")
+  end
   
   class Version < ActiveRecord::Base
     belongs_to :user
     belongs_to :revision_user, :class_name => "User"
     belongs_to :cached_page
-    before_save :calculate_changes
-    before_save :calculate_signature
   end
   
   # Get included into Parselet::Version later
@@ -184,36 +194,6 @@ class Parselet < ActiveRecord::Base
         ["Code", pretty_code]].map {|title, content|
           %[{{{#{title}}}}\n#{content}\n\n]
         }.join("").strip
-    end
-    
-    def calculate_changes
-      changes = []
-      pid = is_a?(Version) ? parselet_id : id
-      old_version = version - 1 
-      unless old = Parselet::Version.find_by_parselet_id_and_version(pid, old_version)
-        return self.cached_changes = "created"
-      end
-      
-      {
-        "signature" => "structure",
-        "code" => "code",
-        "name" => "keyword",
-        "description" => "description",
-        "pattern" => "pattern", 
-        "example_url" => "example url"
-      }.each do |method, text|
-        if(old.send(method) != self.send(method))
-          changes << text
-        end
-      end
-      self.cached_changes = "none"
-      self.cached_changes = changes.join(" ") unless changes.blank?
-      
-    end
-    
-    def calculate_signature
-      keys = recurse_signature(data)
-      self.signature = keys.sort.join(" ")
     end
     
     def recurse_signature(object, path = "")
@@ -265,14 +245,6 @@ class Parselet < ActiveRecord::Base
     
     def domain_name
       domain && domain.name
-    end
-    
-    def update_cached_page
-      self.cached_page = CachedPage.find_or_create_by_url(example_url)
-    end
-    
-    def create_domain
-      self.domain = Domain.from_url(example_url)
     end
 
     def check
