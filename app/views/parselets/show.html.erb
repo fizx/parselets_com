@@ -6,7 +6,7 @@
 	</div>
 	<div class="result_body">
 		<h1>
-			<%=link_to h(@parselet.name), @parselet, :class => 'result_title stop_prop' %>
+			<%=link_to h(@parselet.name), parselet_edit_path(@parselet), :class => 'result_title stop_prop' %>
 		</h1>
 		<%= example_link(@parselet) %>
 		<p><%=wikify(h(truncate(@parselet.description, :length => 250))) %></p>
@@ -14,14 +14,16 @@
 
 	<table width="844" cellpadding="0" cellspacing="0" border="0" style="clear:both;padding-top:15px">
 		<tr>
-			<td width="117"><h3 style="display:inline">Code <%=link_to image_tag("/images/edit.png", :border => 0, :align=> "baseline", :style => "position:relative;top:3px")%></h3></td>
+			<td width="117"><h3 style="display:inline">Code <%=link_to image_tag("/images/edit.png", :border => 0, :align=> "baseline", :style => "position:relative;top:3px"), parselet_edit_path(@parselet)%></h3></td>
 			<td width="200" align="right" valign="bottom"><%=link_to "See usage example", "", :class=> "usage url"%>&nbsp;&nbsp;&nbsp;</td>
 			<td width="10" valign="bottom">&nbsp;</td>
 			<td width="100" valign="bottom">
 				<h4>Results for:</h4>
 			</td>
 			<td width="317" valign="bottom">
-				<%=text_field_tag "foo", @parselet.example_url, :style => "width:200px"%> <input type="submit" value="go">
+				<form method="get">
+				<%=text_field_tag "url", params[:url] || @parselet.example_url, :style => "width:200px"%> <input type="submit" value="go">
+				</form>
 			</td>
 		</tr>
 		<tr class="this">
@@ -43,7 +45,7 @@
 			</style>
 			<td colspan="2" width="419" valign="top"><div><pre><div><%=h @parselet.pretty_code%></div></pre></div></td>			
 			<td>&nbsp;</td>
-			<td colspan="2" width="419" valign="top"><div><pre><div><%=@parselet.compressed_html_example_data%></div></pre></div></td>
+			<td colspan="2" width="419" valign="top"><div><pre><div><%=@parselet.compressed_html_example_data(params[:url || @parselet.example_url])%></div></pre></div></td>
 		</tr>
 		<tr>
 			<td colspan="5">

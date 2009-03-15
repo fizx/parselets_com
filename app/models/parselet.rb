@@ -47,7 +47,7 @@ class Parselet < ActiveRecord::Base
             if array_stack[level - 1] == allowed
               i += 1
               id = "#{base_id}-#{i}"
-              line += %[<a href="javascript:$('#{id}').toggle()">more...</a><span style="display:none" id="#{id}">]
+              line += %[<a href="javascript:void(jQuery('##{id}').toggle())">more...</a><span style="display:none" id="#{id}">]
             end
           end
         end
@@ -173,6 +173,9 @@ class Parselet < ActiveRecord::Base
     self.domain = Domain.from_url(example_url)
   end
   
+  def with_example_url(url)
+  end
+  
   def calculate_signature
     keys = recurse_signature(data)
     self.signature = keys.sort.join(" ")
@@ -281,13 +284,16 @@ class Parselet < ActiveRecord::Base
       end
     end
 
-    def example_data
-      @cached_example_data ||= example_data_uncached
+    def example_data(url = nil)
+      @cached_example_data ||= {}
+      @cached_example_data[url] ||= example_data_uncached(url)
     end
     
-    def example_data_uncached
-      return {} if example_url.blank?
-      content = (cached_page || update_cached_page).content
+    def example_data_uncached(url = nil)
+      logger.info url.inspect
+      url ||= example_url
+      return {} if url.blank?
+      content = CachedPage.find_or_create_by_url(url).content
       out = Parsley.new(sanitized_code).parse(:string => content, :output => :json)
       answer = OrderedJSON.parse(out)
       set_working true
@@ -322,12 +328,12 @@ class Parselet < ActiveRecord::Base
       end
     end
 
-    def pretty_example_data
-      OrderedJSON.pretty_dump(example_data).gsub("\t", TAB)
+    def pretty_example_data(url = nil)
+      OrderedJSON.pretty_dump(example_data(url)).gsub("\t", TAB)
     end
     
-    def compressed_html_example_data
-      Parselet.compress_json(CGI::escapeHTML(pretty_example_data))
+    def compressed_html_example_data(url = nil)
+      Parselet.compress_json(CGI::escapeHTML(pretty_example_data(url)))
     end
     
     def pattern_tokens
