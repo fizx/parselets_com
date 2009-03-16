@@ -2,7 +2,7 @@
   <% form_remote_tag :url => rate_path(:parselet_id => parselet.id), :html => {:class => "ratings", :id => "parselet-form-#{parselet.id}"} do %>
     <% if parselet.status == "ok" %>
       <% (1..5).each do |i| %>
-        <%=radio_button_tag "star-#{parselet.id}", i.to_s, i== (parselet.average_rating || 0).round, :class => "star" %>
+        <%=radio_button_tag "star-#{parselet.id}", i.to_s, i == (parselet.average_rating || 0).round, :class => "star" %>
       <% end %>
       <input type="hidden" name="value" class="hvalue" value="0" />
       <span class="count" id="rating-count-<%=parselet.id%>">&nbsp;<%=parselet.ratings_count %></span>

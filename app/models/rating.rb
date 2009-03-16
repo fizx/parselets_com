@@ -8,15 +8,18 @@ class Rating < ActiveRecord::Base
   
   def update_target
     if ratable.respond_to?(:cached_rating)
-      ratable.update_attribute(:cached_rating, Rating.average("score", :conditions => {:ratable_id => ratable_id, :ratable_type => ratable_type}))
+      ratable.cached_rating = Rating.average("score", :conditions => { :ratable_id => ratable_id, 
+                                                                       :ratable_type => ratable_type })
+      ratable.respond_to?(:save_without_revision) ? ratable.save_without_revision! : ratable.save!
     end
   end
   
   def self.rate(object, user, score)
     rating = object.ratings.find_or_initialize_by_user_id(user.id)
     rating.score = score
-    rating.save
-    object.update_attribute(:ratings_count, object.ratings.count)
+    rating.save!
+    object.ratings_count = object.ratings.count
+    object.respond_to?(:save_without_revision) ? object.save_without_revision! : object.save!
     rating
   end
 end

@@ -58,12 +58,6 @@ class Parselet < ActiveRecord::Base
   
     def tmp_from_params(params = {})
       tmp = Parselet.new(params[:parselet] || params[:parselet_version])
-      # if root = params[:root]
-      #   command = params[:"root-command"]
-      #   apply_command!(root, command) unless command.blank?
-      #   raise "wtf" unless root.is_a?(Hash)
-      #   tmp.data = value_of root
-      # end
       tmp
     end
     
@@ -74,57 +68,6 @@ class Parselet < ActiveRecord::Base
         end
       end
     end
-
-  private
-  
-    # def apply_command!(params, command)
-    #   path, i, command = command.split(",")
-    #   node = address_path(params, path, i)
-    #   case command      
-    #   when "delete":
-    #     node && node["deleted"] = "true"
-    #   when "multify":
-    #     node && node["multi"] = "true"
-    #   when "unmultify":
-    #     node && node["multi"] = nil
-    #   when "unobjectify":
-    #     node && node["value"] = nil
-    #   when "objectify":
-    #     v = node["value"]
-    #     node["value"] = {
-    #       "0" => {
-    #         "key" => "",
-    #         "value" => v
-    #       }
-    #     }
-    #   end
-    # end
-    
-    # def address_path(params, path, i)
-    #   keys = path.scan(/\[([^\]\[]+)\]/).flatten + [i]
-    #   keys.inject(params){|memo, key| (memo || {})[key] }
-    # end
-
-    # def value_of(data)
-    #   case data
-    #   when Array:       [value_of(data[0])]
-    #   when "!array":    []
-    #   when "!hash":     OrderedHash.new
-    #   when String:      data
-    #   when NilClass:     ""
-    #   when Hash:        
-    #     data.keys.sort_by(&:to_i).inject(OrderedHash.new) do |memo, key|
-    #       pair = data[key]
-    #       val = value_of(pair["value"])
-    #       val = [val]           if pair["multi"] == "true"
-    #       val = []              if val == [nil]
-    #       unless pair["deleted"] == "true" || (pair["key"].blank? && val.blank?)
-    #         memo[pair["key"]] = val 
-    #       end
-    #       memo
-    #     end
-    #   end
-    # end
   end
   
   extend ClassMethods
@@ -148,10 +91,6 @@ class Parselet < ActiveRecord::Base
   has_many :ratings, :as => :ratable
   
   belongs_to :cached_page
-  
-  # validates_each(:cached_changes) do |r, a, v|
-  #     r.errors.add("", "Try changing something.") if v == "none"
-  #   end
   
   validates_uniqueness_of :name
   validates_format_of :name, :with => /\A[a-z0-9\-_]*\Z/, :message => "contains invalid characters"

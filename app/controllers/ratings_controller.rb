@@ -46,17 +46,19 @@ class RatingsController < ApplicationController
     if params[:parselet_id]
       if current_user
         @parselet = Parselet.find(params[:parselet_id])
-        @rating = Rating.rate(@parselet, current_user, params[:score])
+        @rating = Rating.rate(@parselet, current_user, params[:value])
       else
         redirect_to login_url and return
       end
+      saved = true
     else
       @rating = Rating.new(params[:rating])
+      @rating.score = params[:value].to_i if params[:value]
+      saved = @rating.save
     end
-    @rating.score = params[:value].to_i if params[:value]
 
     respond_to do |format|
-      if @rating.save
+      if saved
         # flash[:notice] = 'Rating was successfully created.'
         format.js {
           render :update do |page|
