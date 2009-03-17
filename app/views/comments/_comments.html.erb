@@ -1,12 +1,13 @@
 <% new_comment ||=false %>
-<ol class="res ults" id="comments"><%=render(comments) or "<li>No comments</li>" %></ol>
+<ol id="comments"><%=render(comments) or "<li>No comments</li>" %></ol>
 
 <% if new_comment %>
   <div id="add_comment">
     <% if logged_in? %>
+      <%= will_paginate comments, :param_name => 'comments_page' %>
+      <p>&nbsp;</p>
+    	
     	<h3>Add a comment</h3>
-    	<%=will_paginate comments %>
-
     	<%=render "/comments/form", :comment => new_comment %>
     <% else %>
       Please <%=link_to "log in", login_path, :rel =>"facebox"%> to add a comment.

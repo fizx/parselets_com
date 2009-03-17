@@ -2,8 +2,8 @@
   <ul>
     <li><%= link_to_unless_current "Development Home", :action => 'index' %>
       <ul>
-        <li><%= link_to_unless_current "Ruby", :action => 'ruby' %></li>
-        <li><%= link_to_unless_current "Python", :action => 'python' %></li> 
+        <li><%= link_to_unless_current "Ruby", :action => 'ruby', :parselet => params[:parselet], :version => params[:version] %></li>
+        <li><%= link_to_unless_current "Python", :action => 'python', :parselet => params[:parselet], :version => params[:version] %></li> 
         <li><%= link_to_unless_current "C/C++", :action => 'c' %></li>
         <li><%= link_to_unless_current "the command line", :action => 'command_line' %></li>
         <li><%= link_to_unless_current "other languages", :action => 'other_languages' %></li>

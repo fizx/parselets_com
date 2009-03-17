@@ -2,67 +2,58 @@
 	<%= thumb(@parselet) %>
 	<div class="result_right right_shift">
 	  <%= ratings @parselet %>
-		<h3><span class="faded">by <%=link_to @parselet.user.login, @parselet.user %><%=gravatar @parselet.user.email, :class => "", :style => "width:25px;margin-left:5px", :align => "absmiddle" %></span>
+		<h3><span class="faded">by <%=link_to @parselet.user.login, @parselet.user %><%=gravatar @parselet.user.email, :class => "rt_gravatar", :align => "absmiddle" %></span></h3>
 	</div>
 	<div class="result_body">
 		<h1>
-			<%=link_to h(@parselet.name), parselet_edit_path(@parselet), :class => 'result_title stop_prop' %>
+			<%=link_to h(@parselet.name), parselet_edit_path(@parselet), :class => 'result_title' %>
 		</h1>
 		<%= example_link(@parselet) %>
 		<p><%=wikify(h(truncate(@parselet.description, :length => 250))) %></p>
 	</div>
 
-	<table width="844" cellpadding="0" cellspacing="0" border="0" style="clear:both;padding-top:15px">
-		<tr>
-			<td width="117"><h3 style="display:inline">Code <%=link_to image_tag("/images/edit.png", :border => 0, :align=> "baseline", :style => "position:relative;top:3px"), parselet_edit_path(@parselet)%></h3></td>
-			<td width="200" align="right" valign="bottom"><%=link_to "See usage example", "", :class=> "usage url"%>&nbsp;&nbsp;&nbsp;</td>
-			<td width="10" valign="bottom">&nbsp;</td>
-			<td width="100" valign="bottom">
-				<h4>Results for:</h4>
-			</td>
-			<td width="317" valign="bottom">
-				<form method="get">
-				<%=text_field_tag "url", params[:url] || @parselet.example_url, :style => "width:200px"%> <input type="submit" value="go">
-				</form>
-			</td>
-		</tr>
-		<tr class="this">
-			<style>
-				tr.this td>div {
-					border:1px silver solid;
-					background-color:#EEF4F9;
-				}
-				tr.this pre{
-					display:block;
-					width:415px;
-					height:300px;
-					overflow:auto;
-				}
-				tr.this pre div{
-					padding:10px;
-				}
-				
-			</style>
-			<td colspan="2" width="419" valign="top"><div><pre><div><%=h @parselet.pretty_code%></div></pre></div></td>			
-			<td>&nbsp;</td>
-			<td colspan="2" width="419" valign="top"><div><pre><div><%=@parselet.compressed_html_example_data(params[:url || @parselet.example_url])%></div></pre></div></td>
-		</tr>
-		<tr>
-			<td colspan="5">
-				<div style="height:35px">&nbsp;</div>
-			</td>
-		<tr>
-			<td colspan="2" width="419" valign="top">
-	      <h2>History</h2>
-	      <ol class="resul ts"><%=render @versions%></ol>
-	      <div style="display:none"><ol class="resul ts"><%=render [@extra.first] if @extra && !@extra.empty?%></ol></div>
-				<%= will_paginate @versions%>
-	    </td>
-	    <td>&nbsp;</td>
-			<td colspan="2" width="419" valign="top">
-			  <h2>Comments (<span id="comments_<%=dom_id(@parselet)%>"><%=@parselet.comments_count%></span>)</h2>
-	      <%=render "/comments/comments", :comments => @comments, :new_comment => @parselet.comments.new %>
-	    </td>
-		</tr>
-	</table>
+  <div class="show_page">
+    <div class="left">
+      <div class="heading">
+        <div class="usage">
+          <%= link_to "See usage example", parselet_usage_path(@parselet), :class=> "usage url" %>
+        </div>
+        <h3>
+          Code <%=link_to image_tag("/images/edit.png", :border => 0, :align=> "baseline", :class => 'edit'), parselet_edit_path(@parselet)%>
+        </h3>
+      </div>
+      <div class="parselet">
+        <pre><div><%=h @parselet.pretty_code%></div></pre>
+      </div>
+    </div>
+    <div class="right">
+      <div class="heading">
+        <div style="position: relative; top: 8px">
+    			<h5>Results for</h5>
+    			<form method="get">
+    			  <%= text_field_tag "url", params[:url] || @parselet.example_url, :class => 'text' %>
+    			  <input type="submit" value="go" />
+    			</form>
+    		</div>
+			</div>
+      <div class="parselet">
+        <pre><div><%=@parselet.compressed_html_example_data(params[:url || @parselet.example_url])%></div></pre>
+      </div>
+    </div>
+
+    <div class="left">
+      <h2>History</h2>
+      <ol><%= render @versions %></ol>
+      <div style="display:none">
+        <ol><%= render [@extra.first] if @extra && !@extra.empty? %></ol>
+      </div>
+      <%= will_paginate @versions, :param_name => 'history_page' %>
+    </div>
+    <div class="right">
+      <h2>Comments (<span id="comments_<%= dom_id(@parselet) %>"><%= @parselet.comments.count %></span>)</h2>
+      <div class='comments'>
+        <%= render "/comments/comments", :comments => @comments, :new_comment => @parselet.comments.new %>
+      </div>
+    </div>
+  </div>
 </div>

@@ -42,7 +42,7 @@ class DevController < ApplicationController
 protected
 
   def find_parselet
-    @parselet = Parselet.find_by_id(params[:parselet_id])
+    @parselet = Parselet.find_by_params(params)
   end
 
   def show_language(language)

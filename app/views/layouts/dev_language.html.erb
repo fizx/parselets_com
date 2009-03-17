@@ -16,7 +16,7 @@
   <% if @parselet %>
     <div>
       <p>
-        Here is example code in <%= language_name %> for the <%= link_to @parselet.name, parselet_path(@parselet) %> parselet:
+        Here is example code in <%= language_name %> for the <%= link_to h(@parselet.name), parselet_show_path(@parselet) %> parselet:
       </p>
       <% syntax_highlight brush do %>
         <%= yield :online_parselet_code_from_parselet %>
@@ -24,7 +24,7 @@
     </div>
   
     <div>
-      <a href="#" onclick="$('example_online_code').show(); return false;">
+      <a href="#" onclick="$('#example_online_code').toggle(); return false;">
         Click here to view a more generic example of using the Parselets.com API with <%= language_name %>.
       </a>
     </div>
@@ -54,7 +54,7 @@
       <%= yield :parsley_code_from_parselet %>
     <% end %>
     <div>
-      <a href="#" onclick="$('example_offline_code').show(); return false;">
+      <a href="#" onclick="$('#example_offline_code').toggle(); return false;">
         Click here to view a more generic example of Parsley used with <%= language_name %>.
       </a>
     </div>

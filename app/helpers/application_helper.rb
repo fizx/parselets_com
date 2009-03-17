@@ -16,6 +16,14 @@ module ApplicationHelper
   def parselet_edit_path(parselet)
     "/parselets/#{parselet.name}/#{parselet.version}/edit"
   end
+
+  def parselet_show_path(parselet)
+    "/parselets/#{parselet.name}/#{parselet.version}"
+  end
+
+  def parselet_usage_path(parselet)
+    "/dev/ruby?parselet=#{parselet.name}&version=#{parselet.version}"
+  end
   
   def ratings(parselet)
     render "/widgets/rating", :parselet => parselet
@@ -45,7 +53,7 @@ module ApplicationHelper
   
   def syntax_highlight(brush = 'ruby', options = {}, &block)
     out = <<-STR
-      <div class='code'>
+      <div class='show_code'>
         <pre class="brush: #{brush}; light: true#{"; #{options[:options]}" if options[:options]}">#{h(options[:content] || capture(&block))}</pre>
       </div>
     STR

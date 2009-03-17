@@ -451,6 +451,7 @@ a.result_title:hover {
   float: left;
   margin-left: 15px;
   width:600px;
+  color:#999;
 }
 
 #right_column .result_body {
@@ -576,12 +577,12 @@ a#logo {
   color: #000;
 }
 
-.doc .code {
+.doc .show_code {
   width: 625px;
   font-size:0.9em;
 }
 
-.doc .code span.block {
+.doc .show_code span.block {
   margin-bottom: 5px;
 }
 
@@ -801,4 +802,121 @@ a#logo {
 }
 #code_errors .error {
   color: #FFF;
+}
+
+.rt_gravatar {
+  width:25px;
+  margin-left:5px;
+}
+
+.show_page {
+  clear:both;
+  width: 844px;
+  float: left;
+}
+.show_page .heading {
+  height: 35px;
+  width: 415px;
+}
+.show_page div.usage {
+  float: right;
+  position: relative;
+  margin-right: 10px;
+  top: 18px;
+}
+.show_page .heading h5 {
+  position: relative;
+  top: 6px;
+}
+.show_page .left {
+  float: left;
+  width: 415px;
+  clear: left;
+  margin-top: 20px;
+}
+.show_page .right {
+  float: left;
+  width: 415px;
+  margin-left: 10px;
+  margin-top: 20px;
+  clear: right;
+}
+.show_page .heading h5, .show_page .heading input, .show_page .heading form {
+  float: left;
+}
+.show_page h2 {
+  margin-bottom: 10px;
+}
+.heading h3 {
+  font-size: 1.5em;
+}
+.show_page img.edit {
+  position:relative;
+  top:5px;
+}
+.show_page .parselet {
+  border:1px silver solid;
+  background-color:#EEF4F9;
+  width: 416px;
+  clear: both;
+}
+.show_page .parselet pre {
+  display:block;
+  height:300px;
+  overflow:auto;
+}
+.show_page .parselet pre div {
+  padding: 10px;
+}
+.show_page .text {
+  width:200px;
+  margin: 0px 10px;
+}
+
+.ago {
+  float: right;
+  font-size:small;
+  color: #999;
+}
+
+/* Visual Diffs */
+
+.v {
+	margin-bottom: 15px;
+	font-size: 0.9em;
+}
+.v .by {
+  font-size: 0.9em;
+}
+.version {
+	float:left !important;
+	border:1px silver solid !important;
+	background-color:#EEF4F9 !important;
+	width:30px !important;
+	text-align:center !important;
+	margin-right:10px !important;
+	font-size: 1.5em;
+	font-weight: bold;
+	padding:7px;
+  cursor: pointer;
+  color: #000;
+}
+.version:hover {
+  text-decoration: none;
+}
+.version div {
+  position: relative;
+  top: 2px;
+  float: none;
+  margin: 0px auto;
+}
+.vdiff {
+	border: 1px #ccc solid;
+	width:356px;
+	overflow:auto;
+	display: none;
+	margin-top:10px;
+}
+.vdiff pre {
+  padding:10px;
 }

@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
     end  
     conditions = {}
     conditions = {:commentable_type => params[:type], :commentable_id => params[:id]} if params[:id] && params[:type]
-    @comments = Comment.paginate :page => params[:page], :conditions => conditions, :order => "created_at DESC"
+    @comments = Comment.paginate :page => params[:comments_page], :conditions => conditions, :order => "created_at ASC"
     @comment = Comment.new(conditions)
 
     respond_to do |format|
@@ -63,9 +63,14 @@ class CommentsController < ApplicationController
         format.js {
           flash[:notice] = nil
           render :update do |page|
-            page.replace "comments", :partial => "comments", :locals => {:comments => @comment.commentable.comments }
+            page.replace "comments", :partial => "comments", :locals => {
+                            :comments => @comment.commentable.comments.paginate(:page => params[:comments_page], 
+                                                                                :order => "created_at ASC", :per_page => 10), 
+                            :new_comment => @comment.commentable.comments.new }
             page.replace_html "add_comment", :text => "Thank you for your comment."
+            page << '$("#add_comment").fadeOut(5000, function() { $(this).remove(); })'
             page.replace_html "comments_#{dom_id(@comment.commentable)}", :text => (@comment.commentable.comments_count + 1).to_s
+            page << '$("#comment_content").val("")'
           end
         }
       else

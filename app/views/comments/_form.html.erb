@@ -1,7 +1,8 @@
 <% remote_form_for(comment) do |f| %>
   <%= f.error_messages %>
-    <%= f.hidden_field :commentable_type %>
-    <%= f.hidden_field :commentable_id %>
+  <%= hidden_field_tag 'comments_page', params[:comments_page] %>
+  <%= f.hidden_field :commentable_type %>
+  <%= f.hidden_field :commentable_id %>
   <p>
     <%= f.text_area :content %>
   </p>

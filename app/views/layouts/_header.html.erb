@@ -30,7 +30,7 @@
 			          }
 			        }
 			        target.html(buffer.replace(/{{{/g, "<strong>").replace(/}}}/g, "</strong>"));
-			        target.toggle();
+			        if (target.html().length > 0) target.parent().toggle();
 		        } catch(e){
 		          alert(e);
 		        }

@@ -1,31 +1,12 @@
 <li class="v">
-	<style>
-	.v {
-		margin-bottom: 15px;
-	}
-		.version {
-			float:left !important;
-			border:1px silver solid !important;
-			background-color:#EEF4F9 !important;
-			width:30px !important;
-			text-align:center !important;
-			margin-right:10px !important;
-			padding:7px;
-		}
-		.vdiff {
-			border: 1px #ccc solid;
-			width:356px;
-			overflow:auto;
-			margin-top:10px;
-		}
-		
-	</style>
-	<h1 class="version">
-		<%=version.version%>
-	</h1>
-	<%=link_to "#{time_ago_in_words(version.created_at)} ago by #{version.revision_login}", {:controller => "parselets", 
-		:action => "show", :id => version.parselet, :version => version.version}, :class=>"url"
-	 %>
-		<div class="vdiff"><pre id="<%=version.version%>-version-diff" style="display:none;padding:10px"></pre></div>
-    <pre id="<%=version.version%>-version-summary" class="summary" style="display:none"><%=h version.summary%></pre>
+  <% path = url_for :controller => "parselets", :action => "show", :id => version.parselet, :version => version.version %>
+	<a class="version" href='<%= path %>'><div><%= version.version %></div></a>
+	<%= link_to "#{time_ago_in_words(version.created_at)} ago", path, :class=>"url" %> <span class='by'>by</span> 
+	<% if version.revision_login == 'anonymous' %>
+	  <span class='by'>anonymous</span>
+	<% else %>
+	  <%= link_to h(version.revision_login), user_path(:id => version.revision_login), :class=>"url" %>
+  <% end %>
+	<div class="vdiff"><pre id="<%=version.version%>-version-diff"></pre></div>
+  <pre id="<%=version.version%>-version-summary" class="summary" style="display:none"><%=h version.summary%></pre>
 </li>

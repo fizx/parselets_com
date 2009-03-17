@@ -17,10 +17,11 @@ class Parselet < ActiveRecord::Base
     end
     
     def find_by_params(params = {}, versionable = true)
-      parselet = if params[:id] =~ /\A\d+\Z/
-                   find(params[:id])
+      id = params[:id] || params[:parselet]
+      parselet = if id =~ /\A\d+\Z/
+                   find(id)
                  else
-                   find_by_name(params[:id])
+                   find_by_name(id)
                  end
       if params[:version] && params[:version].to_i < parselet.version
         parselet.revert_to(params[:version].to_i)
@@ -126,7 +127,7 @@ class Parselet < ActiveRecord::Base
     belongs_to :cached_page
     
     def revision_login
-      revision_user ? "by #{revision_user.login}" : "by anonymous"
+      revision_user ? "#{revision_user.login}" : "anonymous"
     end
   end
   
