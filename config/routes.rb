@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :favorites, :collection => { :toggle => :post }
   map.resources :ratings
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'

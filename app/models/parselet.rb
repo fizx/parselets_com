@@ -88,8 +88,9 @@ class Parselet < ActiveRecord::Base
   belongs_to :revision_user, :class_name => "User"
   belongs_to :user
   belongs_to :domain
-  has_many :comments, :as => :commentable
-  has_many :ratings, :as => :ratable
+  has_many :comments,   :as => :commentable
+  has_many :ratings,    :as => :ratable
+  has_many :favorites,  :as => :favoritable
   
   belongs_to :cached_page
   

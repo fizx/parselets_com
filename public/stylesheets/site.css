@@ -926,3 +926,17 @@ a#logo {
 #version_text a {
   color: #999;
 }
+
+/* Favorites */
+
+.favorited, .not_favorited {
+  color: #999;
+}
+.favorited a, .not_favorited a{
+  color: #999;
+}
+
+.result_right .favorited, .result_right .not_favorited {
+  float: right;
+  clear: right;
+}

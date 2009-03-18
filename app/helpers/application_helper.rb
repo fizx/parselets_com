@@ -4,9 +4,10 @@ require "ostruct"
 
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-  def icon(name, alt = nil, directory = 'icons')
+  def icon(name, alt = nil, directory = 'icons', options = {})
+    options = { :border => 0, :align => "absmiddle", :alt => alt, :title => alt, :width => 16, :height => 16 }.merge(options)
     extension = (name =~ /\.\w{3,4}$/) ? '' : '.png'
-    image_tag("/images/#{directory.length > 0 ? "#{directory}/" : ''}#{name}#{extension}", :border => 0, :align => "absmiddle", :alt => alt, :title => alt)
+    image_tag("/images/#{directory.length > 0 ? "#{directory}/" : ''}#{name}#{extension}", options)
   end
   
   def wikify(text)
@@ -27,6 +28,28 @@ module ApplicationHelper
   
   def ratings(parselet)
     render "/widgets/rating", :parselet => parselet
+  end
+  
+  def favorite(favoritable, text = '')
+    if logged_in?
+      if Favorite.find_for_favoritable(favoritable, current_user)
+        <<-STR
+          <div class="favorited stop_prop" favoritable_type="#{favoritable.class}" favoritable_id="#{favoritable.id}">
+            <a href="#" onclick="return false;">#{icon("heart", "You have favorited this.  Click to unfavorite.")}</a>
+            <a href="#" onclick="return false;" class='fav_text'>#{text}</a>
+          </div>
+        STR
+      else
+        <<-STR
+          <div class="not_favorited stop_prop" favoritable_type="#{favoritable.class}" favoritable_id="#{favoritable.id}">
+            <a href="#" onclick="return false;">#{icon("heart_empty", "Click to favorite this.")}</a>
+            <a href="#" onclick="return false;" class='fav_text'>#{text}</a>
+          </div>
+        STR
+      end
+    else
+      ''
+    end
   end
   
   def empty_icon

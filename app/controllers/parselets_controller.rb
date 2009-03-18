@@ -5,20 +5,7 @@ class ParseletsController < ApplicationController
   layout "simple"
   around_filter :dynamic_scope
   before_filter :include_editor, :only => [:new, :edit]
-  
-  # def code
-  #   @editor_type = params["editor_helpful"].blank? ? "simple" : "helpful"
-  #   @parselet = Parselet.tmp_from_params(params)
-  #   render :update do |page|
-  #     page.replace_html "code_container", :partial => "code",
-  #       :locals => {:path => "root", 
-  #                   :data => @parselet.data, 
-  #                   :example_data => @parselet.example_data,
-  #                   :editor_type => @editor_type }
-  #     page << "$('root-command').value = ''"
-  #   end
-  # end
-  
+    
   # GET /parselets
   # GET /parselets.xml
   def index

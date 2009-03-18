@@ -21,6 +21,7 @@
       	  <%= link_to h(@parselet.revision_login), user_path(:id => @parselet.revision_login)%>
         <% end %>
 		  </div>
+		<%= favorite(@parselet) %>
 		<%= example_link(@parselet) %>
 		<p><%=wikify(h(truncate(@parselet.description, :length => 250))) %></p>
 	</div>

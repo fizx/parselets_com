@@ -1,0 +1,24 @@
+<h1>Listing favorites</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Favoritable</th>
+    <th>Favoritable type</th>
+  </tr>
+
+<% for favorite in @favorites %>
+  <tr>
+    <td><%=h favorite.user_id %></td>
+    <td><%=h favorite.favoritable_id %></td>
+    <td><%=h favorite.favoritable_type %></td>
+    <td><%= link_to 'Show', favorite %></td>
+    <td><%= link_to 'Edit', edit_favorite_path(favorite) %></td>
+    <td><%= link_to 'Destroy', favorite, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New favorite', new_favorite_path %>

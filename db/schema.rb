@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090306063311) do
+ActiveRecord::Schema.define(:version => 20090318021824) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
@@ -50,6 +50,17 @@ ActiveRecord::Schema.define(:version => 20090306063311) do
   end
 
   add_index "domains", ["name"], :name => "index_domains_on_name", :unique => true
+
+  create_table "favorites", :force => true do |t|
+    t.integer  "user_id",          :null => false
+    t.integer  "favoritable_id",   :null => false
+    t.string   "favoritable_type", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "favorites", ["favoritable_id"], :name => "index_favorites_on_favoritable_id"
+  add_index "favorites", ["user_id"], :name => "index_favorites_on_user_id"
 
   create_table "invitation_requests", :force => true do |t|
     t.integer  "invitation_id"

@@ -4,23 +4,28 @@
 		<link href="/facebox/facebox.css" media="screen" rel="stylesheet" type="text/css" />
 		<link href="/stylesheets/jquery.rating.css" media="screen" rel="stylesheet" type="text/css" />
 
-    <%= javascript_include_tag :defaults %>
+    <%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js' %>
+    <%= javascript_include_tag 'jquery-ui', 'jrails', 'application' %>    
+    
 		<script src="/javascripts/diff_match_patch.js"></script>
 		<script src="/javascripts/jquery.rating.js"></script>
 		<script src="/facebox/facebox.js"></script>
 		<script>
-			jQuery(document).ready(function(e) {
+		  var setup_stopprop = null;
+		  var setup_favorites = null;
+		  var get_unique_id = null;
+			$(document).ready(function(e) {
 			  var differ = new diff_match_patch();
 			  
-			  jQuery('a[rel*=facebox]').facebox();
+			  $('a[rel*=facebox]').facebox();
 			  
-			  jQuery('.summary').each(function(){
-			    var old = jQuery("#" + (parseInt(this.id) - 1) + "-version-summary");
-			    var target = jQuery("#" + parseInt(this.id) + "-version-diff");
-			    if(old.size() == 0) old = jQuery("<div/>");
+			  $('.summary').each(function(){
+			    var old = $("#" + (parseInt(this.id) - 1) + "-version-summary");
+			    var target = $("#" + parseInt(this.id) + "-version-diff");
+			    if(old.size() == 0) old = $("<div/>");
 			    if(target.size() > 0) {
 			      try {
-			        var diff = differ.diff_main(old.html(), jQuery(this).html());
+			        var diff = differ.diff_main(old.html(), $(this).html());
 			        differ.diff_cleanupSemantic(diff);
 			        var arr = differ.diff_prettyHtml(diff).split("{{{");
 			        var buffer = "";
@@ -37,14 +42,59 @@
 			    }
 			  });
 			  
-			  jQuery('.stop_prop').click(function(e) {
-			    stop_prop(e);
-			    return true;
+			  setup_stopprop = function(context) {
+  			  $('.stop_prop', context).click(function(e) {
+  			    console.log("saw");
+  			    stop_prop(e);
+  			    return true;
+  			  });
+			  };
+			  setup_stopprop($('body'));
+			  
+			  $('#box').focus(function(e) {
+			    if ($(this).val() == 'search') $(this).val('');
 			  });
 			  
-			  jQuery('#box').focus(function(e) {
-			    if (jQuery(this).val() == 'search') jQuery(this).val('');
-			  });
+			  get_unique_id = function() {
+			    var id = Math.floor(Math.random()*100000000);
+		      while ($('#' + id).get(0)) { id = Math.floor(Math.random()*100000000); }
+		      return id;
+			  };
+			  
+			  // Do favorites
+			  
+        setup_favorites = function(context) {
+  			  $('.favorited', context).mouseover(function() {
+  			    $('img', this).attr('src', '/images/icons/heart_break.png');
+  			  }).mouseout(function() {
+  			    $('img', this).attr('src', '/images/icons/heart.png');
+  			  });
+			  
+  			  $('.not_favorited', context).mouseover(function() {
+  			    $('img', this).attr('src', '/images/icons/heart__plus.png');
+  			  }).mouseout(function() {
+  			    $('img', this).attr('src', '/images/icons/heart_empty.png');
+  			  });
+			  
+  			  $('.not_favorited, .favorited', context).click(function() {
+  			    var self = $(this);
+  			    $.ajax({ data: { 'favoritable_type': $(this).attr('favoritable_type'), 
+  			                     'favoritable_id': self.attr('favoritable_id') }, 
+  			             type: 'post', url: '/favorites/toggle', 
+  			             success: function(data, textStatus) { 
+  			      var unique_id = get_unique_id();
+  			      var new_html = $(data).attr('id', unique_id);
+  			      var old = self.replaceWith(new_html);
+  			      var c = $('#' + unique_id).parent();
+  			      setup_stopprop(c);
+  			      setup_favorites(c);
+  			      $('.fav_text', c).text($('.fav_text', old).text());
+  			    }});
+  			    return false;
+  			  });
+  			};
+  			setup_favorites($('body'));
+			  
 			})
 		</script>
 
