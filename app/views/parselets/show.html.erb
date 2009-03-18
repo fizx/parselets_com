@@ -1,13 +1,26 @@
 <div class="shift">
 	<%= thumb(@parselet) %>
 	<div class="result_right right_shift">
-	  <%= ratings @parselet %>
-		<h3><span class="faded">by <%=link_to @parselet.user.login, @parselet.user %><%=gravatar @parselet.user.email, :class => "rt_gravatar", :align => "absmiddle" %></span></h3>
+	  <div style="clear: left"><%= ratings @parselet %></div>
+		<h3 style="float: right; clear: right; position: relative; left:-1px">
+		  <span class="faded">
+		    <%= "originally " if @parselet.user.login != @parselet.revision_login %>
+		    by <%=link_to @parselet.user.login, @parselet.user %><%=gravatar @parselet.user.email, :class => "rt_gravatar", :align => "absmiddle" %>
+		  </span>
+		</h3>
 	</div>
 	<div class="result_body">
 		<h1>
 			<%=link_to h(@parselet.name), parselet_edit_path(@parselet), :class => 'result_title' %>
 		</h1>
+  		<div id="version_text">
+  		  <a href="#history">version <%= @parselet.version.to_s %></a> by 
+      	<% if @parselet.revision_login == 'anonymous' %>
+      	  anonymous
+      	<% else %>
+      	  <%= link_to h(@parselet.revision_login), user_path(:id => @parselet.revision_login)%>
+        <% end %>
+		  </div>
 		<%= example_link(@parselet) %>
 		<p><%=wikify(h(truncate(@parselet.description, :length => 250))) %></p>
 	</div>
@@ -42,6 +55,7 @@
     </div>
 
     <div class="left">
+      <a name="history" />
       <h2>History</h2>
       <ol><%= render @versions %></ol>
       <div style="display:none">

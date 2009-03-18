@@ -125,14 +125,13 @@ class Parselet < ActiveRecord::Base
     belongs_to :user
     belongs_to :revision_user, :class_name => "User"
     belongs_to :cached_page
-    
-    def revision_login
-      revision_user ? "#{revision_user.login}" : "anonymous"
-    end
   end
   
   # Get included into Parselet::Version later
   module VersionableMethods
+    def revision_login
+      revision_user ? "#{revision_user.login}" : "anonymous"
+    end
     
     def summary
       [ ["Keyword", name], 

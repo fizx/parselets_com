@@ -450,7 +450,7 @@ a.result_title:hover {
 .result_body {
   float: left;
   margin-left: 15px;
-  width:600px;
+  width:500px;
   color:#999;
 }
 
@@ -919,4 +919,10 @@ a#logo {
 }
 .vdiff pre {
   padding:10px;
+}
+#version_text {
+  font-size: 1.1em;
+}
+#version_text a {
+  color: #999;
 }
