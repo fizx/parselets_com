@@ -30,20 +30,20 @@ module ApplicationHelper
     render "/widgets/rating", :parselet => parselet
   end
   
-  def favorite(favoritable, text = '')
+  def favorite(favoritable, show_text = true)
     if logged_in?
       if Favorite.find_for_favoritable(favoritable, current_user)
         <<-STR
           <div class="favorited stop_prop" favoritable_type="#{favoritable.class}" favoritable_id="#{favoritable.id}">
             <a href="#" onclick="return false;">#{icon("heart", "You have favorited this.  Click to unfavorite.")}</a>
-            <a href="#" onclick="return false;" class='fav_text'>#{text}</a>
+            <a href="#" onclick="return false;" class='fav_text'>#{"favorited" if show_text}</a>
           </div>
         STR
       else
         <<-STR
           <div class="not_favorited stop_prop" favoritable_type="#{favoritable.class}" favoritable_id="#{favoritable.id}">
             <a href="#" onclick="return false;">#{icon("heart_empty", "Click to favorite this.")}</a>
-            <a href="#" onclick="return false;" class='fav_text'>#{text}</a>
+            <a href="#" onclick="return false;" class='fav_text'>#{"favorite" if show_text}</a>
           </div>
         STR
       end

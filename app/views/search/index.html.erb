@@ -1,7 +1,7 @@
 <ol class="results"><%=render @search.results %></ol>
-<% if @search.results.empty? %>
-  <h3> No results found </h3>
-<% end %>
 <div class="paginate">
+  <% if @search.results.empty? %>
+    <h3> No results found </h3><br />
+  <% end %>
   <%= will_paginate @search %>
 </div>

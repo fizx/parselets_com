@@ -88,7 +88,15 @@
   			      var c = $('#' + unique_id).parent();
   			      setup_stopprop(c);
   			      setup_favorites(c);
-  			      $('.fav_text', c).text($('.fav_text', old).text());
+  			      var old_text = $('.fav_text', old).text();
+  			      if (old_text.length > 0) {
+  			        if (old_text == 'favorite') {
+  			          old_text = 'favorited';
+  			        } else if (old_text == 'favorited'){
+  			          old_text = 'favorite';
+  			        }
+  			        $('.fav_text', c).text(old_text);
+  			      }
   			    }});
   			    return false;
   			  });
