@@ -41,7 +41,10 @@
                            }
                          ]
                        })
-  json_string = parselet.parse(file = some_file, output = "json")
   # Using Parsley's builtin URI fetching.
   json_string = parselet.parse(file = "http://www.example.com/", output = "json")
+  print(json_string)
+  
+  # Or run it on a file:
+  # json_string = parselet.parse(file = some_file, output = "json")
 <% end %>

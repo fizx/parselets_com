@@ -36,7 +36,7 @@
     data = parselet.parse(:url => "<%= @parselet.example_url %>")
 
     pp data
-    # The result should look much like: <%= parse_parselet_url(@parselet) %>
+    # The result should look much like: <%= parse_url(@parselet) %>
     <% if example_element.strip.length > 0 %>
 
     puts data<%= example_element.strip %> # Outputs: <%= truncate example_value.inspect %>
@@ -57,7 +57,7 @@
     data = parselet.parse(:string => content)
 
     pp data
-    # The result should look much like: <%= parse_parselet_url(@parselet) %>
+    # The result should look much like: <%= parse_url(@parselet) %>
     <% if example_element.strip.length > 0 %>
 
     puts data<%= example_element.strip %> # Outputs: <%= truncate example_value.inspect %>
@@ -85,7 +85,7 @@
   # Using open-uri.
   out = parselet.parse(:string => open("http://www.example.com/").read)
   # Using Parsley's builtin URI fetching.
-  out = parselet.parse(:string => "http://www.example.com/")
+  out = parselet.parse(:file => "http://www.example.com/")
 <% end %>
 
 <% content_for :install do %>
@@ -97,6 +97,6 @@
     You can also <a href="http://github.com/iterationlabs/online_parselets">download the gem and install it from source</a>.
   </p>
   <p>
-    For faster, local parsing, please also <a href="http://github.com/fizx/parsley/blob/master/INSTALL">install Parsley itself</a>.
+    For faster, local parsing, please also <a href="http://github.com/fizx/parsley/blob/master/INSTALL">install Parsley itself</a> and the Ruby bindings as outlined below.
   </p>
 <% end %>

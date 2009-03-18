@@ -80,7 +80,6 @@ module ApplicationHelper
         <pre class="brush: #{brush}; light: true#{"; #{options[:options]}" if options[:options]}">#{h(options[:content] || capture(&block))}</pre>
       </div>
     STR
-    puts "hi"
     options[:content].nil? ? concat(out) : out
   end
   
