@@ -19,11 +19,10 @@ class UsersController < ApplicationController
   end
   
   def show
-    @parselets = Parselet.paginate(:all, :page => params[:page], :conditions => {:user_id => @user.id})
+    redirect_to :controller => 'parselets', :action => 'index', :user => params[:id]
   end
   
   def edit
-    @user = User.find_by_login(params[:id])
   end
   
   def update
