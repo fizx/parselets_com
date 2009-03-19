@@ -11,7 +11,10 @@ class CommentsController < ApplicationController
     if params[:parselet_id]
       params[:id] = params[:parselet_id]
       params[:type] = params[:parselet_type]
-    end  
+    else
+      redirect_to '/' and return unless admin?
+      @admin_access = true
+    end
     conditions = {}
     conditions = {:commentable_type => params[:type], :commentable_id => params[:id]} if params[:id] && params[:type]
     @comments = Comment.paginate :page => params[:comments_page], :conditions => conditions, :order => "created_at ASC"

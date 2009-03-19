@@ -943,3 +943,15 @@ a#logo {
   float: right;
   clear: right;
 }
+
+/* Admin Access */
+
+#admin_notice {
+  position: absolute;
+  top: 10px;
+  left: 635px;
+  padding: 10px;
+  background-color: #FFF;
+  border: 1px solid black;
+  color: #555;
+}

@@ -8,6 +8,9 @@
   <%= stylesheet_link_tag 'scaffold' %>
 </head>
 <body>
+  <% if @admin_access %>
+    <div id='admin_notice'>Using Admin Access</div>
+  <% end %>
 
 <p style="color: green"><%= flash[:notice] %></p>
 

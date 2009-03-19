@@ -23,7 +23,7 @@ class Parselet < ActiveRecord::Base
                  else
                    find_by_name(id)
                  end
-      if params[:version] && params[:version].to_i < parselet.version
+      if params[:version]# && params[:version].to_i < parselet.version
         parselet.revert_to(params[:version].to_i)
       end
       parselet
@@ -260,6 +260,7 @@ class Parselet < ActiveRecord::Base
       OrderedJSON.pretty_dump(parse(url, options)).gsub("\t", TAB)
     end
 
+    # TODO: Is this the problem?
     def set_working(val)
       Parselet.send(:with_exclusive_scope) do
         self.works = val

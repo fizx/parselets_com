@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   layout "simple"
   skip_before_filter :login_required, :only => %w[new create]
   around_filter :invite_required, :only => %w[new create]
+  before_filter :redirect_unless_owner_or_admin, :only => %w[edit update]
   
   def index
     @users = User.paginate :page => params[:page]
@@ -18,19 +19,14 @@ class UsersController < ApplicationController
   end
   
   def show
-    @user = User.find_by_login(params[:id])
     @parselets = Parselet.paginate(:all, :page => params[:page], :conditions => {:user_id => @user.id})
   end
   
   def edit
     @user = User.find_by_login(params[:id])
-    unless admin? || @user == current_user
-      redirect_to :action => 'edit', :id => current_user
-    end
   end
   
   def update
-    @user = User.find_by_login(params[:id])
     params[:user][:login] = @user.login
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -59,6 +55,18 @@ class UsersController < ApplicationController
     else
       flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
       render :action => 'new'
+    end
+  end
+
+protected
+
+  def redirect_unless_owner_or_admin
+    @user = User.find_by_login(params[:id])
+    if @user != current_user
+      unless admin?
+        redirect_to :action => 'edit', :id => current_user and return
+      end
+      @admin_access = true
     end
   end
 end

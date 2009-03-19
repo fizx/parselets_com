@@ -146,6 +146,10 @@
     
   </head>
   <body>
+    <% if @admin_access %>
+      <div id='admin_notice'>Using Admin Access</div>
+    <% end %>
+    
     <div id="header">
       <div class="content">
         <div id="user-nav">
