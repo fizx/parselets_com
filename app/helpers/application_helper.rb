@@ -14,6 +14,43 @@ module ApplicationHelper
     text.gsub(/\[\[([\w\-]+)\]\]/, '<a href="/parselets/\1">\1</a>')
   end
   
+  STRONG_PAIR_REGEX = /<strong>.*?<\/strong>/
+  STRONG_REGEX = /<\/?strong>/
+  def escape_and_highlight(text, options = {})
+		text = h(text).gsub(START_PARSELET_HIGHLIGHT, '<strong>').gsub(END_PARSELET_HIGHLIGHT, '</strong>')
+		if options[:truncate]
+      sum = 0
+      out = []
+      last = nil
+      text.split(STRONG_PAIR_REGEX).zip(text.scan(STRONG_PAIR_REGEX)).flatten.each do |part|
+        next if part.nil?
+        l = part.gsub(STRONG_REGEX, '').length
+        if sum + l < options[:truncate]
+          sum += l
+          out << part
+        else
+          last = part
+          break
+        end
+      end
+      
+      if last && last.length > 0
+        trunk_to = options[:truncate] - sum
+        trunk_to = 3 if trunk_to < 3
+        if last =~ STRONG_REGEX
+          last = last.gsub(STRONG_REGEX, '')
+          out.join('') + '<strong>' + truncate(last, :length => trunk_to) + '</strong>'
+        else
+          out.join('') + truncate(last, :length => trunk_to)
+        end
+      else
+        out.join('')
+      end
+    else
+      text
+    end
+  end
+  
   def parselet_edit_path(parselet)
     "/parselets/#{parselet.name}/#{parselet.version}/edit"
   end

@@ -77,7 +77,7 @@ class Parselet < ActiveRecord::Base
   acts_as_versioned
   acts_as_paranoid
   
-  is_indexed :fields => ["name", "description"],
+  is_indexed :fields => ["name", "description", "code"],
     :include => [
       {:association_name => 'user', :field => 'login'},
       {:association_name => 'domain', :field => 'variations'}

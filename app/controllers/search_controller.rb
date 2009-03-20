@@ -35,6 +35,6 @@ protected
       :class_names => class_names, 
       :page => params[:page] || 1,
       :per_page => 10)
-    @search.run
+    @search.excerpt
   end
 end

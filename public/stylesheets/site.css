@@ -296,6 +296,8 @@ p{
 
 #nav li img {
   margin-left: 5px;
+  position: relative;
+  top: -1px;
 }
 
 #nav li a {
@@ -454,6 +456,10 @@ a.result_title:hover {
   color:#999;
 }
 
+.result_body strong {
+  text-decoration: underline;
+}
+
 #right_column .result_body {
   width:auto;
 }
@@ -537,6 +543,8 @@ a#logo {
   margin-left: 12px;
 }
 
+/* Dev and Doc */
+
 .doc {
   color: #666;
 }
@@ -556,9 +564,11 @@ a#logo {
 .doc a:hover {
   text-decoration: underline;
 }
+
 .doc h1, .doc h2, .doc h3, .doc h4, .doc h5, .doc h6 {
   margin: 10px 0px 8px 0px;
 }
+
 .doc li {
   margin-left: 20px;
   font-size: 0.9em;
@@ -596,6 +606,14 @@ a#logo {
   border: 1px solid silver;
   z-index:10;
 }
+
+.doc .toggle_link {
+  font-size: 0.8em;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+/* Parselet Edit Page */
 
 .save_button {
   float: right;
@@ -934,9 +952,11 @@ a#logo {
 
 .favorited, .not_favorited {
   color: #999;
+  display: table;
 }
 .favorited a, .not_favorited a{
   color: #999;
+  margin-right: 5px;
 }
 
 .result_right .favorited, .result_right .not_favorited {

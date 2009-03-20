@@ -23,10 +23,8 @@
       <% end %>
     </div>
   
-    <div>
-      <a href="#" onclick="$('#example_online_code').toggle(); return false;">
-        Click here to view a more generic example of using the Parselets.com API with <%= language_name %>.
-      </a>
+    <div class='toggle_link'>
+      [ <a href="#" onclick="$('#example_online_code').toggle(); return false;">Click here to view a more generic example of using the Parselets.com API with <%= language_name %></a> ]
     </div>
   <% end %>
 
@@ -53,10 +51,8 @@
     <% syntax_highlight brush, :options => 'smart-tabs: false' do %>
       <%= yield :parsley_code_from_parselet %>
     <% end %>
-    <div>
-      <a href="#" onclick="$('#example_offline_code').toggle(); return false;">
-        Click here to view a more generic example of Parsley used with <%= language_name %>.
-      </a>
+    <div class='toggle_link'>
+      [ <a href="#" onclick="$('#example_offline_code').toggle(); return false;">Click here to view a more generic example of Parsley used with <%= language_name %></a> ]
     </div>
   <% end %>
 

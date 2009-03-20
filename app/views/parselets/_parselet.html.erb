@@ -7,9 +7,15 @@
   </div>
 	<div class="result_body">
 		<h4>
-			<%=link_to h(parselet.name), parselet, :class => 'result_title stop_prop' %>
+			<%= link_to h(parselet.name), parselet, :class => 'result_title stop_prop' %>
 		</h4>
 		<%= example_link(parselet) %>
-		<p><%=wikify(h(truncate(parselet.description, :length => 250))) %></p>
+		<p><%= wikify(escape_and_highlight(parselet.description, :truncate => 250)) %></p>
+
+	  <% if parselet.code.include?(START_PARSELET_HIGHLIGHT) %>
+	    <p>
+	      <%= escape_and_highlight(parselet.code, :truncate => 250) %>
+	    </p>
+	  <% end %>
 	</div>
 <% end %>
