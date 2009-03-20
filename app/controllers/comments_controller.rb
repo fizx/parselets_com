@@ -57,6 +57,8 @@ class CommentsController < ApplicationController
   # POST /comments.xml
   def create
     @comment = Comment.new(params[:comment])
+    
+    params[:comments_page] = 1 if params[:comments_page] == ''
 
     respond_to do |format|
       if @comment.save
@@ -67,9 +69,9 @@ class CommentsController < ApplicationController
           flash[:notice] = nil
           render :update do |page|
             page.replace "comments", :partial => "comments", :locals => {
-                            :comments => @comment.commentable.comments.paginate(:page => params[:comments_page], 
-                                                                                :order => "created_at ASC", :per_page => 10), 
-                            :new_comment => @comment.commentable.comments.new }
+                         :comments => @comment.commentable.comments.paginate(:page => params[:comments_page], 
+                                                                             :order => "created_at ASC", :per_page => 10), 
+                         :new_comment => @comment.commentable.comments.new }
             page.replace_html "add_comment", :text => "Thank you for your comment."
             page << '$("#add_comment").fadeOut(5000, function() { $(this).remove(); })'
             page.replace_html "comments_#{dom_id(@comment.commentable)}", :text => (@comment.commentable.comments_count + 1).to_s
