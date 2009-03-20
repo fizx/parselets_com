@@ -297,11 +297,11 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
       var elem = $(elem);
       if (elem.val() == '') {
         if(type == 'key') {
-          elem.val(parent_key);
+          elem.val('add a new key');
         } else {
-          elem.val(parent_json[parent_key]);
+          elem.val("add a new value");
         }
-        if (new_row) elem.addClass('new_row');
+        elem.addClass('new_row');
       } else {
         if(type == 'key') {
           var new_key = elem.val();

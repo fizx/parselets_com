@@ -17,8 +17,9 @@ module ApplicationHelper
   STRONG_PAIR_REGEX = /<strong>.*?<\/strong>/
   STRONG_REGEX = /<\/?strong>/
   def escape_and_highlight(text, options = {})
-		text = h(text).gsub(START_PARSELET_HIGHLIGHT, '<strong>').gsub(END_PARSELET_HIGHLIGHT, '</strong>')
-		if options[:truncate]
+    text = h(text).gsub(START_PARSELET_HIGHLIGHT, '<strong>').gsub(END_PARSELET_HIGHLIGHT, '</strong>')
+    # Do a smart truncate that won't leave broken or hanging <strong> tags.
+    if options[:truncate]
       sum = 0
       out = []
       last = nil
