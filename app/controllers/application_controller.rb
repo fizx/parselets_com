@@ -67,6 +67,9 @@ class ApplicationController < ActionController::Base
   end
   
 protected
+
+  # Scopes to user_id={kyle's user id} when query like ?user=kyle.
+  # Scopes to domain_id when query like ?domain=google.com
   def dynamic_scope
     scope = [:user, :domain].inject({}) do |scope, key|
       if params[key] 

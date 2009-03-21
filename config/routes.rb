@@ -27,14 +27,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :invitation_requests
   map.resources :invitations
   map.resources :parselets, :member => { :parse => :get } do |p|
-    p.resources :parselet_versions
     p.resources :comments
     p.resources :ratings
   end
-  map.resources :parselet_versions
   map.resources :users
   map.resources :sprigs do |s|
-    s.resources :sprig_versions
     s.resources :comments
   end
   map.resources :domains

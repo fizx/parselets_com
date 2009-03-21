@@ -1,15 +1,17 @@
 require "json"
 require "rubygems"
-require "ruby-debug"
+# require "ruby-debug"
+
 class ParseletsController < ApplicationController
   layout "simple"
   around_filter :dynamic_scope
   before_filter :include_editor, :only => [:new, :edit]
-    
-  # GET /parselets
-  # GET /parselets.xml
+  
   def index
-    @parselets = Parselet.paginate :page => params[:page]
+    @parselets = Parselet.paginate :page => params[:page], :group => 'name', 
+                                   :joins => "LEFT JOIN ratings on parselets.id=ratings.ratable_id and ratable_type='Parselet'", 
+                                   :order => 'avg desc', 
+                                   :select => "`parselets`.*, (sum(ratings.score) + 15) / (count(ratings.id) + 5) as avg" 
     
     respond_to do |format|
       format.html # index.html.erb

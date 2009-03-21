@@ -27,16 +27,6 @@ class ParseletTest < ActiveSupport::TestCase
     Parselet.compress_json(example_data)
   end
   
-  def test_changes
-    parselet = parselets(:youtube)
-    parselet.save!
-    assert_equal 1, parselet.version
-    parselet.code = "{}"
-    parselet.save!
-    assert_equal 2, parselet.version
-    assert_equal "code", parselet.cached_changes
-  end
-  
   def indifferent(object)
     case object
     when Hash

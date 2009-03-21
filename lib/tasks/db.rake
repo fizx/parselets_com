@@ -36,7 +36,6 @@ namespace :db do
     sys "rsync -avz --partial --progress www-data@parselets.com:dump.sql #{MYSQLDUMP_FILE}"
     sys "cat #{MYSQLDUMP_FILE} | mysql #{mysql_config} "
     Parselet.update_all "cached_page_id = NULL"
-    Parselet::Version.update_all "cached_page_id = NULL"
   end
 end
 

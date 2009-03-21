@@ -22,6 +22,14 @@ module CustomValidations
       end
     end
     alias_method :validates_url, :validates_uri
+    
+    def validates_example_url_matches_pattern
+      validates_each(:pattern) do |record, name, value|
+        unless record.pattern_matches?(record.example_url)
+          record.errors.add :example_url, "doesn't match the pattern."
+        end
+      end
+    end
   end
   
   def self.included(klass)

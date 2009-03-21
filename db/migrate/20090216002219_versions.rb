@@ -1,11 +1,11 @@
 class Versions < ActiveRecord::Migration
   def self.up
-    Parselet.create_versioned_table
-    Sprig.create_versioned_table
+    # Parselet.create_versioned_table
+    # Sprig.create_versioned_table
   end
 
   def self.down
-    Parselet.drop_versioned_table
-    Sprig.drop_versioned_table
+    drop_table(:parselet_versions) if ActiveRecord::Base.connection.tables.include?('parselet_versions')
+    drop_table(:sprig_versions) ActiveRecord::Base.connection.tables.include?('sprig_versions')
   end
 end

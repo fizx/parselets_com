@@ -10,7 +10,7 @@ class Rating < ActiveRecord::Base
     if ratable.respond_to?(:cached_rating)
       ratable.cached_rating = Rating.average("score", :conditions => { :ratable_id => ratable_id, 
                                                                        :ratable_type => ratable_type })
-      ratable.respond_to?(:save_without_revision) ? ratable.save_without_revision! : ratable.save!
+      ratable.save!
     end
   end
   
@@ -19,7 +19,7 @@ class Rating < ActiveRecord::Base
     rating.score = score
     rating.save!
     object.ratings_count = object.ratings.count
-    object.respond_to?(:save_without_revision) ? object.save_without_revision! : object.save!
+    object.save!
     rating
   end
 end

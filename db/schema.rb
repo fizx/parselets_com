@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090318021824) do
+ActiveRecord::Schema.define(:version => 20090320182254) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
@@ -83,37 +83,6 @@ ActiveRecord::Schema.define(:version => 20090318021824) do
   add_index "invitations", ["code"], :name => "index_invitations_on_code", :unique => true
   add_index "invitations", ["user_id"], :name => "index_invitations_on_user_id"
 
-  create_table "parselet_versions", :force => true do |t|
-    t.integer  "parselet_id"
-    t.integer  "version"
-    t.string   "name"
-    t.text     "description"
-    t.text     "code"
-    t.string   "pattern"
-    t.string   "example_url"
-    t.string   "domain_id"
-    t.integer  "user_id"
-    t.boolean  "pattern_regex"
-    t.datetime "deleted_at"
-    t.datetime "updated_at"
-    t.datetime "checked_at"
-    t.boolean  "works"
-    t.integer  "cached_page_id"
-    t.integer  "ratings_count",    :default => 0, :null => false
-    t.integer  "comments_count",   :default => 0, :null => false
-    t.integer  "cached_rating",    :default => 0, :null => false
-    t.text     "signature"
-    t.text     "cached_changes"
-    t.integer  "revision_user_id"
-    t.datetime "created_at"
-  end
-
-  add_index "parselet_versions", ["cached_page_id"], :name => "index_parselet_versions_on_cached_page_id"
-  add_index "parselet_versions", ["domain_id"], :name => "index_parselet_versions_on_domain_id"
-  add_index "parselet_versions", ["name"], :name => "index_parselet_versions_on_name"
-  add_index "parselet_versions", ["parselet_id", "version"], :name => "index_parselet_versions_on_parselet_id_and_version", :unique => true
-  add_index "parselet_versions", ["user_id"], :name => "index_parselet_versions_on_user_id"
-
   create_table "parselets", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -122,7 +91,7 @@ ActiveRecord::Schema.define(:version => 20090318021824) do
     t.string   "example_url"
     t.string   "domain_id"
     t.integer  "user_id"
-    t.integer  "version"
+    t.integer  "version",          :default => 1
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -139,7 +108,7 @@ ActiveRecord::Schema.define(:version => 20090318021824) do
 
   add_index "parselets", ["cached_page_id"], :name => "index_parselets_on_cached_page_id"
   add_index "parselets", ["domain_id"], :name => "index_parselets_on_domain_id"
-  add_index "parselets", ["name"], :name => "index_parselets_on_name", :unique => true
+  add_index "parselets", ["name"], :name => "index_parselets_on_name"
   add_index "parselets", ["user_id"], :name => "index_parselets_on_user_id"
 
   create_table "password_requests", :force => true do |t|
@@ -200,7 +169,7 @@ ActiveRecord::Schema.define(:version => 20090318021824) do
     t.datetime "updated_at"
   end
 
-  add_index "sprigs", ["name"], :name => "index_sprigs_on_name", :unique => true
+  add_index "sprigs", ["name"], :name => "index_sprigs_on_name"
   add_index "sprigs", ["user_id"], :name => "index_sprigs_on_user_id"
 
   create_table "thumbnails", :force => true do |t|
