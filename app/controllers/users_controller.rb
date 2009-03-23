@@ -12,7 +12,7 @@ class UsersController < ApplicationController
       format.xml  { render :xml => @users }
     end
   end
-  
+    
   # render new.rhtml
   def new
     @user = User.new

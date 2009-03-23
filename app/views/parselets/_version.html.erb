@@ -1,13 +1,9 @@
 <li class="v">
-  <% path = url_for :controller => "parselets", :action => "show", :id => version.parselet, :version => version.version %>
+  <% path = url_for :controller => "parselets", :action => "show", :id => version, :version => version.version %>
 	<a class="version<%= " current" if @parselet && @parselet.version == version.version %>" href='<%= path %>'><div><%= version.version %></div></a>
 	
 	<%= link_to "#{time_ago_in_words(version.created_at)} ago", path, :class=>"url" %> <span class='by'>by</span> 
-	<% if version.revision_login == 'anonymous' %>
-	  <span class='by'>anonymous</span>
-	<% else %>
-	  <%= link_to h(version.revision_login), user_path(:id => version.revision_login), :class=>"url" %>
-  <% end %>
+  <%= link_to h(version.user.login), user_path(:id => version.user_id), :class=>"url" %>
 	<div class="vdiff"><pre id="<%=version.version%>-version-diff"></pre></div>
   <pre id="<%=version.version%>-version-summary" class="summary" style="display:none"><%=h version.summary%></pre>
 </li>

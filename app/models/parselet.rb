@@ -21,7 +21,6 @@ class Parselet < ActiveRecord::Base
     :conditions => "parselets.deleted_at IS NULL AND user_id IS NOT NULL",
     :order => "parselets.updated_at DESC", :delta => true
   
-  belongs_to :revision_user, :class_name => "User"
   belongs_to :user
   belongs_to :domain
   has_many :comments,   :as => :commentable
@@ -38,9 +37,32 @@ class Parselet < ActiveRecord::Base
   validates_json :code
   validates_example_url_matches_pattern
   
-  before_save :create_domain
-  before_save :calculate_signature
-  before_save :update_cached_page
+  before_save :create_domain, :unless => :ignoring_callbacks?
+  before_save :calculate_signature, :unless => :ignoring_callbacks?
+  before_save :update_cached_page, :unless => :ignoring_callbacks?
+  before_save :update_score_and_best_version, :unless => :ignoring_callbacks?
+  
+  
+  SCORE_UPDATE_SQL = <<-SQL
+      score = (
+        (5.0 * sqrt(`parselets`.id)) + 
+        (100 * `parselets`.works) + 
+        (1.0 * IFNULL((SELECT ((sum(ratings.score) + 15) / (count(ratings.id) + 5)) FROM ratings 
+                       WHERE ratings.ratable_id=parselets.id and ratings.ratable_type='Parselet'), 0)) +
+        (1.0 * `parselets`.comments_count) + 
+        (1.0 * (SELECT count(1) from favorites where favorites.favoritable_id=parselets.id and favorites.favoritable_type='Parselet'))
+      )
+    SQL
+  
+  def update_score_and_best_version
+    Parselet.ignoring_callbacks do
+      Parselet.update_all 'best_version = 0', ['name = ?', name]
+      Parselet.update_all SCORE_UPDATE_SQL, ['name = ? and version = ?', name, version]
+      best_version = Parselet.find(:first, :order => 'score desc', :conditions => { :name => name })
+      best_version.best_version = true
+      best_version.save(false)
+    end
+  end
   
   def update_cached_page
     begin
@@ -54,6 +76,14 @@ class Parselet < ActiveRecord::Base
     self.domain = Domain.from_url(example_url)
   end
   
+  def original_user_id
+    if version == 1
+      user_id
+    else
+      Parselet.find_by_name_and_version(name, 1).user_id
+    end
+  end
+  
   def calculate_signature
     begin
       keys = recurse_signature(data)
@@ -63,10 +93,6 @@ class Parselet < ActiveRecord::Base
     end
   end
   
-  def revision_login
-    revision_user ? "#{revision_user.login}" : "anonymous"
-  end
-
   def summary
     [ ["Keyword", name], 
       ["Description", description], 
@@ -305,25 +331,88 @@ class Parselet < ActiveRecord::Base
   def guid
     id || "new-#{Digest::MD5.hexdigest(rand.to_s)[0..6]}"
   end
+  
+  def paginated_versions(params = {})
+    Parselet.paginate Parselet.symbolize_hash(params).merge( :conditions => { :name => name }, :order => '`parselets`.version desc' )
+  end
+  
+  def ignoring_callbacks?
+    Parselet.ignoring_callbacks?
+  end
     
   # Class Methods
+
+  ALLOWED_OPTIONS = %w[order group having limit offset from readonly lock page per_page total_entries count finder].map(&:to_sym)
+  def self.advanced_find(number, options = {}, more_options = {})
+    options = symbolize_hash(options).merge(symbolize_hash more_options)
+    
+    include_favs = nil
+    include_favs_select = ''
+    if favorite_user = options.delete(:favorite_user)
+      include_favs = " LEFT JOIN favorites on parselets.id=favorites.favoritable_id and favorites.user_id=#{favorite_user.id.to_i}"
+      include_favs_select = ", favorites.id as user_favorited"
+    end
+
+    conditions = ['best_version = 1']
+
+    user = options.delete(:user) || options.delete(:user_id)
+    if user && user = User.find_by_params(user)
+      conditions[0] += ' and `parselets`.user_id = ?'
+      conditions << user.id
+    end
   
-  def self.top(n = 5)
-    find_by_sql <<-SQL
-      select parselets.*, count(ratings.id) as cnt, (sum(ratings.score) + 15) / (count(ratings.id) + 5) as avg from parselets left join ratings on parselets.id=ratings.ratable_id and ratable_type='Parselet' where works = 1 group by parselets.name order by avg DESC LIMIT #{n.to_i}
-    SQL
-  end
+    if favorited = options.delete(:favorited) && favorited != 'false' && favorited != '0' && favorite_user
+      conditions[0] += ' and `favorites`.id is not null'
+    end
+    
+    show_broken = options.delete(:show_broken)
+    unless show_broken && show_broken != 'false' && show_broken != '0'
+      conditions[0] += ' and `parselets`.works=1'
+    end
 
-  def self.find_by_params(params = {})
-    id = params[:id] || params[:parselet]
-    parselet = if id =~ /\A\d+\Z/
-                 find(id)
-               else
-                 find_by_name_and_version(id, params[:version])
-               end
-    parselet
-  end
+    id = options.delete(:id) || options.delete(:parselet) || options.delete(:parselet_id)
+    if id.to_s =~ /\A\d+\Z/
+      conditions[0] += ' and `parselets`.id = ?'
+      conditions << id.to_i
+    elsif id
+      conditions[0] += ' and `parselets`.name = ?'
+      conditions << id
+    end
+    
+    version = options.delete(:version) || options.delete(:parselet_version)
+    if version
+      conditions[0] += ' and `parselets`.version = ?'
+      conditions << version.to_i
+    end
 
+    whitelisted_options = options.inject({}) {|m, (k, v)| m[k] = v if ALLOWED_OPTIONS.include?(k); m}
+
+    options = { :order => 'score desc', :conditions => conditions, :select => "`parselets`.*" + include_favs_select, 
+                :joins => include_favs 
+              }.merge(whitelisted_options)
+
+    if options.delete(:paginate) || number == :paginate
+      paginate({ :per_page => 10 }.merge(options))
+    else
+      find number, options
+    end
+  end
+  
+  def self.find_by_params(params = {}, more_params = {})
+    params = symbolize_hash(params).merge(symbolize_hash more_params)
+    version = params[:version] || params[:parselet_version]
+    if version
+      id = params.delete(:id) || params.delete(:parselet) || params.delete(:parselet_id)
+      if id.to_s =~ /\A\d+\Z/
+        find_by_id_and_version(id, version)
+      else
+        find_by_name_and_version(id, version)
+      end
+    else
+      advanced_find :first, params
+    end
+  end
+  
   def self.compress_json(data, allowed = 2, base_id = "hidden")
     i = 0
     out = []
@@ -354,5 +443,21 @@ class Parselet < ActiveRecord::Base
   def self.tmp_from_params(params = {})
     tmp = Parselet.new(params[:parselet])
     tmp
+  end
+  
+  def self.symbolize_hash(hash)
+    hash.inject({}) {|m, (k, v)| m[k.to_sym] = v; m}
+  end
+  
+  def self.ignoring_callbacks
+   tmp = @ignore_callbacks
+   @ignore_callbacks = true
+   yield
+  ensure
+   @ignore_callbacks = tmp
+  end
+
+  def self.ignoring_callbacks?
+   !!@ignore_callbacks
   end
 end

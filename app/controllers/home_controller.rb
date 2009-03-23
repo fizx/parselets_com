@@ -2,9 +2,6 @@ class HomeController < ApplicationController
   layout "simple"
   
   def index
-    @users = User.top
-    @parselets = Parselet.top
-    @sprigs = Sprig.top
-    @domains = Domain.top
+    @parselets = Parselet.advanced_find :all, :limit => 5
   end
 end

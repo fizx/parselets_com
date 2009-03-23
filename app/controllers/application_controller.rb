@@ -41,6 +41,10 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def find_parselet_by_params
+    Parselet.find_by_params(params, :favorite_user => current_user)
+  end
+  
   def admin?
     current_user && current_user.admin?
   end

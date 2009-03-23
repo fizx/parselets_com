@@ -1,7 +1,7 @@
 require 'digest/md5'
 require "cgi"
 require "ostruct"
-
+  
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   def icon(name, alt = nil, directory = 'icons', options = {})
@@ -70,7 +70,8 @@ module ApplicationHelper
   
   def favorite(favoritable, show_text = true)
     if logged_in?
-      if Favorite.find_for_favoritable(favoritable, current_user)
+      preloaded = favoritable.respond_to?(:user_favorited)
+      if (preloaded && favoritable.user_favorited) || (!preloaded && Favorite.find_for_favoritable(favoritable, current_user))
         <<-STR
           <div class="favorited stop_prop" favoritable_type="#{favoritable.class}" favoritable_id="#{favoritable.id}">
             <a href="#" onclick="return false;">#{icon("heart", "You have favorited this.  Click to unfavorite.")}</a>

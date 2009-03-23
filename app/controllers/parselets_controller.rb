@@ -6,12 +6,10 @@ class ParseletsController < ApplicationController
   layout "simple"
   around_filter :dynamic_scope
   before_filter :include_editor, :only => [:new, :edit]
+  before_filter :admin_required, :only => :destroy
   
   def index
-    @parselets = Parselet.paginate :page => params[:page], :group => 'name', 
-                                   :joins => "LEFT JOIN ratings on parselets.id=ratings.ratable_id and ratable_type='Parselet'", 
-                                   :order => 'avg desc', 
-                                   :select => "`parselets`.*, (sum(ratings.score) + 15) / (count(ratings.id) + 5) as avg" 
+    @parselets = Parselet.advanced_find :paginate, { :show_broken => true, :page => 1, :favorite_user => current_user }, params
     
     respond_to do |format|
       format.html # index.html.erb
@@ -24,7 +22,7 @@ class ParseletsController < ApplicationController
       @parselet = Parselet.tmp_from_params(params)
       params[:url] = @parselet.example_url
     else
-      @parselet = Parselet.find_by_params(params)
+      @parselet = find_parselet_by_params
       params[:url] ||= @parselet.example_url
     end
 
@@ -39,13 +37,11 @@ class ParseletsController < ApplicationController
     end
   end
   
-  # GET /parselets/1
-  # GET /parselets/1.xml
   def show
-    @parselet = Parselet.find_by_params(params)
+    @parselet = find_parselet_by_params
+    @versions = @parselet.paginated_versions :per_page => 10, :page => params[:history_page]
     @comments = @parselet.comments.paginate :per_page => 10, :page => params[:comments_page], :order => "created_at ASC"
-    @versions = @parselet.versions.paginate :per_page => 10, :page => params[:history_page], :order => "version DESC"
-    @extra =    @parselet.versions.paginate :per_page => 10, :page => @versions.next_page, :order => "version DESC" # What does this do?
+    # @extra =    @parselet.versions.paginate :per_page => 10, :page => @versions.next_page, :order => "version DESC" # What does this do?
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @parselet }
@@ -53,8 +49,6 @@ class ParseletsController < ApplicationController
     end
   end
 
-  # GET /parselets/new
-  # GET /parselets/new.xml
   def new
     @parselet = Parselet.new
 
@@ -64,16 +58,12 @@ class ParseletsController < ApplicationController
     end
   end
 
-  # GET /parselets/1/edit
   def edit
-    @parselet = Parselet.find_by_params(params)
+    @parselet = find_parselet_by_params
   end
 
-  # POST /parselets
-  # POST /parselets.xml
   def create
     @parselet = Parselet.tmp_from_params(params)
-    @parselet.revision_user_id = current_user.id
 
     respond_to do |format|
       if @parselet.save
@@ -87,12 +77,12 @@ class ParseletsController < ApplicationController
     end
   end
 
-  # PUT /parselets/1
-  # PUT /parselets/1.xml
   def update
-    @parselet = Parselet.find_by_params(params, false)
-    @parselet.code = Parselet.tmp_from_params(params).code
-    @parselet.revision_user_id = current_user.id
+    @parselet = find_parselet_by_params
+    @parselet.user_id = current_user.id
+    # FIXME
+    # Increment version ID
+    # Update user ID
 
     respond_to do |format|
       if @parselet.update_attributes(params[:parselet])
@@ -109,7 +99,7 @@ class ParseletsController < ApplicationController
   # DELETE /parselets/1
   # DELETE /parselets/1.xml
   def destroy
-    @parselet = Parselet.find_by_params(params)
+    @parselet = find_parselet_by_params
     @parselet.destroy
 
     respond_to do |format|

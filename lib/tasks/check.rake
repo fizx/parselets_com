@@ -12,5 +12,13 @@ namespace :parselet do
       end
     end
   end
+  
+  desc "Recalculate all parselet scores and best versions"
+  task :score do
+    require "config/environment"
+    Parselet.find(:all).each do |parselet|
+      parselet.update_score_and_best_version
+    end
+  end
 end
 
