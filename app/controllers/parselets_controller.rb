@@ -41,7 +41,7 @@ class ParseletsController < ApplicationController
     @parselet = find_parselet_by_params
     @versions = @parselet.paginated_versions :per_page => 10, :page => params[:history_page]
     @comments = @parselet.comments.paginate :per_page => 10, :page => params[:comments_page], :order => "created_at ASC"
-    # @extra =    @parselet.versions.paginate :per_page => 10, :page => @versions.next_page, :order => "version DESC" # What does this do?
+    @extra    = @parselet.paginated_versions :per_page => 10, :page => @versions.next_page
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @parselet }
@@ -78,20 +78,19 @@ class ParseletsController < ApplicationController
   end
 
   def update
-    @parselet = find_parselet_by_params
-    @parselet.user_id = current_user.id
-    # FIXME
-    # Increment version ID
-    # Update user ID
+    Parselet.transaction do
+      @parselet = find_parselet_by_params
+      @parselet = @parselet.clone_to_new_version(current_user)
 
-    respond_to do |format|
-      if @parselet.update_attributes(params[:parselet])
-        flash[:notice] = 'Parselet was successfully updated.'
-        format.html { redirect_to(@parselet) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @parselet.errors, :status => :unprocessable_entity }
+      respond_to do |format|
+        if @parselet.update_attributes(params[:parselet])
+          flash[:notice] = 'Parselet was successfully updated.'
+          format.html { redirect_to(@parselet) }
+          format.xml  { head :ok }
+        else
+          format.html { render :action => "edit" }
+          format.xml  { render :xml => @parselet.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end

@@ -59,8 +59,13 @@ class Parselet < ActiveRecord::Base
       Parselet.update_all 'best_version = 0', ['name = ?', name]
       Parselet.update_all SCORE_UPDATE_SQL, ['name = ? and version = ?', name, version]
       best_version = Parselet.find(:first, :order => 'score desc', :conditions => { :name => name })
-      best_version.best_version = true
-      best_version.save(false)
+      if best_version
+        best_version.best_version = true
+        best_version.save(false)
+      else
+        # This is the first parselet with this name, must be new.
+        self.best_version = true
+      end
     end
   end
   
@@ -332,6 +337,20 @@ class Parselet < ActiveRecord::Base
     id || "new-#{Digest::MD5.hexdigest(rand.to_s)[0..6]}"
   end
   
+  def clone_to_new_version(user)
+    new_attributes = attributes.keys - ["id", "works", "cached_rating", "user_favorited", "score", "best_version"]
+    new_attributes.delete_if {|i| i =~ /_count$/ || i =~ /_at$/ }
+    new_version = Parselet.new
+    new_attributes.each { |key| new_version.send("#{key}=", send(key)) }
+    new_version.version = highest_version + 1
+    new_version.user = user
+    new_version
+  end
+  
+  def highest_version
+    Parselet.maximum(:version, :conditions => ['name = ?', name])
+  end
+  
   def paginated_versions(params = {})
     Parselet.paginate Parselet.symbolize_hash(params).merge( :conditions => { :name => name }, :order => '`parselets`.version desc' )
   end
@@ -401,15 +420,16 @@ class Parselet < ActiveRecord::Base
   def self.find_by_params(params = {}, more_params = {})
     params = symbolize_hash(params).merge(symbolize_hash more_params)
     version = params[:version] || params[:parselet_version]
-    if version
-      id = params.delete(:id) || params.delete(:parselet) || params.delete(:parselet_id)
-      if id.to_s =~ /\A\d+\Z/
-        find_by_id_and_version(id, version)
-      else
-        find_by_name_and_version(id, version)
-      end
+    result = version ? nil : advanced_find(:first, params)
+    if result
+      result
     else
-      advanced_find :first, params
+      id = params[:id] || params[:parselet] || params[:parselet_id]
+      if id.to_s =~ /\A\d+\Z/
+        find_by_id_and_version(id, version || 1)
+      else
+        find_by_name_and_version(id, version || 1)
+      end
     end
   end
   

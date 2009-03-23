@@ -1,5 +1,5 @@
 <% form_for(@parselet, :url => {  :action => @parselet.new_record? ? "create" : "update" }, :html => {:id => "parselet_form"}) do |f| %>
-  <%= f.error_messages %>
+  <%= f.error_messages(:message => '') %>
 
   <%= render 'cancel_save' %>
 
