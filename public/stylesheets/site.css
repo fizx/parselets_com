@@ -316,6 +316,8 @@ p{
 .count {
 	color:grey;
 	font-size:small;
+	position: relative;
+	top: 2px;
 }
 
 ol a.comments_link{
@@ -905,6 +907,16 @@ a#logo {
 }
 .v .by {
   font-size: 0.9em;
+}
+.v .comments_link {
+  float: right;
+  clear: none;
+  display: block;
+  margin-right: 10px;
+}
+.v .favorited, .v .not_favorited {
+  display: block;
+  float: right;
 }
 .version {
 	float:left;

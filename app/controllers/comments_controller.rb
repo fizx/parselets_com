@@ -65,20 +65,20 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
+        domid = dom_id(@comment.commentable)
         flash[:notice] = 'Comment was successfully created.'
         format.html { redirect_to(@comment) }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
         format.js {
           flash[:notice] = nil
           render :update do |page|
-            page.replace "comments", :partial => "comments", :locals => {
+            page.replace "comments_area_#{domid}", :partial => "comments", :locals => {
                          :comments => @comment.commentable.comments.paginate(:page => params[:comments_page], 
                                                                              :order => "created_at ASC", :per_page => 10), 
                          :new_comment => @comment.commentable.comments.new }
-            page.replace_html "add_comment", :text => "Thank you for your comment."
-            page << '$("#add_comment").fadeOut(5000, function() { $(this).remove(); })'
+            page.replace_html "add_comment_#{domid}", :text => "Thank you for your comment."
+            page << "$(\"#add_comment_#{domid}\").fadeOut(5000, function() { $(this).remove(); })"
             page.replace_html "comments_#{dom_id(@comment.commentable)}", :text => (@comment.commentable.comments_count + 1).to_s
-            page << '$("#comment_content").val("")'
           end
         }
       else
