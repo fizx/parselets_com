@@ -1,6 +1,6 @@
 <div id="right_column">
 	<ol class="results frontpage"><%=render @parselets %></ol>
-	<h3><%=link_to "#{Parselet.count - 5} more &rarr", parselets_path %></h3>
+	<h3><%=link_to "#{Parselet.count(:group => 'name').length - 5} more &rarr", parselets_path %></h3>
 </div>
 
 <div id="blurb">
