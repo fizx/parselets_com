@@ -12,7 +12,13 @@ class CachedPage < ActiveRecord::Base
       url = url.to_s
       page = find_or_initialize_by_url(url)
       # page = new(:url => url) if page.updated_at && (page.updated_at < CACHE_TIME.ago)
-      page.content ||= URI.parse(url).open("User-Agent" => "Parselets.org").read
+      
+      begin
+        page.content ||= URI.parse(url).open("User-Agent" => "Parselets.org").read
+      rescue => e
+        logger.warn "Ignoring http fetch error: #{e.message}"
+      end
+      
       page.save!
       page
     end
