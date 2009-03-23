@@ -62,7 +62,7 @@ class RatingsController < ApplicationController
         # flash[:notice] = 'Rating was successfully created.'
         format.js {
           render :update do |page|
-            page.replace_html "rating-count-#{@parselet.id}", :text => "&nbsp;#{@parselet.ratings.count}" 
+            page << "$('.rating-count-#{dom_id(@parselet)}').html('&nbsp;#{@parselet.ratings.count}');" 
           end
         }
         format.html { redirect_to(@rating) }
