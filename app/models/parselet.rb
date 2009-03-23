@@ -15,9 +15,14 @@ class Parselet < ActiveRecord::Base
   is_indexed :fields => ["name", "description", "code"],
     :include => [
       {:association_name => 'user', :field => 'login'},
-      {:association_name => 'domain', :field => 'variations'}
+      {:association_name => 'domain', :field => 'variations'}#,
+#      {:association_name => 'comments_across_versions', :field => 'content'}
     ],
-    :conditions => "user_id IS NOT NULL",
+    # :concatenate => [
+    #   {:association_name => 'other_versions', :field => 'code', :as => 'concat_code'}, 
+    #   {:association_name => 'other_versions', :field => 'description', :as => 'concat_description'}
+    # ], 
+    :conditions => "user_id IS NOT NULL AND best_version = 1",
     :order => "parselets.updated_at DESC", :delta => true
   
   belongs_to :user
@@ -25,6 +30,15 @@ class Parselet < ActiveRecord::Base
   has_many :comments,   :as => :commentable
   has_many :ratings,    :as => :ratable
   has_many :favorites,  :as => :favoritable
+  has_many :other_versions, 
+           :class_name => 'Parselet', :finder_sql => 'SELECT parselets.* FROM parselets WHERE 
+                                                        name = "#{name.gsub(/[\'"]/, "")}" and id <> #{id}'
+  has_many :versions, :class_name => 'Parselet', :finder_sql => 'SELECT parselets.* FROM parselets WHERE 
+                                                                   name = "#{name.gsub(/[\'"]/, "")}"'
+  has_many :comments_across_versions, :class_name => 'Comment', 
+           :finder_sql => 'SELECT comments.* FROM comments WHERE 
+                             commentable_type = "Parselet" and 
+                             commentable_id in (#{versions.map(&:id).join(\', \')})'
   
   belongs_to :cached_page
   
@@ -370,10 +384,6 @@ class Parselet < ActiveRecord::Base
     Parselet.maximum(:version, :conditions => ['name = ?', name])
   end
   
-  def versions
-    Parselet.find :all, :conditions => { :name => name }, :order => '`parselets`.version desc'
-  end
-
   def paginated_versions(params = {})
     Parselet.paginate Parselet.symbolize_hash(params).merge( :conditions => { :name => name }, :order => '`parselets`.version desc' )
   end
