@@ -1,11 +1,12 @@
 <div class='stop_prop'>
-  <% form_remote_tag :url => rate_path(:parselet_id => parselet.id), :html => {:class => "ratings", :id => "parselet-form-#{parselet.id}"} do %>
+  <% random_str = (rand * 1000000000).to_i.to_s # (Because the same parselet was sometimes showing up twice on a page.) %>
+  <% form_remote_tag :url => rate_path(:parselet_id => parselet.id), :html => {:class => "ratings", :id => "parselet-form-#{random_str}"} do %>
     <% if parselet.status == "ok" %>
       <% (1..5).each do |i| %>
-        <%=radio_button_tag "star-#{parselet.id}", i.to_s, i == (parselet.average_rating || 0).round, :class => "star" %>
+        <%=radio_button_tag "star-#{random_str}", i.to_s, i == parselet.average_rating.round, :class => "star" %>
       <% end %>
       <input type="hidden" name="value" class="hvalue" value="0" />
-      <span class="count" id="rating-count-<%=parselet.id%>">&nbsp;<%=parselet.ratings_count %></span>
+      <span class="count" id="rating-count-<%=random_str%>">&nbsp;<%=parselet.ratings_count %></span>
     <% else %>
       <%= status(parselet) %> <%= parselet.status %>
     <% end %>

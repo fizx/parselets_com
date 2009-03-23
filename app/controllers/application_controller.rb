@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
     if authorized?
       yield
     else
-      session[:invite] = params[:invite]   if params[:invite]
+      session[:invite] = params[:invite] if params[:invite]
       @invite ||= Invitation.find_by_code(session[:invite])
       if @invite && @invite.usable?
         User.send :with_scope, :create => {:invitation_id => @invite && @invite.id} do
