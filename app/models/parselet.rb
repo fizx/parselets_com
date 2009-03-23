@@ -474,7 +474,7 @@ class Parselet < ActiveRecord::Base
           if array_stack[level - 1] == allowed
             i += 1
             id = "#{base_id}-#{i}"
-            line += %[<a href="javascript:void(jQuery('##{id}').toggle())">more...</a><span style="display:none" id="#{id}">]
+            line += %[<br>#{TAB * level}<a href="javascript:void(myToggle('#{id}'))" id="#{id}-toggle">more &rarr;</a><span style="display:none" id="#{id}">]
           end
         end
       end

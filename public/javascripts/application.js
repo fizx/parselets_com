@@ -4,6 +4,19 @@ function stop_prop(e) {
 	if (e.stopPropagation) e.stopPropagation();
 }
 
+jQuery.fn.toggleText = function(a, b) {
+	return this.each(function() {
+		jQuery(this).text(jQuery(this).text() == a ? b : a);
+	});
+};
+
+function myToggle(id) {
+  jQuery('#' + id).toggle();
+  jQuery('#' + id + "-toggle").each(function() {
+		jQuery(this).text(jQuery(this).text() == "more →" ? "less ↑" : "more →");
+	});
+}
+
 // var is_helpful = true;
 // function helpful(bool) {
 //  if(bool == is_helpful) return false;
