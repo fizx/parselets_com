@@ -29,6 +29,10 @@ class Domain < ActiveRecord::Base
   def url
     "http://#{name}"
   end
+  
+  def parselets_count
+    parselets.count(:group => 'name').length
+  end
     
   def create_variations
     self.variations = "www.#{name}".split(".").power_set.map{|e| e.join(".") }.join(" ")
