@@ -17,7 +17,9 @@
 			$(document).ready(function(e) {
 			  var differ = new diff_match_patch();
 			  
-			  $('a[rel*=facebox]').facebox();
+			  $('a[rel*=facebox]').live('mouseover', function() {
+			    $(this).attr('rel', '').facebox();
+			  });
 			  
 			  $('.summary').each(function(){
 			    var old = $("#" + (parseInt(this.id) - 1) + "-version-summary");
