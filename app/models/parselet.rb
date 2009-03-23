@@ -82,7 +82,7 @@ class Parselet < ActiveRecord::Base
   end
   
   def original
-    Parselet.find(:all, :conditions => {:name => name}, :order => "version ASC", :limit => 1).first
+    Parselet.find(:first, :conditions => {:name => name}, :order => "version ASC")
   end
   
   def original_user_id
