@@ -12,6 +12,12 @@ class ParseletTest < ActiveSupport::TestCase
     })
   end
   
+  def test_pretty_example_url
+    @parselet.pattern = "http://www.yelp.com/{city}"
+    @parselet.example_url = "http://www.yelp.com/Austin"
+    assert_equal "http://www.yelp.com/<b>Austin</b>", @parselet.pretty_example_url
+  end
+  
   def test_domain_creation
     @parselet.pattern = @parselet.example_url = "http://omg.com/"
     assert @parselet.save
