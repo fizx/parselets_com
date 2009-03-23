@@ -2,11 +2,9 @@
   <% path = url_for :controller => "parselets", :action => "show", :id => version, :version => version.version %>
 	<a class="version<%= " current" if @parselet && @parselet.version == version.version %>" href='<%= path %>'><div><%= version.version %></div></a>
 	
-	<% unless @parselet && @parselet.version == version.version %>
-    <%= ratings version %>
-    <%= comments version, :small => true %>
-    <%= favorite(version, false) %>
-  <% end %>  
+  <%= ratings version %>
+  <%= comments version, :small => true %>
+  <%= favorite(version, false) %>
   
 	<%= link_to "#{time_ago_in_words(version.created_at)} ago", path, :class=>"url" %> <span class='by'>by</span> 
   <%= link_to h(version.user.login), user_path(:id => version.user_id), :class=>"url" %>
