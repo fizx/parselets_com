@@ -92,7 +92,6 @@ ActiveRecord::Schema.define(:version => 20090323040211) do
     t.string   "domain_id"
     t.integer  "user_id"
     t.integer  "version",        :default => 1
-    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "checked_at"

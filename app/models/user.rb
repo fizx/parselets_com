@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   validates_format_of :login, :with => /[^0-9]/, :message => "cannot be entirely numeric"
   
   def parselet_count
-    Parselet.count(:conditions => ['version = 1 and user_id = ?', id])
+    Parselet.count(:conditions => ['user_id = ?', id], :group => 'name')
   end
   
   def api_key

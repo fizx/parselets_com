@@ -9,13 +9,11 @@ class Sprig < ActiveRecord::Base
   belongs_to :user
   has_many :comments, :as => :commentable
   
-  acts_as_paranoid
-  
   is_indexed :fields => ["name", "description"],
     :include => [
       {:association_name => 'user', :field => 'login'}
     ],
-    :conditions => "sprigs.deleted_at IS NULL AND user_id IS NOT NULL",
+    :conditions => "user_id IS NOT NULL",
     :order => "sprigs.updated_at DESC", :delta => true
   
   validates_presence_of :name, :scope => :version

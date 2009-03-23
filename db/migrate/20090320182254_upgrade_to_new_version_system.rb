@@ -2,7 +2,9 @@ class UpgradeToNewVersionSystem < ActiveRecord::Migration
   class ParseletVersion < ActiveRecord::Base; end
 
   def self.up
+    Parselet.connection.execute("DELETE FROM parselets WHERE deleted_at is not null")
     remove_column(:parselets, :cached_changes) if Parselet.columns.any? {|i| i.name == 'cached_changes' }
+    remove_column(:parselets, :deleted_at) if Parselet.columns.any? {|i| i.name == 'deleted_at' }
 
     remove_index :parselets, :name
     remove_index :sprigs, :name
@@ -14,9 +16,9 @@ class UpgradeToNewVersionSystem < ActiveRecord::Migration
     
     Parselet.reset_column_information
     
-    Parselet.transaction do
-      versions = ParseletVersion.find(:all, :order => 'parselet_id, version ASC', :conditions => ['deleted_at is null'])
-      parselets = Parselet.find(:all, :order => 'id', :conditions => ['deleted_at is null'])
+    Parselet.transaction do      
+      versions = ParseletVersion.find(:all, :order => 'parselet_id, version ASC')
+      parselets = Parselet.find(:all, :order => 'id')
       
       assets = {}
       parselets.each do |parselet|
@@ -24,6 +26,8 @@ class UpgradeToNewVersionSystem < ActiveRecord::Migration
       end
       
       Parselet.delete_all
+
+      seen_name = {}
       
       versions.each do |version|
         attributes = version.attributes
@@ -39,7 +43,9 @@ class UpgradeToNewVersionSystem < ActiveRecord::Migration
           unless parselet.save(false)
             raise Exception.new("Save error on: #{attributes.inspect}")
           end
-          if version.version == 1
+          if !seen_name[version.name]
+            puts "Assigning assets"
+            seen_name[version.name] = true
             assets[old_id][:comments].each { |comment| parselet.comments << comment }
             assets[old_id][:ratings].each { |rating| parselet.ratings << rating }
             assets[old_id][:favorites].each { |favorite| parselet.favorites << favorite }
@@ -63,6 +69,7 @@ class UpgradeToNewVersionSystem < ActiveRecord::Migration
 
   def self.down
     add_column :parselets, :cached_changes, :text
+    add_column :parselets, :deleted_at, :datetime
     add_column :parselets, :revision_user_id, :integer
     drop_index :parselets, :name
     drop_index :sprigs, :name
