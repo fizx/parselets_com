@@ -81,12 +81,12 @@ class Parselet < ActiveRecord::Base
     self.domain = Domain.from_url(example_url)
   end
   
+  def original
+    Parselet.find(:all, :conditions => {:name => name}, :order => "version ASC", :limit => 1).first
+  end
+  
   def original_user_id
-    if version == 1
-      user_id
-    else
-      Parselet.find_by_name_and_version(name, 1).user_id
-    end
+    original && original.user_id
   end
   
   def comments_across_versions_count
