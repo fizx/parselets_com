@@ -425,6 +425,14 @@ ol.results>li {
   cursor: pointer;
 }
 
+.bar {
+  background-color: #F2F2F2;
+  padding:12px;
+  margin:0px;
+  margin-left:13px;
+  margin-right:13px;
+}
+
 h3.with_tabs {
 	margin-top:30px;
 	margin-bottom:-30px
