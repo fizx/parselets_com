@@ -5,6 +5,26 @@ body {
   color: #393128;
 }
 
+.lite_results li {
+  width:49% !important;
+  margin-right:5px;
+  float:left !important;
+  clear:none !important;
+}
+
+.lite_results li img {
+  width:36px !important;
+  float:left;
+}
+.lite_results li h4{
+  font-weight:normal;
+  font-size:1em;
+}
+
+.lite_results li p{
+  color: #999;
+}
+
 #notice {
   border:1px #ccc solid;
   background-color: #fff9db;

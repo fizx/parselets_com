@@ -1,6 +1,6 @@
-<% result_item parselets_path(:user => user.key) do %>
+<li>
   <%= gravatar(user.email) %>
-	<div class="result_body">
+	<div>
 		<h4><%= link_to user.login, user, :class => 'result_title stop_prop' %>
 		<small>(
 		<%= link_to "#{user.parselet_count} parselets", parselets_path(:user => user.key), :class => 'stop_prop extra' %>
@@ -8,4 +8,4 @@
 		</h4>
 		<p>member for <%=time_ago_in_words user.created_at %></p>
 	</div>
-<% end %>
+</li>

@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_filter :redirect_unless_owner_or_admin, :only => %w[edit update]
   
   def index
-    @users = User.paginate :page => params[:page]
+    @users = User.paginate :page => params[:page], :per_page => 50, :order => "login ASC"
 
     respond_to do |format|
       format.html # index.html.erb

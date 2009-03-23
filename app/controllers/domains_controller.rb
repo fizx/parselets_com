@@ -6,7 +6,7 @@ class DomainsController < ApplicationController
   # GET /domains
   # GET /domains.xml
   def index
-    @domains = Domain.paginate :page => params[:page]
+    @domains = Domain.paginate :page => params[:page], :per_page => 50, :order => "name ASC"
 
     respond_to do |format|
       format.html # index.html.erb
