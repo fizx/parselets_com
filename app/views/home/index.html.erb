@@ -1,5 +1,6 @@
 <div id="right_column">
 	<ol class="results frontpage"><%=render @parselets %></ol>
+	<div style="float:right;padding-top:10px"><%=link_to image_tag("/images/create_button.png", :border=>0), new_parselet_url%></div>
 	<h3><%=link_to "#{Parselet.count(:group => 'name').length - 5} more &rarr", parselets_path %></h3>
 </div>
 
