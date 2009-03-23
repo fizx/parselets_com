@@ -273,6 +273,20 @@ class Parselet < ActiveRecord::Base
     url_chunks << str
     [url_chunks, keys]
   end
+  
+  def pattern_keys
+    pattern_tokens[1]
+  end
+  
+  def pretty_example_url
+    url_chunks, keys = pattern_tokens
+    # puts url_chunks.inspect
+    re = Regexp.compile url_chunks.reject(&:blank?).map{|c| Regexp.escape(c)}.join("|")
+    
+    # puts re.inspect
+    wiki = CGI::escapeHTML(example_url.gsub(re, ']]\0[[')[2..-1] + "]]")
+    wiki.gsub("[[", "<b>").gsub("]]", "</b>")
+  end
 
   # Helper used by pattern_tokens
   def assert_state(state, value)
@@ -370,6 +384,7 @@ class Parselet < ActiveRecord::Base
   # Class Methods
 
   ALLOWED_OPTIONS = %w[order group having limit offset from readonly lock page per_page total_entries count finder].map(&:to_sym)
+  
   def self.advanced_find(number, options = {}, more_options = {})
     options = symbolize_hash(options).merge(symbolize_hash more_options)
     

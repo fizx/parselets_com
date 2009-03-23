@@ -96,11 +96,11 @@ module ApplicationHelper
   end
   
   def example_link(parselet)
-    link_to h(parselet.pattern), parselet.example_url, :class => "url stop_prop", :target => '_blank'
+    link_to(parselet.pretty_example_url, parselet.example_url, :class => "url stop_prop", :target => '_blank', :title => "Keys: " + parselet.pattern_keys.map{|k| h k }.join(", "))
     # , :onmouseover => "this.innerText='#{h truncate(parselet.example_url, :length => 120)}'", 
     #       :onmouseout => "this.innerText='#{h parselet.pattern}'"
   end
-  
+    
   def gravatar(email, options = {})
     image_tag gravatar_url_for(email, options), {:class => "thumb", :border => 0}.merge(options)
   end
