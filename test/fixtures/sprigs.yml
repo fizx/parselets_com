@@ -5,11 +5,9 @@ one:
   code: MyText
   user_id: 1
   version: 1
-  deleted_at: 
 
 two:
   name: 
   code: MyText
   user_id: 1
   version: 1
-  deleted_at: 

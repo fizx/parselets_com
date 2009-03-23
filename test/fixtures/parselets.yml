@@ -7,7 +7,6 @@ one:
   example_url: http://foo.com
   user_id: 1
   version: 1
-  deleted_at: 
 youtube:
   name: youtube-video
   updated_at: 2009-02-19 04:54:08 Z
@@ -28,7 +27,6 @@ youtube:
     	"uploaded_at": ".post-date",
     	"embed": "#embed_code @value"
     }
-  deleted_at: 
   example_url: http://www.youtube.com/watch?v=qZGz1Ajg7QU
   domain_id: "3"
   pattern: "http://www.youtube.com/watch?v={id}"

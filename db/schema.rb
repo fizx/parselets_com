@@ -13,7 +13,7 @@ ActiveRecord::Schema.define(:version => 20090323040211) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
-    t.text     "content",    :limit => 2147483647
+    t.text     "content",    :limit => 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -92,7 +92,6 @@ ActiveRecord::Schema.define(:version => 20090323040211) do
     t.string   "domain_id"
     t.integer  "user_id"
     t.integer  "version",        :default => 1
-    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "checked_at"

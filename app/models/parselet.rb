@@ -9,7 +9,6 @@ class InvalidStateError < RuntimeError; end
 
 class Parselet < ActiveRecord::Base  
   TAB = " " * 2
-  acts_as_paranoid
   include CustomValidations  
 
   # FIXME: grouping on versions
@@ -18,7 +17,7 @@ class Parselet < ActiveRecord::Base
       {:association_name => 'user', :field => 'login'},
       {:association_name => 'domain', :field => 'variations'}
     ],
-    :conditions => "parselets.deleted_at IS NULL AND user_id IS NOT NULL",
+    :conditions => "user_id IS NOT NULL",
     :order => "parselets.updated_at DESC", :delta => true
   
   belongs_to :user
