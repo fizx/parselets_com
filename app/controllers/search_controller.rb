@@ -4,7 +4,10 @@ class SearchController < ApplicationController
   
   def index
     respond_to do |wants|
-      wants.html { do_search }
+      wants.html do
+        do_search 
+        render "no_results" if @search.results.empty?
+      end
       wants.json do
         do_search :class_names => "Parselet"
         render :json => remove_broken(@search.results).to_json
