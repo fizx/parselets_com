@@ -4,7 +4,7 @@
 	
 	<% unless @parselet && @parselet.version == version.version %>
     <%= ratings version %>
-    <%= comments version, :small %>
+    <%= comments version, :small => true %>
     <%= favorite(version, false) %>
   <% end %>  
   

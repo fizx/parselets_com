@@ -150,8 +150,13 @@ module ApplicationHelper
     link ? link_to(img, link) : img
   end
   
-  def comments(model, small = false)
-    link_to icon("balloons") + (small ? "<span class=count id='comments_#{dom_id(model)}'> #{model.comments_count}</span>" : " comments (#{model.comments_count})"), {:controller => "comments", :id => model.id, :type => model.class}, :class => "comments_link stop_prop", :rel => "facebox"
+  def comments(model, options = {})
+    if options[:merged]
+      count = model.try(:comments_across_versions_count) || model.comments_count
+    else
+      count = model.comments_count
+    end
+    link_to icon("balloons") + (options[:small] ? "<span class=count id='comments_#{dom_id(model)}'> #{count}</span>" : " comments (#{count})"), {:controller => "comments", :id => model.id, :type => model.class, :merged => options[:merged]}, :class => "comments_link stop_prop", :rel => "facebox"
   end
   
   def status(parselet, small = false)

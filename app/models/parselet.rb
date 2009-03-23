@@ -89,6 +89,10 @@ class Parselet < ActiveRecord::Base
     end
   end
   
+  def comments_across_versions_count
+    Parselet.sum(:comments_count, :conditions => ['name = ?', name])
+  end
+  
   def calculate_signature
     begin
       keys = recurse_signature(data)
@@ -351,6 +355,10 @@ class Parselet < ActiveRecord::Base
     Parselet.maximum(:version, :conditions => ['name = ?', name])
   end
   
+  def versions
+    Parselet.find :all, :conditions => { :name => name }, :order => '`parselets`.version desc'
+  end
+
   def paginated_versions(params = {})
     Parselet.paginate Parselet.symbolize_hash(params).merge( :conditions => { :name => name }, :order => '`parselets`.version desc' )
   end

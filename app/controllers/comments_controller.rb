@@ -20,8 +20,12 @@ class CommentsController < ApplicationController
     
     conditions = {}
     conditions = {:commentable_type => params[:type], :commentable_id => params[:id]} if params[:id] && params[:type]
-    @comments = Comment.paginate :page => params[:comments_page], :conditions => conditions, :order => "created_at ASC"
     @comment = Comment.new(conditions)
+
+    if params[:merged] && params[:type] == 'Parselet'
+      conditions = ['commentable_type = ? and commentable_id in (?)', params[:type], Parselet.find(params[:id]).versions.map(&:id)]
+    end
+    @comments = Comment.paginate :page => params[:comments_page], :conditions => conditions, :order => "created_at ASC"
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,5 +1,9 @@
 <li>
-	<div class="ago"><%= time_ago_in_words comment.created_at %> ago</div>
+	<div class="ago"><%= time_ago_in_words comment.created_at %> ago 
+	  <% if params[:merged] && comment.commentable.try(:name) && comment.commentable.try(:version) %>
+	    on version <%= comment.commentable.version.to_s %>
+	  <% end %>
+	  </div>
 	<h5><%=link_to comment.user.login, comment.user %></h5>
 	<%= markdown(h(comment.content)) %>
 </li>

@@ -2,7 +2,7 @@
   <%= thumb(parselet) %>
 	<div class="result_right">
 	  <%= ratings parselet %>
-	  <%= comments parselet, :small %>
+	  <%= comments parselet, :small => true, :merged => true %>
     <%= favorite(parselet, "favorite") %>
   </div>
 	<div class="result_body">

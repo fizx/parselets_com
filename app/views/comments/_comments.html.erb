@@ -1,8 +1,8 @@
 <% new_comment ||=false %>
-<ol id="comments_area_<%= dom_id(new_comment.commentable) if new_comment %>"><%=render(comments) or "<li>No comments</li>" %></ol>
+<ol id="comments_area_<%= dom_id(new_comment.commentable) if new_comment && new_comment.commentable %>"><%=render(comments) or "<li>No comments</li>" %></ol>
 
 <% if new_comment %>
-  <div id="add_comment_<%= dom_id(new_comment.commentable) if new_comment %>">
+  <div id="add_comment_<%= dom_id(new_comment.commentable) if new_comment && new_comment.commentable %>">
     <% if logged_in? %>
       <%= will_paginate comments, :param_name => 'comments_page' %>
       <p>&nbsp;</p>
