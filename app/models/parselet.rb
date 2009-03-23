@@ -284,7 +284,9 @@ class Parselet < ActiveRecord::Base
     
     # puts re.inspect
     wiki = CGI::escapeHTML(example_url.gsub(re, ']]\0[[')[2..-1] + "]]")
-    wiki.gsub("[[", "<b>").gsub("]]", "</b>")
+    wiki.
+      gsub(/.{20}/, '\0&#8203;').gsub("[&#8203;[", "[[").
+      gsub("]&#8203;]", "]]").gsub("[[", "<b>").gsub("]]", "</b>")
   end
 
   # Helper used by pattern_tokens

@@ -10,14 +10,7 @@
 		</h3>
 	</div>
 	<div class="result_body">
-		<h1>
-			<%=link_to h(@parselet.name), parselet_edit_path(@parselet), :class => 'result_title' %>
-		</h1>
-  		<div id="version_text">
-  		  <a href="#history">version <%= @parselet.version.to_s %></a> by 
-    	  <%= link_to h(@parselet.user.login), user_path(:id => @parselet.user.login)%>
-		  </div>
-		<%#= favorite(@parselet) %>
+		<h1><%=link_to h(@parselet.name), parselet_edit_path(@parselet), :class => 'result_title' %></h1>
 		<%= example_link(@parselet) %>
 		<p><%=wikify(h(truncate(@parselet.description, :length => 250))) %></p>
 	</div>

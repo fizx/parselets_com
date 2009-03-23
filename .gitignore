@@ -4,3 +4,4 @@ tmp
 config/ultrasphinx/development.conf
 public/thumbs
 **/.DS_Store
+public/images/.DS_Store
