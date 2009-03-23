@@ -429,10 +429,17 @@ h3.with_tabs {
 	margin-top:30px;
 	margin-bottom:-30px
 }
-
+ol.results.frontpage {
+  width:500px;
+}
 ol.results.frontpage>li {
   border-left: 0px;
 }
+
+.frontpage .result_body {
+  width:260px !important;
+}
+
 
 a.extra {
   color: #528DC0;
