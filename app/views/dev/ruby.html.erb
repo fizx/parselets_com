@@ -29,10 +29,10 @@
     require "online_parselets"
     require "pp"
 
-    # Code to run parselet <%= @parselet.id %> (<%= @parselet.name %> by <%= @parselet.user.login %>)
+    # Code to run parselet <%= @parselet.name %> version <%= @parselet.version.to_s %> (by <%= @parselet.user.login %>)
 
     client = OnlineParselets::Client.new(:api_key => "<%= logged_in? ? current_user.api_key : "your_api_key_from_your_profile" %>")
-    parselet = client.parselet(<%= @parselet.id %>)
+    parselet = client.parselet('<%= @parselet.name %>', <%= @parselet.version.to_s %>) # or client.parselet(<%= @parselet.id %>)
     data = parselet.parse(:url => "<%= @parselet.example_url %>")
 
     pp data
