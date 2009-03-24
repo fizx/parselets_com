@@ -5,11 +5,10 @@ class SearchController < ApplicationController
   def index
     respond_to do |wants|
       wants.atom do
-        do_search 
+        do_search :class_names => "Parselet"
         @parselets = @search.results
         render :file => "/parselets/index"
       end
-
       wants.html do
         @feed = request.request_uri.sub("search", "search.atom")
         do_search 
