@@ -5,6 +5,34 @@ body {
   color: #393128;
 }
 
+#footer .links {
+  float:right;
+}
+
+#footer .misc {
+  float:right;
+  padding:5px;
+}
+
+#footer .links a {
+  display:block;
+  width:200;
+  border-bottom:1px #ccc solid;
+  border-left:1px #eee solid;
+  border-right:1px #eee solid;
+  padding:5px;
+}
+#footer .links a:hover {
+  background-color:white;
+  border-left:1px #ccc solid;
+  border-right:1px #ccc solid;
+}
+
+#footer .copyright {
+  float:left;
+	padding:5px;
+}
+
 .padded {
   padding: 0px 13px 0px 13px;
 }
@@ -57,15 +85,15 @@ body {
 #footer {
 	clear:both;
 	padding:0px;
+	border-top:1px silver solid;
 }
 
 #footer .nest{
-background-color:#eee;
+  background-color:#eee;
 	clear:both;
-	padding:5px;
 	font-size:small;
-	border-top:1px silver solid;
-	text-align:center;
+	width: 874px;
+	margin:auto;
 }
 
 #right_column {

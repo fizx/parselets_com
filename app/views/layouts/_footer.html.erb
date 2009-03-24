@@ -3,11 +3,14 @@
     </div>
     <div id="footer">
     	<div class="nest">
-    	  <% if admin? %>
-        	admin: <%=link_to_unless_current "Sprigs", sprigs_url %> <%=link_to icon("plus_small", "create sprig"), new_sprig_url %> -
-        <% end %>
-			  
-    		&copy; 2009, Kyle Maxwell &amp; Andrew Cantino
+    	  <div class="links">
+    	    <a href="http://groups.google.com/group/parselets">Google Groups</a>
+          <a href="http://parselets.wordpress.com">Blog</a>
+          <a href="http://parselets.uservoice.com">UserVoice</a>
+          <a href="http://twitter.com/parselets">@parselets on Twitter</a>
+        </div>
+    	  <div class="misc">Talk to us &rarr;</div>
+        <div class="copyright">&copy; 2009, Kyle Maxwell &amp; Andrew Cantino</div>
     	</div>
     </div>
 		<script type="text/javascript">
