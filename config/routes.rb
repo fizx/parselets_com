@@ -34,7 +34,7 @@ ActionController::Routing::Routes.draw do |map|
     p.resources :comments
     p.resources :ratings
   end
-  map.resources :users
+  map.resources :users, :member => { :reset_api_key => :post }
   map.resources :sprigs do |s|
     s.resources :comments
   end

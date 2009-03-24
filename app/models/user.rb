@@ -40,7 +40,12 @@ class User < ActiveRecord::Base
   end
 
   def set_api_key
-    self.api_key = Digest::MD5.hexdigest((rand * 10000).to_s) if api_key.blank?
+    self.api_key = "#{login}-#{Digest::MD5.hexdigest((rand * 10000).to_s)[0..8]}" if api_key.blank?
+  end
+  
+  def reset_api_key
+    self.api_key = nil
+    self.save
   end
   
   # CLASS METHODS

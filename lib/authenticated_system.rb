@@ -25,6 +25,8 @@ module AuthenticatedSystem
       if user
         @api_request = true
         self.current_user = user
+      elsif params[:api_key]
+        render :text => 'That API key seems to be invalid' and return
       end
     end
     
