@@ -10,7 +10,9 @@
 		</h3>
 	</div>
 	<div class="result_body">
-		<h1><%=link_to h(@parselet.name), parselet_edit_path(@parselet), :class => 'result_title' %></h1>
+		<h1><%=link_to h(@parselet.name), parselet_edit_path(@parselet), :class => 'result_title' %> 
+		  <span class="faded">v<%=@parselet.version%></span>
+		</h1>
 		<%= example_link(@parselet) %>
 		<p><%=wikify(h(truncate(@parselet.description, :length => 250))) %></p>
 	</div>
