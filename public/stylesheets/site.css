@@ -485,7 +485,7 @@ a.extra {
   color: #528DC0;
 }
 
-ol.results>li:hover {
+/*ol.results>li:hover {
   background-color: #EEF4F9;
   border-left: 1px solid silver;
   border-right: 1px solid silver;
@@ -504,7 +504,7 @@ ol.results.frontpage>li:hover {
   top: -1px;
   margin-bottom: -1px;
 }
-
+*/
 ol.results>li>div {
 	margin: 0px 15px;
 	color: #999;
