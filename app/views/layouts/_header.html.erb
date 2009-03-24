@@ -46,7 +46,6 @@
 			  
 			  setup_stopprop = function(context) {
   			  $('.stop_prop', context).click(function(e) {
-  			    console.log("saw");
   			    stop_prop(e);
   			    return true;
   			  });
@@ -86,19 +85,17 @@
   			             success: function(data, textStatus) { 
   			      var unique_id = get_unique_id();
   			      var new_html = $(data).attr('id', unique_id);
-  			      var old = self.replaceWith(new_html);
+  			      var old_text = $('.fav_text', self).text();
+  			      self.replaceWith(new_html);
   			      var c = $('#' + unique_id).parent();
+			        if (old_text == 'favorite') {
+			          old_text = 'favorited';
+			        } else if (old_text == 'favorited'){
+			          old_text = 'favorite';
+			        }
+			        $('.fav_text', c).text(old_text);
   			      setup_stopprop(c);
   			      setup_favorites(c);
-  			      var old_text = $('.fav_text', old).text();
-  			      if (old_text.length > 0) {
-  			        if (old_text == 'favorite') {
-  			          old_text = 'favorited';
-  			        } else if (old_text == 'favorited'){
-  			          old_text = 'favorite';
-  			        }
-  			        $('.fav_text', c).text(old_text);
-  			      }
   			    }});
   			    return false;
   			  });
