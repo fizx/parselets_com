@@ -921,6 +921,11 @@ a#logo {
   clear: left;
   margin-top: 20px;
 }
+
+.padded_items {
+  padding:15px;
+}
+
 .show_page .right {
   float: left;
   width: 415px;
@@ -1012,7 +1017,7 @@ a#logo {
 }
 .vdiff {
 	border: 1px #ccc solid;
-	width:356px;
+	width:326px;
 	overflow:auto;
 	display: none;
 	margin-top:10px;
