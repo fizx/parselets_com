@@ -9,6 +9,7 @@ function ParseletEditorBase() {
   this.PATH_CLEANUP_REGEX_OPTIONS = /[\?\!]+$/g;
   this.last_result_data = null;
   this.trying_parselet = null;
+  this.queued_request = false;
 }
 
 function ParseletEditor(wrapped, result, helpful, form, parseletUrl, undo, redo, result_loading_img) {
@@ -19,6 +20,7 @@ function ParseletEditor(wrapped, result, helpful, form, parseletUrl, undo, redo,
   this.undo_button = undo;
   this.redo_button = redo;
   this.setUndoRedoButtons();
+  this.registerShiftHandler();
   this.parseletUrl = parseletUrl;
   this.form = $(form);
   this.helpful = helpful;
@@ -31,6 +33,15 @@ function ParseletEditor(wrapped, result, helpful, form, parseletUrl, undo, redo,
   this.rebuild();
 }
 ParseletEditor.prototype = new ParseletEditorBase();
+
+ParseletEditor.prototype.registerShiftHandler = function() {
+  var self = this;
+  $('body').keydown(function(e) {
+    if (e.keyCode == 16 || e.shiftKey) self.shift = true;
+  }).keyup(function(e) {
+    if (e.keyCode == 16 || !e.shiftKey) self.shift = false;
+  });
+};
 
 ParseletEditor.prototype.hideAll = function() {
   this.simple.hide();
@@ -98,7 +109,14 @@ ParseletEditor.prototype.tryParselet = function() {
   	  self.last_result_data = data;
       self.result_loading_img.hide();
       self.trying_parselet = null;
+      
+      if (self.queued_request) {
+        self.queued_request = false;
+        self.tryParselet();
+      }
   	}, "json");
+  } else {
+    this.queued_request = true;
   }
 };
 
@@ -324,25 +342,19 @@ ParseletEditor.prototype.build = function(json, parent_json, parent_key, type, e
     }).focus(function() {
       if (new_row) $(this).val('').removeClass('new_row');
     }).keydown(function(e) {
-      if (e.keyCode == 16) {
-        self.shift = true;
-      } else {
-        if (e.keyCode == 9 || e.keyCode == 13) { // Tab and enter
-          self.setFocus(this);
-          if (self.findNextFocus != -1) {
-            if (self.shift)
-              self.findNextFocus -= 1;
-            else
-              self.findNextFocus += 1;
-          }
-          blur(this, true);
-          return false;
-        } else {
-          self.findNextFocus = null;
+      if (e.keyCode == 9 || e.keyCode == 13) { // Tab and enter
+        self.setFocus(this);
+        if (self.findNextFocus != -1) {
+          if (self.shift)
+            self.findNextFocus -= 1;
+          else
+            self.findNextFocus += 1;
         }
+        blur(this, true);
+        return false;
+      } else {
+        self.findNextFocus = null;
       }
-    }).keyup(function(e) {
-      if (e.keyCode == 16) self.shift = false;
     }).mousedown(function(e) {
       self.setFocus(this);
     }));
