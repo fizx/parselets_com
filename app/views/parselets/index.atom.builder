@@ -5,7 +5,9 @@ atom_feed do |feed|
   for parselet in @parselets
     feed.entry(parselet) do |entry|
       entry.title(parselet.name)
-      entry.content(wikify(escape_and_highlight(parselet.description, :truncate => 250)), :type => 'html')
+      if @show_history
+        
+      entry.content(parselet.summary, :type => 'text')
 
       entry.author do |author|
         author.name(parselet.user.login)
