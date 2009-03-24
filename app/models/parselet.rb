@@ -62,8 +62,8 @@ class Parselet < ActiveRecord::Base
         (5.0 * sqrt(`parselets`.id)) + 
         (100 * `parselets`.works) + 
         (1.0 * IFNULL((SELECT ((sum(ratings.score) + 15) / (count(ratings.id) + 5)) FROM ratings 
-                       WHERE ratings.ratable_id=parselets.id and ratings.ratable_type='Parselet'), 0)) +
-        (1.0 * `parselets`.comments_count) + 
+                       WHERE ratings.ratable_id=parselets.id and ratings.ratable_type='Parselet'), 3)) +
+        (0.25 * `parselets`.comments_count) + 
         (1.0 * (SELECT count(1) from favorites where favorites.favoritable_id=parselets.id and favorites.favoritable_type='Parselet'))
       )
     SQL
@@ -178,10 +178,14 @@ class Parselet < ActiveRecord::Base
 
   def check
     if !checked_at || checked_at < 1.day.ago
-      example_data
-      STDERR.print "."
-      STDERR.flush
+      check!
     end
+  end
+
+  def check!
+    example_data
+    STDERR.print "."
+    STDERR.flush
   end
 
   def url
