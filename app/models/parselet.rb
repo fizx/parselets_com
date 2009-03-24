@@ -471,6 +471,7 @@ class Parselet < ActiveRecord::Base
     params = symbolize_hash(params).merge(symbolize_hash more_params)
     id = params[:id] || params[:parselet] || params[:parselet_id]
     version = params[:version] || params[:parselet_version]
+    return nil if id.nil? # Have to have a name or id, or you should be using advanced_find.
     return find_by_id(id) if id.to_s =~ /\A\d+\Z/
     result = version ? nil : advanced_find(:first, params)
     if result
