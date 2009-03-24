@@ -225,7 +225,7 @@ class Parselet < ActiveRecord::Base
     return {} if url.blank?
     cached_page = CachedPage.find_or_create_by_url(url)
     content = cached_page.content
-    raise ParsleyError.new(cached_page.error_message.to_s) if content.empty?
+    raise ParsleyError.new(cached_page.error_message.to_s) if content.nil?
     logger.warn "cached_page has content"
     out = Parsley.new(sanitized_code).parse(:string => content, :output => :json, :allow_local => false, :base => url)
     answer = OrderedJSON.parse(out)
