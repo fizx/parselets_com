@@ -12,7 +12,7 @@ class Parselet < ActiveRecord::Base
   include CustomValidations  
 
   # FIXME: grouping on versions
-  is_indexed :fields => ["name", "description", "code"],
+  is_indexed :fields => ["name", "description", "code", "updated_at"],
     :include => [
       {:association_name => 'user', :field => 'login'},
       {:association_name => 'domain', :field => 'variations'}#,

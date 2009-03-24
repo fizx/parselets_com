@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.search '/search', :controller => 'search', :action => 'index'
+  map.search '/search.:format', :controller => 'search', :action => 'index'
   
   map.sprig_code "/sprig_code", :controller => 'parselets', :action => 'code'
   

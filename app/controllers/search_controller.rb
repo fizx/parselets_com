@@ -4,7 +4,14 @@ class SearchController < ApplicationController
   
   def index
     respond_to do |wants|
+      wants.atom do
+        do_search 
+        @parselets = @search.results
+        render :file => "/parselets/index"
+      end
+
       wants.html do
+        @feed = request.request_uri.sub("search", "search.atom")
         do_search 
         render "no_results" if @search.results.empty?
       end
