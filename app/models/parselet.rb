@@ -226,12 +226,14 @@ class Parselet < ActiveRecord::Base
     cached_page = CachedPage.find_or_create_by_url(url)
     content = cached_page.content
     raise ParsleyError.new(cached_page.error_message.to_s) if content.empty?
+    logger.warn "cached_page has content"
     out = Parsley.new(sanitized_code).parse(:string => content, :output => :json, :allow_local => false, :base => url)
     answer = OrderedJSON.parse(out)
     set_working true
     @example_data = answer
     answer
   rescue ParsleyError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
+    logger.warn "example_data raised"
     set_working false
     {"errors" => e.message.split("\n")}
   end
@@ -242,7 +244,9 @@ class Parselet < ActiveRecord::Base
 
   def parse(url, options = {})
     return {} if url.nil? || url !~ /^http:\/\//i
-    content = CachedPage.find_or_create_by_url(url).content
+    cached_page = CachedPage.find_or_create_by_url(url)
+    content = cached_page.content
+    raise ParsleyError.new(cached_page.error_message.to_s) if content.nil?
     OrderedJSON.parse Parsley.new(sanitized_code).parse(:string => content, :output => options[:output] || :json, :allow_local => false, :base => url)
   rescue ParsleyError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
     {"errors" => e.message.split("\n")}
