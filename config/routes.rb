@@ -37,5 +37,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :domains
   map.resource  :session
   
+  map.basic "/:controller/:action/:id"
+  
   map.root :controller => "home"
 end

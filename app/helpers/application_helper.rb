@@ -11,7 +11,7 @@ module ApplicationHelper
   end
   
   def wikify(text)
-    text.gsub(/\[\[([\w\-]+)\]\]/, '<a href="/parselets/\1">\1</a>')
+    text.gsub(/\[\[([\w\-]+)\]\]/, '<a href="/parselets/\1" class="stop_prop">\1</a>')
   end
   
   STRONG_PAIR_REGEX = /<strong>.*?<\/strong>/

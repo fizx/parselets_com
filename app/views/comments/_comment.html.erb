@@ -4,6 +4,10 @@
 	    on version <%= comment.commentable.version.to_s %>
 	  <% end %>
 	  </div>
-	<h5><%=link_to comment.user.login, comment.user %></h5>
+	<h5><%=link_to comment.user.login, comment.user %>
+	  
+	  <%= link_to "[ destroy comment ]", "/comments/destroy/#{comment.id}", :confirm => "You sure?" if admin? %>
+	  
+	  </h5>
 	<%= markdown(h(comment.content)) %>
 </li>
