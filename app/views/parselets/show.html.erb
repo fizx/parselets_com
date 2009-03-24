@@ -2,12 +2,20 @@
 	<%= thumb(@parselet) %>
 	<div class="result_right right_shift">
 	  <!-- <div style="clear: left"><%#= ratings @parselet %></div> -->
-		<h3 style="float: right; clear: right; position: relative; left:-1px">
+		<h3 style="float: right; clear: right; position: relative; left:-1px; margin-bottom: 4px">
 		  <span class="faded">
-		    <%= "originally " if @parselet.user_id != @parselet.original_user_id %>
-		    by <%=link_to @parselet.user.login, @parselet.user %><%=gravatar @parselet.user.email, :class => "rt_gravatar", :align => "absmiddle" %>
+		    by <%=link_to @parselet.original_user.login, @parselet.original_user %><%=gravatar @parselet.original_user.email, 
+		                                                                                       :class => "rt_gravatar", :align => "absmiddle" %>
 		  </span>
 		</h3>
+		<% if @parselet.user != @parselet.original_user %>
+  		<h3 style="float: right; clear: right; position: relative; left:-1px">
+  		  <span class="faded">
+  		    updated by <%=link_to @parselet.user.login, @parselet.user %><%=gravatar @parselet.user.email, 
+  		                                                                             :class => "rt_gravatar", :align => "absmiddle" %>
+  		  </span>
+  		</h3>
+		<% end %>
 	</div>
 	<div class="result_body">
 		<h1><%=link_to h(@parselet.name), parselet_edit_path(@parselet), :class => 'result_title' %> 
