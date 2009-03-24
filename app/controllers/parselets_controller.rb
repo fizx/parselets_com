@@ -12,6 +12,9 @@ class ParseletsController < ApplicationController
     @parselets = Parselet.advanced_find :paginate, { :show_broken => true, :page => 1, :favorite_user => current_user }, params
     
     respond_to do |format|
+      format.atom {
+        @parselets = Parselet.find(:all, :order => "id DESC", :limit => 30)
+      }
       format.html # index.html.erb
       format.xml  { render :xml => @parselets }
     end
