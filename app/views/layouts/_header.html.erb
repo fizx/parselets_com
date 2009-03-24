@@ -24,24 +24,28 @@
 			  $('.summary').each(function(){
 			    var old = $("#" + (parseInt(this.id) - 1) + "-version-summary");
 			    var target = $("#" + parseInt(this.id) + "-version-diff");
-			    if(old.size() == 0) old = $("<div/>");
-			    if(target.size() > 0) {
-			      try {
-			        var diff = differ.diff_main(old.html(), $(this).html());
-			        differ.diff_cleanupSemantic(diff);
-			        var arr = differ.diff_prettyHtml(diff).split("{{{");
-			        var buffer = "";
-			        for(var i = 0; i < arr.length; i++) {
-			          if(arr[i].indexOf("<INS") > -1 || arr[i].indexOf("<DEL") > -1) {
-			            buffer += "{{{" + arr[i]
-			          }
-			        }
-			        target.html(buffer.replace(/{{{/g, "<strong>").replace(/}}}/g, "</strong>"));
-			        if (target.html().length > 0) target.parent().toggle();
-		        } catch(e){
-		          alert(e);
-		        }
-			    }
+			    if(old.size() == 0) {
+		        target.html($(this).html().replace(/{{{/g, "<strong>").replace(/}}}/g, "</strong>"));
+		        if (target.html().length > 0) target.parent().toggle();
+			    } else {
+  			    if(target.size() > 0) {
+  			      try {
+  			        var diff = differ.diff_main(old.html(), $(this).html());
+  			        differ.diff_cleanupSemantic(diff);
+  			        var arr = differ.diff_prettyHtml(diff).split("{{{");
+  			        var buffer = "";
+  			        for(var i = 0; i < arr.length; i++) {
+  			          if(arr[i].indexOf("<INS") > -1 || arr[i].indexOf("<DEL") > -1) {
+  			            buffer += "{{{" + arr[i]
+  			          }
+  			        }
+  			        target.html(buffer.replace(/{{{/g, "<strong>").replace(/}}}/g, "</strong>"));
+  			        if (target.html().length > 0) target.parent().toggle();
+  		        } catch(e){
+  		          alert(e);
+  		        }
+  			    }
+  			  }
 			  });
 			  
 			  setup_stopprop = function(context) {
