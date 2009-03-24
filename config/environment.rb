@@ -84,4 +84,6 @@ ActionMailer::Base.delivery_method = :sendmail
 require "rubygems"
 require "bluecloth"
 require "parsley"
+require "robots"
 Parsley.user_agent = "parselets.com"
+ROBOTS = Robots.new(Parsley.user_agent)
