@@ -1,5 +1,5 @@
 <li class="domain">
-  <%= thumb domain_small %>
+	<%= thumb domain_small, { :controller => "search", :q => domain_small.name, :classes => "Parselet" } %>
 	<div>
 	  <a href="<%=url_for({ :controller => "search", :q => domain_small.name, :classes => "Parselet" } )%>">
 		<h4><%=h domain_small.name %>
