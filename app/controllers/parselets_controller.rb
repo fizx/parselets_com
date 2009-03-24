@@ -43,7 +43,9 @@ class ParseletsController < ApplicationController
     @comments = @parselet.comments.paginate :per_page => 10, :page => params[:comments_page], :order => "created_at ASC"
     @extra    = @parselet.paginated_versions :per_page => 10, :page => @versions.next_page
     respond_to do |format|
-      format.html # show.html.erb
+      format.html {
+        render :action => "lightbox", :layout => false if params[:show].to_s =~ /box/i
+      }
       format.xml  { render :xml => @parselet }
       format.json { render :json => @parselet.to_json }
     end

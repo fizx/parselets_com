@@ -14,7 +14,7 @@ class CachedPage < ActiveRecord::Base
       # page = new(:url => url) if page.updated_at && (page.updated_at < CACHE_TIME.ago)
       
       begin
-        page.content ||= URI.parse(url).open("User-Agent" => "Parselets.org").read
+        page.content ||= URI.parse(url).open("User-Agent" => Parsley.user_agent).read
       rescue => e
         logger.warn "Ignoring http fetch error: #{e.message}"
       end

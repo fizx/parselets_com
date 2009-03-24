@@ -37,7 +37,7 @@ body {
 }
 
 .faded {
-  color: #CCCCCC;
+  color: #CCCCCC !important;
 }
 
 #body {

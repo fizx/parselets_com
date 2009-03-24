@@ -216,7 +216,7 @@ class Parselet < ActiveRecord::Base
     url ||= example_url
     return {} if url.blank?
     content = CachedPage.find_or_create_by_url(url).content
-    out = Parsley.new(sanitized_code).parse(:string => content, :output => :json)
+    out = Parsley.new(sanitized_code).parse(:string => content, :output => :json, :allow_local => false, :base => url)
     answer = OrderedJSON.parse(out)
     set_working true
     @example_data = answer
@@ -233,7 +233,7 @@ class Parselet < ActiveRecord::Base
   def parse(url, options = {})
     return {} if url.nil? || url !~ /^http:\/\//i
     content = CachedPage.find_or_create_by_url(url).content
-    OrderedJSON.parse Parsley.new(sanitized_code).parse(:string => content, :output => options[:output] || :json)
+    OrderedJSON.parse Parsley.new(sanitized_code).parse(:string => content, :output => options[:output] || :json, :allow_local => false, :base => url)
   rescue ParsleyError, OrderedJSON::ParseError, OrderedJSON::DumpError => e
     {"errors" => e.message.split("\n")}
   end
@@ -487,7 +487,7 @@ class Parselet < ActiveRecord::Base
           if array_stack[level - 1] == allowed
             i += 1
             id = "#{base_id}-#{i}"
-            line += %[<br>#{TAB * level}<a href="javascript:void(myToggle('#{id}'))" id="#{id}-toggle">more &rarr;</a><span style="display:none" id="#{id}">]
+            line += %[<br>#{TAB * level}<a href="javascript:void(myToggle('#{id}'))" id="#{id}-toggle">expand &rarr;</a><span style="display:none" id="#{id}">]
           end
         end
       end

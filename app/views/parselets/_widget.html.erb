@@ -1,0 +1,27 @@
+ <div class="left">
+    <div class="heading">
+      <div class="usage">
+        <%= link_to "See usage example", parselet_usage_path(@parselet), :class=> "usage url" %>
+      </div>
+      <h3>
+        Code <%=link_to image_tag("/images/edit.png", :border => 0, :align=> "baseline", :class => 'edit'), parselet_edit_path(@parselet)%>
+      </h3>
+    </div>
+    <div class="parselet">
+      <pre><div><%=h @parselet.pretty_code%></div></pre>
+    </div>
+  </div>
+  <div class="right">
+    <div class="heading">
+      <div style="position: relative; top: 8px">
+  			<h5>Results for</h5>
+  			<form method="get" action="<%=url_for(@parselet)%>">
+  			  <%= text_field_tag "url", params[:url] || @parselet.example_url, :class => 'text' %>
+  			  <input type="submit" value="go" />
+  			</form>
+  		</div>
+		</div>
+    <div class="parselet">
+      <pre><div><%=@parselet.compressed_html_example_data(params[:url || @parselet.example_url])%></div></pre>
+    </div>
+  </div>

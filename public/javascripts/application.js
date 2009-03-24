@@ -13,7 +13,7 @@ jQuery.fn.toggleText = function(a, b) {
 function myToggle(id) {
   jQuery('#' + id).toggle();
   jQuery('#' + id + "-toggle").each(function() {
-		jQuery(this).text(jQuery(this).text() == "more →" ? "less ↑" : "more →");
+		jQuery(this).text(jQuery(this).text() == "expand →" ? "collapse ↑" : "expand →");
 	});
 }
 

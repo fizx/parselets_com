@@ -8,6 +8,7 @@
 	<div class="result_body">
 		<h4>
 			<%= link_to h(parselet.name), parselet, :class => 'result_title stop_prop' %>
+			<%= link_to "preview", url_for(parselet) + "?show=box", :class => 'result_title stop_prop faded', :rel => "facebox" %>
 		</h4>
 		<%= example_link(parselet) %>
 		<p><%= wikify(escape_and_highlight(parselet.description, :truncate => 250)) %></p>

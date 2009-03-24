@@ -83,3 +83,5 @@ ActionMailer::Base.delivery_method = :sendmail
 # OpenURI::Cache.enable!
 require "rubygems"
 require "bluecloth"
+require "parsley"
+Parsley.user_agent = "parselets.com"
