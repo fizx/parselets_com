@@ -1,0 +1,12 @@
+<li class="domain">
+  <%= thumb domain_small %>
+	<div>
+	  <a href="<%=url_for({ :controller => "search", :q => domain_small.name, :classes => "Parselet" } )%>">
+		<h4><%=h domain_small.name %>
+		<small>(
+		<%= "#{domain_small.parselets_count} parselets" %>
+		)</small>
+		</h4>
+		</a>
+	</div>
+</li>

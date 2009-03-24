@@ -1,4 +1,4 @@
-<ol class="lite_results"><%=render @domains %></ol>
+<ol class="lite_results"><%=render :partial => 'domain_small', :collection => @domains %></ol>
 <div class="paginate">
   <%=will_paginate @domains %>
 </div>

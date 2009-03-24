@@ -1,12 +1,10 @@
-<li class="domain">
+<% result_item(:controller => "search", :q => domain.name, :classes => "Parselet") do %>
   <%= thumb domain %>
-	<div>
-	  <a href="<%=url_for({ :controller => "search", :q => domain.name, :classes => "Parselet" } )%>">
-		<h4><%=domain.name %>
-		<small>(
-		<%= "#{domain.parselets_count} parselets" %>
-		)</small>
-		</h4>
-		</a>
-	</div>
-</li>
+  <div class="result_body">
+    <h4><%=link_to domain.name, { :controller => "search", :q => domain.name, :classes => "Parselet" }, :class => 'result_title stop_prop' %>
+    <small>(
+    <%= "#{domain.parselets_count} parselets" %>
+    )</small>
+    </h4>
+  </div>
+<% end %>
