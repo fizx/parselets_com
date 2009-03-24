@@ -103,8 +103,8 @@ class Parselet < ActiveRecord::Base
     Parselet.find(:first, :conditions => {:name => name}, :order => "version ASC")
   end
   
-  def original_user_id
-    original && original.user_id
+  def original_user
+    original && original.user
   end
   
   def comments_across_versions_count
@@ -463,16 +463,17 @@ class Parselet < ActiveRecord::Base
   
   def self.find_by_params(params = {}, more_params = {})
     params = symbolize_hash(params).merge(symbolize_hash more_params)
+    id = params[:id] || params[:parselet] || params[:parselet_id]
     version = params[:version] || params[:parselet_version]
+    return find_by_id(id) if id.to_s =~ /\A\d+\Z/
     result = version ? nil : advanced_find(:first, params)
     if result
       result
     else
-      id = params[:id] || params[:parselet] || params[:parselet_id]
-      if id.to_s =~ /\A\d+\Z/
-        find_by_id_and_version(id, version || 1)
+      if version
+        find_by_name_and_version(id, version)
       else
-        find_by_name_and_version(id, version || 1)
+        find_by_name_and_best_version(id, true)
       end
     end
   end
