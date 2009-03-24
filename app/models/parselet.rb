@@ -27,6 +27,7 @@ class Parselet < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :domain
+  belongs_to :previous_version, :class_name => 'Parselet'
   has_many :comments,   :as => :commentable
   has_many :ratings,    :as => :ratable
   has_many :favorites,  :as => :favoritable
@@ -376,6 +377,7 @@ class Parselet < ActiveRecord::Base
     new_version = Parselet.new
     new_attributes.each { |key| new_version.send("#{key}=", send(key)) }
     new_version.version = highest_version + 1
+    new_version.previous_version_id = id
     new_version.user = user
     new_version
   end
