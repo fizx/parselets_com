@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :karma
+
   map.resources :favorites, :collection => { :toggle => :post }
   map.resources :ratings
 

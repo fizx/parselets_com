@@ -1,0 +1,24 @@
+<h1>Listing karma</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+
+<% @karma.each do |karma| %>
+  <tr>
+    <td><%=h karma.user_id %></td>
+    <td><%=h karma.value %></td>
+    <td><%=h karma.description %></td>
+    <td><%= link_to 'Show', karma %></td>
+    <td><%= link_to 'Edit', edit_karma_path(karma) %></td>
+    <td><%= link_to 'Destroy', karma, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New karma', new_karma_path %>
