@@ -85,5 +85,5 @@ require "rubygems"
 require "bluecloth"
 require "parsley"
 require "robots"
-Parsley.user_agent = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.2) Gecko/2008092313 Ubuntu/8.04 (hardy) Parselets.com, like Firefox/3.1.6"
+Parsley.user_agent = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.2) Gecko/2008092313 Ubuntu/8.04 (hardy) Parselets.com (http://parselets.com/about-robot.html), like Firefox/3.1.6"
 ROBOTS = Robots.new(Parsley.user_agent)

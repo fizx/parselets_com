@@ -1,5 +1,7 @@
 <% if logged_in? -%>
-  <div id="user-bar-greeting">Logged in as <%= link_to current_user.login, edit_user_path(current_user) %></div>
+  <div id="user-bar-greeting">Logged in as <%= link_to current_user.login, current_user %></div>
+  <div id="user-bar-action"  ><%= link_to "Settings", edit_user_path(current_user) %></div>
+  <div id="user-bar-action"><%=link_to image_tag("/images/icons/heart.png", :border => 0, :height => "12"), "/favorites"%></div>
   <div id="user-bar-action"  ><%= link_to "Logout", logout_path, { :title => "Log out" }    %></div>
 <% else -%>
   <div id="user-bar-greeting">Not logged in</div>

@@ -1,15 +1,23 @@
 class FavoritesController < ApplicationController
-  before_filter :admin_required, :except => %w[toggle]
+
+  before_filter :admin_required, :except => %w[toggle index]
   before_filter :login_required
 
   # GET /favorites
   # GET /favorites.xml
   def index
-    @favorites = Favorite.find(:all)
-
+    @favorites = Favorite.paginate :order => "created_at DESC", :conditions => {:user_id => current_user && current_user.id}, :page => params[:page], :per_page => 10
+    flash.now[:notice] = "Showing only your favorites"
+    @favorites.map! {|f| f.favoritable }.select{|p| p.is_a?(Parselet)}
+    @parselets = @favorites
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @favorites }
+      format.atom {
+        render :file => "/parselets/index", :layout => "simple"
+      }
+      format.html {
+        render :file => "/parselets/index", :layout => "simple"
+      }
+      format.xml  { render :xml => @parselets }
     end
   end
 

@@ -4,6 +4,7 @@ require "digest"
 class User < ActiveRecord::Base
   has_many :sprigs
   has_many :parselets, :group => 'name'
+  has_many :favorites, :order => "created_at DESC"
   belongs_to :invitation
   
   is_indexed :fields => %w[login name], :delta => true
