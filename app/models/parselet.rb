@@ -22,7 +22,7 @@ class Parselet < ActiveRecord::Base
     #   {:association_name => 'other_versions', :field => 'code', :as => 'concat_code'}, 
     #   {:association_name => 'other_versions', :field => 'description', :as => 'concat_description'}
     # ], 
-    :conditions => "user_id IS NOT NULL AND best_version = 1",
+    :conditions => "user_id IS NOT NULL",
     :order => "parselets.updated_at DESC", :delta => true
   
   belongs_to :user
