@@ -131,8 +131,9 @@ module ApplicationHelper
   def result_item(url, &block)
     url = url_for(url) unless url.is_a?(String)
     url = escape_javascript url
+#    onclick="window.location = '#{url}'; return false;">
     concat <<-STR
-      <li onclick="window.location = '#{url}'; return false;">
+      <li> 
         <div>
           #{capture &block}
         </div>
