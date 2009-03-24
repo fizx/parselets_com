@@ -11,6 +11,8 @@ class ParseletsController < ApplicationController
   def index
     @parselets = Parselet.advanced_find :paginate, { :show_broken => true, :page => 1, :favorite_user => current_user }, params
     
+    @feed = "/parselets.atom"
+    
     respond_to do |format|
       format.atom {
         @parselets = Parselet.find(:all, :order => "id DESC", :limit => 30)
