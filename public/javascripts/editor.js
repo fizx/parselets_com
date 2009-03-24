@@ -402,6 +402,7 @@ ParseletEditor.prototype.showResultInHelpful = function(data, old_data, path) {
       $(elem).text("// " + self.truncate(data));
       if (old_data && old_data != data)
         $(elem).animate({ 'backgroundColor': '#FFFF00' }, 500, function(e) { $(this).animate({ 'backgroundColor': '#FFF9DB' }, 500); });
+      $(elem).html($(elem).html().replace(/(\b.{50})/g, "$1&#8203;")); // Add optional breaks.
     }
   }
 };
