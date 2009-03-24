@@ -60,6 +60,7 @@ class ParseletsController < ApplicationController
   
   def show
     @parselet = find_parselet_by_params
+    render :text => 'Parselet not found', :status => 404 and return if @parselet.nil?
     @versions = @parselet.paginated_versions :per_page => 10, :page => params[:history_page]
     @comments = @parselet.comments.paginate :per_page => 10, :page => params[:comments_page], :order => "created_at ASC"
     @extra    = @parselet.paginated_versions :per_page => 10, :page => @versions.next_page
