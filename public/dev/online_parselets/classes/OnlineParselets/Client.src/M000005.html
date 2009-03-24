@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>run_parselet_on_server (OnlineParselets::Client)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/client.rb, line 68</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run_parselet_on_server</span>(<span class="ruby-identifier">server_id</span>, <span class="ruby-identifier">options</span>)
+      <span class="ruby-constant">OnlineParselets</span>.<span class="ruby-identifier">catch_invalid_key</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-keyword kw">begin</span>
+          <span class="ruby-identifier">url</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:url</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:file</span>]
+          <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">url</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^http:\/\//i</span>
+            <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidServerSideParse</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;You must provide an http:// address to run this parselet on the server.&quot;</span>)
+          <span class="ruby-keyword kw">end</span>
+          <span class="ruby-identifier">fetch_url</span> = <span class="ruby-node">&quot;#{HOST[environment]}#{RUN_ON_SERVER_PATH}#{CGI::escape(server_id.to_s)}&quot;</span> <span class="ruby-operator">+</span> 
+                      <span class="ruby-node">&quot;?format=json&amp;api_key=#{CGI::escape(api_key)}&amp;url=#{CGI::escape(url)}&quot;</span>
+          <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">open</span>(<span class="ruby-identifier">fetch_url</span>).<span class="ruby-identifier">read</span>)
+        <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">OpenURI</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTPError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;404 Not Found&quot;</span>
+          <span class="ruby-keyword kw">nil</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
