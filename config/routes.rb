@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.search '/search', :controller => 'search', :action => 'index'
+  map.search '/search.:format', :controller => 'search', :action => 'index'
   
   map.sprig_code "/sprig_code", :controller => 'parselets', :action => 'code'
   
@@ -17,6 +18,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.dev "/dev/:action/:id", :controller => 'dev'
   map.dev "/dev/:action", :controller => 'dev'
+  
+  map.versions "/parselets/:id/versions.:format", :controller => 'parselets', :action => 'versions'
+  map.comments "/parselets/:id/comments.:format", :controller => 'parselets', :action => 'comments'
   
   map.edit_parselet "/parselets/:id/:version/edit", :controller => 'parselets', :action => 'edit'
   map.parselets_with_version "/parselets/:id/:version", :controller => 'parselets', :action => 'show'

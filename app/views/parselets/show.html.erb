@@ -22,7 +22,7 @@
 
     <div class="left">
       <a name="history"></a>
-      <h2>History</h2>
+      <h2>History <%=link_to image_tag("/images/icons/feed.png", :border => 0, :align =>"absmiddle"), :action =>"versions", :format => "atom"%></h2>
       <ol><%= render :partial => 'version', :collection => @versions %></ol>
       <div style="display:none">
         <ol><%= render [@extra.first] if @extra && !@extra.empty? %></ol>
@@ -30,7 +30,9 @@
       <%= will_paginate @versions, :param_name => 'history_page' %>
     </div>
     <div class="right">
-      <h2>Comments (<span id="comments_<%= dom_id(@parselet) %>"><%= @parselet.comments.count %></span>)</h2>
+      <h2>Comments (<span id="comments_<%= dom_id(@parselet) %>"><%= @parselet.comments.count %></span>)
+        <%=link_to image_tag("/images/icons/feed.png", :border => 0, :align =>"absmiddle"), :action =>"comments", :format => "atom"%>
+        </h2>
       <div class='comments'>
         <%= render "/comments/comments", :comments => @comments, :new_comment => @parselet.comments.new %>
       </div>

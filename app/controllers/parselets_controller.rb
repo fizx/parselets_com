@@ -42,6 +42,22 @@ class ParseletsController < ApplicationController
     end
   end
   
+  def versions
+    @parselet = find_parselet_by_params
+    @parselets = @parselet.paginated_versions :per_page => 30, :page => 1
+    respond_to do |format|
+      format.atom { render :action => "index" }
+    end
+  end
+  
+  def comments
+    @parselet = find_parselet_by_params
+    @comments = @parselet.comments.paginate :per_page => 30, :page => 1, :order => "created_at DESC"
+    respond_to do |format|
+      format.atom
+    end
+  end
+  
   def show
     @parselet = find_parselet_by_params
     @versions = @parselet.paginated_versions :per_page => 10, :page => params[:history_page]
