@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (OnlineParselets::Instance)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/instance.rb, line 16</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">options</span> = {})
+      <span class="ruby-identifier">options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">inject</span>({}) { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span>, (<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)<span class="ruby-operator">|</span> <span class="ruby-identifier">m</span>[<span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">v</span>; <span class="ruby-identifier">m</span> } <span class="ruby-comment cmt"># Turn symbols into strings.</span>
+      <span class="ruby-ivar">@name</span>                     = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'name'</span>]
+      <span class="ruby-ivar">@created_on_server_at</span>     = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'created_at'</span>]
+      <span class="ruby-ivar">@code</span>                     = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'code'</span>]
+      <span class="ruby-ivar">@updated_on_server_at</span>     = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'updated_at'</span>]
+      <span class="ruby-ivar">@checked_on_server_at</span>     = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'checked_at'</span>]
+      <span class="ruby-ivar">@server_id</span>                = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'id'</span>]
+      <span class="ruby-ivar">@pattern</span>                  = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'pattern'</span>]
+      <span class="ruby-ivar">@example_url</span>              = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'example_url'</span>]
+      <span class="ruby-ivar">@user_id</span>                  = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'user_id'</span>]
+      <span class="ruby-ivar">@version_on_server</span>        = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'version'</span>]
+      <span class="ruby-ivar">@description</span>              = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'description'</span>]
+      <span class="ruby-ivar">@client</span>                   = <span class="ruby-identifier">options</span>[<span class="ruby-value str">'client'</span>]
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
