@@ -1,5 +1,7 @@
 <% result_item(parselet) do %>
   <%= thumb(parselet) %>
+  <%= link_to image_tag("/images/icons/applications_blue.png", :border => 0, :align => "absmiddle"), url_for(parselet) + "?show=box", :style => 'position:absolute;left:82px;top:63px;z-index:2', :rel => "facebox" %>
+	
 	<div class="result_right">
 	  <%= ratings parselet %>
 	  <%= comments parselet, :small => true, :merged => true %>
@@ -8,7 +10,7 @@
 	<div class="result_body">
 		<h4>
 			<%= link_to h(parselet.name), parselet, :class => 'result_title stop_prop' %>
-			<%= link_to "preview", url_for(parselet) + "?show=box", :class => 'result_title stop_prop faded', :rel => "facebox" %>
+  		<span class="faded">v<%=parselet.version%></span>
 		</h4>
 		<%= example_link(parselet) %>
 		<p><%= wikify(escape_and_highlight(parselet.description, :truncate => 250)) %></p>
@@ -17,6 +19,7 @@
 	    <p>
 	      <%= escape_and_highlight(parselet.code, :truncate => 250) %>
 	    </p>
+	    
 	  <% end %>
 	</div>
 <% end %>

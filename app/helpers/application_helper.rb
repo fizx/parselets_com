@@ -96,7 +96,7 @@ module ApplicationHelper
   end
   
   def example_link(parselet)
- link_to(parselet.pretty_example_url, parselet.example_url, :class => "url stop_prop", :title => "Keys: " + parselet.pattern_keys.map{|k| h k }.join(", "))   + " " +   link_to(image_tag("/images/icons/applications_blue.png", :border => 0, :align => "absmiddle", :width => "12", :class => "stop_prop"), parselet.example_url, :target => "_blank")
+ link_to(parselet.pretty_example_url, parselet.example_url, :class => "url stop_prop", :title => "Keys: " + parselet.pattern_keys.map{|k| h k }.join(", "))
   end
     
   def gravatar(email, options = {})

@@ -43,7 +43,10 @@ protected
     @search = Ultrasphinx::Search.new(:query => preprocess(params[:q]), 
       :class_names => class_names, 
       :page => params[:page] || 1,
-      :per_page => 10)
+      :per_page => 10,
+      :sort_mode => "descending",
+      :sort_by => "created_at"
+      )
     @search.excerpt
   end
 end

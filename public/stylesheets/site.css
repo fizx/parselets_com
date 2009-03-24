@@ -440,6 +440,7 @@ a.url {
 }
 
 ol>li {
+  position: relative;
 	padding-bottom:8px;
 	clear:both !important;
 	float:left;

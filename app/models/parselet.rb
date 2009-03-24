@@ -12,7 +12,7 @@ class Parselet < ActiveRecord::Base
   include CustomValidations  
 
   # FIXME: grouping on versions
-  is_indexed :fields => ["name", "description", "code", "updated_at"],
+  is_indexed :fields => ["name", "description", "code", "created_at"],
     :include => [
       {:association_name => 'user', :field => 'login'},
       {:association_name => 'domain', :field => 'variations'}#,
@@ -67,6 +67,10 @@ class Parselet < ActiveRecord::Base
         (1.0 * (SELECT count(1) from favorites where favorites.favoritable_id=parselets.id and favorites.favoritable_type='Parselet'))
       )
     SQL
+    
+  def timestamp
+    updated_at.to_i
+  end
   
   def update_score_and_best_version
     Parselet.ignoring_callbacks do
