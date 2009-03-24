@@ -16,7 +16,6 @@ namespace :deploy do
   task :before_restart do
     run "ln -nfs #{shared_path}/thumbs #{current_path}/public/thumbs"
     run "cd #{current_path} && rake db:migrate --trace RAILS_ENV=production"
-    # run "cd #{current_path} && rake us:boot --trace RAILS_ENV=production"
   end
   
   task :restart, :roles => :app do
@@ -37,6 +36,10 @@ after "deploy:symlink", "deploy:write_crontab"
 
 task :delta do
   run "cd #{current_path} && rake ultrasphinx:index:delta --trace RAILS_ENV=production"
+end
+
+task :reindex do
+  run "cd #{current_path} && rake us:boot --trace RAILS_ENV=production"
 end
 
 task :check do
