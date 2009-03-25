@@ -54,3 +54,7 @@ end
 task :tail do
   run "tail -f #{current_path}/log/production.log"
 end
+
+task :tail_cron do
+  run "tail -f #{current_path}/log/whenever.log"
+end
