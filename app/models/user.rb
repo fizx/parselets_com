@@ -25,6 +25,9 @@ class User < ActiveRecord::Base
     self.cached_karma = total_karma
   end
   
+  def total_karma
+    base_karma + Karma.sum("value", :conditions => {:user_id => id})
+  end
   
   def recalculate_base_karma
     self.base_karma = parselets.count
