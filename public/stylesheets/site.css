@@ -44,7 +44,7 @@ body {
   clear:none !important;
 }
 
-.lite_results li img {
+.lite_results li img.thumb {
   width:36px !important;
   float:left;
 }

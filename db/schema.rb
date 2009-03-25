@@ -203,6 +203,7 @@ ActiveRecord::Schema.define(:version => 20090324233744) do
     t.boolean  "admin",                                    :default => false
     t.integer  "invitation_id"
     t.integer  "base_karma",                               :default => 0
+    t.integer  "cached_karma",                             :default => 0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

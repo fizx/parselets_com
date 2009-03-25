@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   
   is_indexed :fields => %w[login name], :delta => true
   
+  before_save :update_karma
+  
   validates_each :invitation, :on => :create do |record, _, _|
     unless record.invitation_usable?
       record.errors.add :invitation, "is no longer valid"
@@ -16,12 +18,25 @@ class User < ActiveRecord::Base
   
   validates_format_of :login, :with => /[^0-9]/, :message => "cannot be entirely numeric"
   
+  def update_karma
+    self.cached_karma = total_karma
+  end
+  
+  
+  def recalculate_base_karma
+    self.base_karma = parselets.count
+  end
+  
   def parselet_count
     Parselet.count(:conditions => ['user_id = ?', id], :group => 'name').length
   end
   
   def api_key
     "#{login}-#{crypted_password[0..8]}"
+  end
+  
+  def total_karma
+    base_karma + Karma.sum("value", :conditions => "user_id = #{id}")
   end
   
   def to_param

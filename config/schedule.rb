@@ -27,3 +27,7 @@ end
 every 1.minute do
   rake "ultrasphinx:index:delta"
 end
+
+every 1.hour do
+  rake "update_karma"
+end

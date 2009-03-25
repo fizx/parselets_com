@@ -9,10 +9,12 @@ class CreateKarma < ActiveRecord::Migration
     end
     
     add_column :users, :base_karma, :integer, :default => 0
+    add_column :users, :cached_karma, :integer, :default => 0
   end
 
   def self.down
     remove_column :users, :base_karma
+    remove_column :users, :cached_karma
     drop_table :karmas
   end
 end

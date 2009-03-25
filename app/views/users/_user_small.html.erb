@@ -6,6 +6,6 @@
 		<%= link_to "#{user_small.parselet_count} parselets", parselets_path(:user => user_small.key), :class => 'stop_prop extra' %>
 		)</small>
 		</h4>
-		<p>member for <%=time_ago_in_words user_small.created_at %></p>
+		<p>member for <%=time_ago_in_words user_small.created_at %> <small><%=image_tag("/images/medal_bronze_1.png", :align => "absmiddle", :width => "12")%> <%=user_small.total_karma %></small></p>
 	</div>
 </li>
