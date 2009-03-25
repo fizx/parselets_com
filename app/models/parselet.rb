@@ -12,17 +12,19 @@ class Parselet < ActiveRecord::Base
   include CustomValidations  
 
   # FIXME: grouping on versions
-  is_indexed :fields => ["name", "description", "code", "created_at"],
+  is_indexed :fields => [
+        {:field => "name", :function_sql => "REPLACE(REPLACE(?, '-', ' '), '_', ' ')"}, 
+        "description", "code", "created_at"],
     :include => [
       {:association_name => 'user', :field => 'login'},
-      {:association_name => 'domain', :field => 'variations'}#,
-#      {:association_name => 'comments_across_versions', :field => 'content'}
+      {:association_name => 'domain', :field => 'variations'}
     ],
-    # :concatenate => [
+    :concatenate => [
+        {:association_name => 'comments', :field => 'content', :as => "comments"}
     #   {:association_name => 'other_versions', :field => 'code', :as => 'concat_code'}, 
     #   {:association_name => 'other_versions', :field => 'description', :as => 'concat_description'}
-    # ], 
-    :conditions => "user_id IS NOT NULL",
+    ], 
+    :conditions => "parselets.user_id IS NOT NULL",
     :order => "parselets.updated_at DESC", :delta => true
   
   belongs_to :user
