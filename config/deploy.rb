@@ -43,6 +43,10 @@ task :reindex do
   run "cd #{current_path} && rake us:boot --trace RAILS_ENV=production"
 end
 
+task :update_karma do
+  run "cd #{current_path} && rake update_karma RAILS_ENV=production"
+end
+
 task :check do
   run "cd #{current_path} && rake parselet:check --trace RAILS_ENV=production"
 end
