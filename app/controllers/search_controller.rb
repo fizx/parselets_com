@@ -1,6 +1,7 @@
 class SearchController < ApplicationController
   layout "simple"
   around_filter :dynamic_scope
+  skip_before_filter :reject_api_requests, :only => :index
   
   def index
     respond_to do |wants|

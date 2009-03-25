@@ -9,12 +9,29 @@ module AuthenticatedSystem
     # Accesses the current user from the session.
     # Future calls avoid the database because nil is not equal to false.
     def current_user
-      @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie || login_from_api_key) unless @current_user == false
+      @current_user ||= (login_from_api_key || login_from_session || login_from_basic_auth || login_from_cookie || login_from_reset_key) unless @current_user == false
+    end
+    
+    def login_from_reset_key
+      user = params[:reset_key] && User.find_by_reset_key(params[:reset_key])
+      if params[:reset_key] && !user
+        flash[:notice] = "That password reset key is invalid or has already been used."
+      end
+      self.current_user = user if user
     end
     
     def login_from_api_key
       user = params[:api_key] && User.find_by_api_key(params[:api_key])
-      self.current_user = user if user
+      if user
+        @api_request = true
+        self.current_user = user
+      elsif params[:api_key]
+        render :text => 'That API key seems to be invalid' and return
+      end
+    end
+    
+    def api_request?
+      @api_request
     end
 
     # Store the given user id in the session.

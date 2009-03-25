@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   layout "simple"
   skip_before_filter :login_required, :only => %w[new create]
   around_filter :invite_required, :only => %w[new create]
-  before_filter :redirect_unless_owner_or_admin, :only => %w[edit update]
+  before_filter :redirect_unless_owner_or_admin, :only => %w[edit update reset_api_key]
   
   def index
     @users = User.paginate :page => params[:page], :per_page => 50, :order => "cached_karma DESC"
@@ -37,6 +37,11 @@ class UsersController < ApplicationController
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end
+  end
+  
+  def reset_api_key
+    @user.reset_api_key
+    redirect_to edit_user_path(@user)
   end
  
   def create

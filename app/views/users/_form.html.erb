@@ -7,7 +7,7 @@
     <%= f.text_field :login %></p>
   <% else %>
     <p>Login: <%=h @user.login%></p>
-    <p>Api key: <%=h @user.api_key%></p>
+    <p>Api key: <%=h @user.api_key%> (<%= link_to 'reset', { :action => 'reset_api_key', :id => @user }, :confirm => 'Are you sure that you want to reset your API key to a new random key?', :method => :post %>)</p>
   <% end %>
 
   <p><%= label_tag 'email' %><br/>

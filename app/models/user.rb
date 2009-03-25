@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/user/auth'
+require "digest"
 
 class User < ActiveRecord::Base
   has_many :sprigs
@@ -18,6 +19,8 @@ class User < ActiveRecord::Base
   
   validates_format_of :login, :with => /[^0-9]/, :message => "cannot be entirely numeric"
   
+  before_save :set_api_key
+  
   def update_karma
     self.cached_karma = total_karma
   end
@@ -31,12 +34,8 @@ class User < ActiveRecord::Base
     Parselet.count(:conditions => ['user_id = ?', id], :group => 'name').length
   end
   
-  def api_key
-    "#{login}-#{crypted_password[0..8]}"
-  end
-  
-  def total_karma
-    base_karma + Karma.sum("value", :conditions => "user_id = #{id}")
+  def reset_key
+    "#{login}-#{Digest::MD5.hexdigest(crypted_password[0..8])}"
   end
   
   def to_param
@@ -50,6 +49,15 @@ class User < ActiveRecord::Base
   def key
     self[:login]
   end
+
+  def set_api_key
+    self.api_key = "#{login}-#{Digest::MD5.hexdigest((rand * 10000).to_s)[0..8]}" if api_key.blank?
+  end
+  
+  def reset_api_key
+    self.api_key = nil
+    self.save
+  end
   
   # CLASS METHODS
 
@@ -58,10 +66,10 @@ class User < ActiveRecord::Base
       LEFT JOIN parselets ON parselets.user_id = users.id WHERE parselets.works=1 GROUP BY parselets.user_id ORDER BY p DESC LIMIT #{n.to_i}"
   end
 
-  def self.find_by_api_key(key)
+  def self.find_by_reset_key(key)
     login, pwd = key.split("-")
     u = find_by_login(login)
-    u && u.crypted_password[0..8] && u
+    u && Digest::MD5.hexdigest(u.crypted_password[0..8]) == pwd && u
   end
 
   def self.find_by_key(key)

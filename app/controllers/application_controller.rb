@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
   
   before_filter :login_required
   before_filter :fix_domain
+  before_filter :reject_api_requests
   
   around_filter :user_scope
   
@@ -31,6 +32,13 @@ class ApplicationController < ActionController::Base
       return false
     end
     true
+  end
+  
+  def reject_api_requests
+    if api_request?
+      logger.warn "API Request attempted on disallowed page."
+      render :text => 'Sorry, API requests are not allowed on this page.', :status => :forbidden and return
+    end
   end
         
   def admin_required

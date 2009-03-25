@@ -7,6 +7,7 @@ class ParseletsController < ApplicationController
   around_filter :dynamic_scope
   before_filter :include_editor, :only => [:new, :edit]
   before_filter :admin_required, :only => :destroy
+  skip_before_filter :reject_api_requests, :only => %w[index parse show versions]
   
   def index
     @parselets = Parselet.advanced_find :paginate, { :show_broken => true, :page => 1, :favorite_user => current_user }, params

@@ -2,8 +2,7 @@ class PasswordRequestsController < ApplicationController
   layout "simple"
   skip_before_filter :login_required, :only => %w[new create]
   before_filter :admin_required, :except => %w[new create]
-  # GET /password_requests
-  # GET /password_requests.xml
+
   def index
     @password_requests = PasswordRequest.find(:all)
 
@@ -13,10 +12,7 @@ class PasswordRequestsController < ApplicationController
     end
   end
 
-  # GET /password_requests/1
-  # GET /password_requests/1.xml
   def show
-    
     @password_request = PasswordRequest.find(params[:id])
 
     respond_to do |format|
@@ -25,8 +21,6 @@ class PasswordRequestsController < ApplicationController
     end
   end
 
-  # GET /password_requests/new
-  # GET /password_requests/new.xml
   def new
     @password_request = PasswordRequest.new
 
@@ -36,13 +30,10 @@ class PasswordRequestsController < ApplicationController
     end
   end
 
-  # GET /password_requests/1/edit
   def edit
     @password_request = PasswordRequest.find(params[:id])
   end
 
-  # POST /password_requests
-  # POST /password_requests.xml
   def create
     @password_request = PasswordRequest.new(params[:password_request])
 
@@ -58,8 +49,6 @@ class PasswordRequestsController < ApplicationController
     end
   end
 
-  # PUT /password_requests/1
-  # PUT /password_requests/1.xml
   def update
     @password_request = PasswordRequest.find(params[:id])
 
@@ -75,8 +64,6 @@ class PasswordRequestsController < ApplicationController
     end
   end
 
-  # DELETE /password_requests/1
-  # DELETE /password_requests/1.xml
   def destroy
     @password_request = PasswordRequest.find(params[:id])
     @password_request.destroy
