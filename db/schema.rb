@@ -11,6 +11,16 @@
 
 ActiveRecord::Schema.define(:version => 20090324233744) do
 
+  create_table "cached_pages", :force => true do |t|
+    t.string   "url"
+    t.text     "content",       :limit => 16777215
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "error_message"
+  end
+
+  add_index "cached_pages", ["url"], :name => "index_cached_pages_on_url"
+
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
     t.text     "content"
