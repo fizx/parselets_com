@@ -1,15 +1,23 @@
-<div id="right_column">
-	<ol class="results frontpage"><%=render @parselets %></ol>
-	<div style="float:right;padding-top:10px"><%=link_to image_tag("/images/create_button.png", :border=>0), new_parselet_url%></div>
-	<h3><%=link_to "#{Parselet.count(:group => 'name').length - 5} more &rarr", parselets_path %></h3>
+<div class="padded homepage">
+  <div id="blurb">
+    <p>
+      Parselets are free, open, developer-generated APIs for a wide variety of websites.  <%=link_to "Parselets.com" %> is a place to create and share them.
+    </p>
+
+    <p>
+      Check out our <%=link_to "development tools", dev_url %> for ways to use parselets from <%= link_to "our web service", :controller => 'dev', :action => 'api' %>, <%= link_to "Ruby", :controller => 'dev', :action => 'ruby' %>, <%=link_to "Python", :controller => 'dev', :action => 'python' %>, <%=link_to "C/C++", :controller => 'dev', :action => 'c' %>, or <%=link_to "the *nix command-line", :controller => 'dev', :action => 'command_line' %>.</p>
+  <p>  Parselets is brought to you by <a href="http://kylemaxwell.com">Kyle Maxwell</a> and <a href="http://andrewcantino.com">Andrew Cantino</a>, with graphic design by Chris Tong donated by <a href="http://pivotallabs.com">Pivotal Labs</a>.</p>
+  </div>
+  <div class="topusers">
+    <h3><%=link_to "more &#187;", "/users", :style => "float:right"%> Top Users</h3>
+  	<ol><%=render :partial => "/users/user_small", :collection => @users %></ol>
+  </div>
 </div>
 
-<div id="blurb">
-  <p>
-    Parselets are free, open, developer-generated APIs for a wide variety of websites.  <%=link_to "Parselets.com" %> is a place to create and share them.
-  </p>
-
-  <p>
-    Check out our <%=link_to "development tools", dev_url %> for ways to use parselets from <%= link_to "our web service", :controller => 'dev', :action => 'api' %>, <%= link_to "Ruby", :controller => 'dev', :action => 'ruby' %>, <%=link_to "Python", :controller => 'dev', :action => 'python' %>, <%=link_to "C/C++", :controller => 'dev', :action => 'c' %>, or <%=link_to "the *nix command-line", :controller => 'dev', :action => 'command_line' %>.</p>
-<p>  Parselets is brought to you by <a href="http://kylemaxwell.com">Kyle Maxwell</a> and <a href="http://andrewcantino.com">Andrew Cantino</a>, with graphic design by Chris Tong donated by <a href="http://pivotallabs.com">Pivotal Labs</a>.</p>
+<div>
+  <h2 class="homepage">Recent Parselets</h2>
+  
+	<ol class="results"><%=render @parselets %></ol>
+	<div style="float:right;padding:13px"><%=link_to image_tag("/images/create_button.png", :border=>0), new_parselet_url%></div>
+	<h3 style="padding:13px;clear:left"><%=link_to "#{Parselet.count(:group => 'name').length - 5} more &#187;", parselets_path %></h3>
 </div>
