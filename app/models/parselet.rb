@@ -13,7 +13,9 @@ class Parselet < ActiveRecord::Base
 
   # FIXME: grouping on versions
   is_indexed :fields => [
+        {:field => "name", :as => "orig_name"}, 
         {:field => "name", :function_sql => "REPLACE(REPLACE(?, '-', ' '), '_', ' ')"}, 
+        {:field => "version", :function_sql => "(? - (SELECT max(version) FROM parselets WHERE name=orig_name))"}, 
         "description", "code", "created_at"],
     :include => [
       {:association_name => 'user', :field => 'login'},

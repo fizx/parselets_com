@@ -46,7 +46,7 @@ protected
       :page => params[:page] || 1,
       :per_page => 10,
       :sort_mode => "descending",
-      :sort_by => "created_at"
+      :sort_by => "version"
       )
     @search.excerpt
   end
