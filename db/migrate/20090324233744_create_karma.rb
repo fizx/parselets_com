@@ -10,6 +10,13 @@ class CreateKarma < ActiveRecord::Migration
     
     add_column :users, :base_karma, :integer, :default => 0
     add_column :users, :cached_karma, :integer, :default => 0
+    
+    User.reset_column_information
+    
+    User.find(:all).each do |user|
+      # user.set_api_key
+      user.save!
+    end
   end
 
   def self.down
