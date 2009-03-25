@@ -54,10 +54,6 @@ body {
   width:36px !important;
   float:left;
 }
-.lite_results li h4{
-  font-weight:normal;
-  font-size:1em;
-}
 
 .lite_results li p{
   color: #999;
