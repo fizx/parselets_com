@@ -23,8 +23,6 @@ class Parselet < ActiveRecord::Base
     ],
     :concatenate => [
         {:association_name => 'comments', :field => 'content', :as => "comments"}
-    #   {:association_name => 'other_versions', :field => 'code', :as => 'concat_code'}, 
-    #   {:association_name => 'other_versions', :field => 'description', :as => 'concat_description'}
     ], 
     :conditions => "parselets.user_id IS NOT NULL",
     :order => "parselets.updated_at DESC", :delta => true

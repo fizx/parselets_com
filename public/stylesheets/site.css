@@ -766,10 +766,14 @@ h2.homepage  {
   font-weight:bold;
   font-size:0.9em;
 }
-.section_row input.text, .section_row textarea{
+.section_row .text, .section_row textarea{
   float:left;
   clear:left;
   width: 300px;
+}
+.section_row .submit {
+  float:left;
+  clear:left;
 }
 .section_info{
   font-size:0.7em;
