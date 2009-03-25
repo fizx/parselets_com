@@ -1,11 +1,7 @@
 <li>
-  <%= gravatar(user_small.email) %>
+  <%= link_to gravatar(user_small.email), user_small %>
 	<div>
-		<h4><%= link_to user_small.login, user_small, :class => 'result_title stop_prop' %>
-		<small>(
-		<%= link_to "#{user_small.parselet_count} parselets", parselets_path(:user => user_small.key), :class => 'stop_prop extra' %>
-		)</small>
-		</h4>
+		<h4><%= link_to user_small.login, user_small, :class => 'result_title stop_prop' %></h4>
 		<p>member for <%=time_ago_in_words user_small.created_at %> <small><%=image_tag("/images/medal_bronze_1.png", :align => "absmiddle", :width => "12", :style => "position:relative;top:-1px")%> <%=user_small.total_karma %></small></p>
 	</div>
 </li>

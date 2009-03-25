@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   end
   
   def show
-    redirect_to :controller => 'parselets', :action => 'index', :user => params[:id]
+    redirect_to :controller => 'search', :action => 'index', :q => params[:id], :classes => "Parselet"
   end
   
   def edit
