@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
   
   def update_karma
     self.cached_karma = total_karma
+  rescue
+    #ignore me
   end
   
   def total_karma
