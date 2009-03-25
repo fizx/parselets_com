@@ -25,6 +25,15 @@
             <%= link_to 'here to reset your API key', { :action => 'reset_api_key', :id => @user }, :confirm => 'Are you sure that you want to reset your API key to a new random key?', :method => :post %>.
             </span>
         </div>
+
+        <div class="section_row">
+          <%= label_tag 'Profile Icon' %>
+          <div style="float: left; clear: left; width: 300px; color: block; font-style:italic">
+            <%= gravatar(@user.email) %>
+          </div>
+          <span class="section_info">We use <a href="http://gravatar.com/">Gravatar</a> to display user icons.  You can <a href="http://en.gravatar.com/site/signup/">signup here</a>.</span>
+        </div>
+        
       <% end %>
     </div>
   </div>
