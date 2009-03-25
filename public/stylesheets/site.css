@@ -9,6 +9,12 @@ body {
   float:right;
 }
 
+.subtle{
+	font-size:14px !important;
+	font-weight:normal !important;
+	color: #666 !important;
+}
+
 #footer .misc {
   float:right;
   padding:5px;
