@@ -1,23 +1,55 @@
 <% @user.password = @user.password_confirmation = nil %>
 <% form_for(@user, :url => { :action => @user.new_record? ? "create" : "update" }) do |f| %>
-  <%= error_messages_for :user %>
+  <%= error_messages_for :user, :message => '' %>
     
-  <% if @user.new_record? %>
-    <p><%= label_tag 'login' %><br/>
-    <%= f.text_field :login %></p>
-  <% else %>
-    <p>Login: <%=h @user.login%></p>
-    <p>Api key: <%=h @user.api_key%> (<%= link_to 'reset', { :action => 'reset_api_key', :id => @user }, :confirm => 'Are you sure that you want to reset your API key to a new random key?', :method => :post %>)</p>
-  <% end %>
+  <div class='section'>
+    <h3>General</h3>
+    <div class='section_body'>
+      <div class="section_row">
+        <%= label_tag 'login' %>
+        <%= f.text_field :login, :class => 'text', :disabled => !@user.new_record? %>
+        <span class="section_info">This is your public username.</span>
+      </div>
+      <div class="section_row">
+        <%= label_tag 'email' %>
+        <%= f.text_field :email, :class => 'text' %>
+        <span class="section_info">Your email will not be displayed publicly.</span>
+      </div>
+      <% unless @user.new_record? %>
+        <div class="section_row">
+          <%= label_tag 'API Key' %>
+          <div style="float: left; clear: left; width: 300px; color: block; font-style:italic">
+            <%=h @user.api_key%> 
+          </div>
+          <span class="section_info">Use this key with <a href="/dev/api">our API to search, download, and run parselets</a> in your code.  Click 
+            <%= link_to 'here to reset your API key', { :action => 'reset_api_key', :id => @user }, :confirm => 'Are you sure that you want to reset your API key to a new random key?', :method => :post %>.
+            </span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <div class='section'>
+    <h3>Password</h3>
+    <div class='section_body'>
+      <div class="section_row">
+        <%= label_tag 'password' %>
+        <%= f.password_field :password, :class => 'text' %>
+      </div>
+      <div class="section_row">
+        <%= label_tag 'password_confirmation', 'Confirm Password' %>
+        <%= f.password_field :password_confirmation, :class => 'text' %>
+      </div>
+    </div>
+  </div>
 
-  <p><%= label_tag 'email' %><br/>
-  <%= f.text_field :email %></p>
-
-  <p><%= label_tag 'password' %><br/>
-  <%= f.password_field :password %></p>
-
-  <p><%= label_tag 'password_confirmation', 'Confirm Password' %><br/>
-  <%= f.password_field :password_confirmation %></p>
-
-  <p><%= submit_tag @user.new_record? ? 'Sign up' : 'Update profile' %></p>
+  <div class='section'>
+    <h3> </h3>
+    <div class='section_body'>
+      <div class="section_row">
+        <%= label_tag ' ' %>
+        <%= submit_tag @user.new_record? ? 'Sign Up' : 'Update Profile', :class => 'submit' %>
+      </div>
+    </div>
+  </div>
 <% end -%>
