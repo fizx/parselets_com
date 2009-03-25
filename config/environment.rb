@@ -78,10 +78,6 @@ Rails::Initializer.run do |config|
 
 end
 
-ActiveSupport::Inflector.inflections do |inflect|
-  inflect.irregular "karma", "karma"
-end
-
 ActionMailer::Base.delivery_method = :sendmail
 
 # require "openuri/rails-cache"

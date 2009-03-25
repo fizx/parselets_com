@@ -1,6 +1,6 @@
 class CreateKarma < ActiveRecord::Migration
   def self.up
-    create_table :karma do |t|
+    create_table :karmas do |t|
       t.integer :user_id
       t.integer :value
       t.string :description
@@ -8,11 +8,11 @@ class CreateKarma < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_column :users, :base_karma, :integer
+    add_column :users, :base_karma, :integer, :default => 0
   end
 
   def self.down
     remove_column :users, :base_karma
-    drop_table :karma
+    drop_table :karmas
   end
 end

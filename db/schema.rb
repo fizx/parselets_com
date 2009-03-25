@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090324212604) do
+ActiveRecord::Schema.define(:version => 20090324233744) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
@@ -83,6 +83,14 @@ ActiveRecord::Schema.define(:version => 20090324212604) do
 
   add_index "invitations", ["code"], :name => "index_invitations_on_code", :unique => true
   add_index "invitations", ["user_id"], :name => "index_invitations_on_user_id"
+
+  create_table "karmas", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "value"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "parselets", :force => true do |t|
     t.string   "name"
@@ -194,6 +202,7 @@ ActiveRecord::Schema.define(:version => 20090324212604) do
     t.datetime "remember_token_expires_at"
     t.boolean  "admin",                                    :default => false
     t.integer  "invitation_id"
+    t.integer  "base_karma",                               :default => 0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

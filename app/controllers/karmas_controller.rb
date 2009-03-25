@@ -1,4 +1,5 @@
-class KarmaController < ApplicationController
+class KarmasController < ApplicationController
+  before_filter :admin_required
   # GET /karma
   # GET /karma.xml
   def index

@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :karma
-
   map.resources :favorites, :collection => { :toggle => :post }
   map.resources :ratings
 
@@ -26,7 +24,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.edit_parselet "/parselets/:id/:version/edit", :controller => 'parselets', :action => 'edit'
   map.parselets_with_version "/parselets/:id/:version", :controller => 'parselets', :action => 'show'
-  
+
+  map.resources :karmas #lol!
   map.resources :comments
   map.resources :password_requests
   map.resources :cached_pages
@@ -44,6 +43,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource  :session
   
   map.basic "/:controller/:action/:id"
+  
   
   map.root :controller => "home"
 end
