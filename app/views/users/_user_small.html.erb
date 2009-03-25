@@ -2,6 +2,6 @@
   <%= link_to gravatar(user_small.email), user_small %>
 	<div>
 		<h4><%= link_to user_small.login, user_small, :class => 'result_title stop_prop' %></h4>
-		<p>member for <%=time_ago_in_words user_small.created_at %> <small><%=image_tag("/images/medal_bronze_1.png", :align => "absmiddle", :width => "12")%> <%=user_small.total_karma %></small></p>
+		<p>member for <%=time_ago_in_words user_small.created_at %> <small><%=image_tag("/images/medal_bronze_1.png", :align => "absmiddle", :width => "12", :style => "position:relative;top:-1px")%> <%=user_small.total_karma %></small></p>
 	</div>
 </li>
