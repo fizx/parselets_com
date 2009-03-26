@@ -147,6 +147,8 @@ module ApplicationHelper
     img = image_tag Thumbnail.path_for(url), :class => "thumb", :border => 0, :align => "absmiddle"
     link ||= object if is_model
     link ? link_to(img, link) : img
+  rescue
+    "broken thumb"
   end
   
   def comments(model, options = {})
