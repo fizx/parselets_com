@@ -139,13 +139,26 @@ div {
   margin:0;
   padding:0;
 }
+.blue {
+  border:1px #ccc solid;
+  background-color:#EEF4F9;
+  padding:14px;
+  float:left;
+}
+
+.blue * {
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
 
 .column {
 	float:left;
 	margin-right:15px;
-	margin-left:13px;
+	margin-left:14px;
 	padding-right:15px;
-	border-right:1px silver solid;
+/*  border-right:1px silver solid;*/
 }
 
 .x {
