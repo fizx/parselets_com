@@ -1,9 +1,9 @@
 class CommentsController < ApplicationController
   before_filter :admin_required, :only => %w[update destroy]
   
-  # unless filter_chain.any?{|filter| filter.method == :login_required}
-  #     before_filter :login_required, :only => %w[create]
-  #   end
+  unless filter_chain.any?{|filter| filter.method == :login_required}
+      before_filter :login_required, :only => %w[create]
+    end
   #   
   # GET /comments
   # GET /comments.xml
@@ -13,10 +13,10 @@ class CommentsController < ApplicationController
       params[:type] = params[:parselet_type]
     end
     
-    unless params[:id] && params[:type]
-      redirect_to '/' and return unless admin?
-      @admin_access = true
-    end    
+    # unless params[:id] && params[:type]
+    #   redirect_to '/' and return unless admin?
+    #   @admin_access = true
+    # end    
     
     conditions = {}
     conditions = {:commentable_type => params[:type], :commentable_id => params[:id]} if params[:id] && params[:type]
