@@ -148,7 +148,7 @@ module ApplicationHelper
     link ||= object if is_model
     link ? link_to(img, link) : img
   rescue
-    image_tag "/images/no-thumb.png"
+    image_tag "/images/no-thumb.png", :class => "thumb", :border => 0, :align => "absmiddle"
   end
   
   def comments(model, options = {})
