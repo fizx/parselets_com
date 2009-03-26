@@ -9,7 +9,7 @@ end
 class ApiLimit
   KEY_REGEX = /api_key=([\w\-]+)/
   MAX_CACHE_ITEMS = 100
-  TIME_BETWEEN_REQUESTS = 2.0
+  TIME_BETWEEN_REQUESTS = 1.0
   
   HOLD = [503, {"Content-Type" => "text/html"}, ["Please be patient and observe the #{1.0/TIME_BETWEEN_REQUESTS} request per second limit."]]
   PASS = [404, {"Content-Type" => "text/html"}, ["Not Found"]]
