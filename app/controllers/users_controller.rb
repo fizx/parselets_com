@@ -5,9 +5,13 @@ class UsersController < ApplicationController
   before_filter :redirect_unless_owner_or_admin, :only => %w[edit update reset_api_key]
   
   def index
+    @feed = "/users.atom"
     @users = User.paginate :page => params[:page], :per_page => 50, :order => "cached_karma DESC"
 
     respond_to do |format|
+      format.atom {
+        @users = User.find :all, :limit => 30, :order => "created_at DESC"
+      }
       format.html # index.html.erb
       format.xml  { render :xml => @users }
     end

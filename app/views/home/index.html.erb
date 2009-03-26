@@ -15,7 +15,7 @@
 </div>
 
 <div>
-  <h2 class="homepage">Recent Changes          <%=link_to image_tag("/images/icons/feed.png", :border => 0, :align =>"absmiddle"), :action =>"comments", :format => "atom"%></h2>
+  <h2 class="homepage">Recent Changes          <%=link_to image_tag("/images/icons/feed.png", :border => 0, :align =>"absmiddle"), :controller =>"parselets", :format => "atom"%></h2>
   
 	<ol class="results"><%=render @parselets %></ol>
 	<div style="float:right;padding:13px"><%=link_to image_tag("/images/create_button.png", :border=>0), new_parselet_url%></div>
