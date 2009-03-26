@@ -8,7 +8,7 @@ require "fileutils"
 class Thumbnail < ActiveRecord::Base
   
   before_save :download
-  DEFAULT_PATH = "/images/spacer.gif"
+  DEFAULT_PATH = "/images/no-thumb.png"
   DEBUG_PATH = "/images/debug_thumbnail.jpg"
   MAX_TRIES = 5
   
