@@ -44,6 +44,6 @@ ActionController::Routing::Routes.draw do |map|
   
   map.basic "/:controller/:action/:id"
   
-  
+  map.root_format ".atom", :controller => "home", :format => "atom"
   map.root :controller => "home"
 end
