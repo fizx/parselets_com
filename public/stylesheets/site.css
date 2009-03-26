@@ -5,6 +5,17 @@ body {
   color: #393128;
 }
 
+#beta {
+  position:absolute;
+  border:1px #ccc solid;
+  background-color:#EEF4F9;
+  padding:3px 14px 3px 14px;
+  left:50%;
+  margin-left:-100px;
+  top:14px;
+}
+
+
 #footer .links {
   float:right;
 }
