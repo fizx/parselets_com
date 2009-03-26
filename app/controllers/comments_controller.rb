@@ -28,6 +28,10 @@ class CommentsController < ApplicationController
     @comments = Comment.paginate :page => params[:comments_page], :conditions => conditions, :order => "created_at ASC"
 
     respond_to do |format|
+      format.atom {
+        @comments  = Comment.find :all, :limit => 30, :order => "id DESC"
+        render :file => "/parselets/comments"
+      }
       format.html # index.html.erb
       format.xml  { render :xml => @comments }
     end
