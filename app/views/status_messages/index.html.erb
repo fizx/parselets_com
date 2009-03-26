@@ -1,0 +1,24 @@
+<h1>Listing status_messages</h1>
+
+<table>
+  <tr>
+    <th>Message</th>
+    <th>User</th>
+    <th>Active</th>
+  </tr>
+
+<% @status_messages.each do |status_message| %>
+  <tr>
+    <td><%=h status_message.message %></td>
+    <td><%=h status_message.user_id %></td>
+    <td><%=h status_message.active %></td>
+    <td><%= link_to 'Show', status_message %></td>
+    <td><%= link_to 'Edit', edit_status_message_path(status_message) %></td>
+    <td><%= link_to 'Destroy', status_message, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New status_message', new_status_message_path %>

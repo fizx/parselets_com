@@ -20,6 +20,12 @@ class ApplicationController < ActionController::Base
   before_filter :login_required
   before_filter :fix_domain
   before_filter :reject_api_requests
+  before_filter :show_status
+  
+  def show_status
+    @status = StatusMessage.find :first, :order => "id DESC"
+    @status = nil unless @status && @status.active?
+  end
   
   around_filter :user_scope
   
@@ -107,12 +113,14 @@ protected
   def user_scope
     this_user = {:create => {:user_id => current_user && current_user.id}}
     Invitation.send :with_scope, this_user do
-      Parselet.send :with_scope, this_user do
-        Sprig.send :with_scope, this_user do
-          Comment.send :with_scope, this_user do
-            Rating.send :with_scope, this_user do
-              Favorite.send :with_scope, this_user do
-                yield
+      StatusMessage.send :with_scope, this_user do
+        Parselet.send :with_scope, this_user do
+          Sprig.send :with_scope, this_user do
+            Comment.send :with_scope, this_user do
+              Rating.send :with_scope, this_user do
+                Favorite.send :with_scope, this_user do
+                  yield
+                end
               end
             end
           end

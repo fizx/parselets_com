@@ -154,9 +154,6 @@
     <% if @admin_access %>
       <div id='admin_notice'>Using Admin Access</div>
     <% end %>
-    <div id="beta">Seriously beta!
-      Have fun, and <br><a href="mailto:parselets@gmail.com">let us know how you feel!</a>
-    </div>
     
     <div id="header">
       <div class="content">
@@ -182,4 +179,10 @@
     <div id='body_wrapper'>
       <div id="body">
         <div id="main">
-          <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
+        <% if @status %>
+          <div id="notice">
+            <div style="float:right"><%=link_to image_tag("/images/icons/feed.png", :border => 0, :align =>"absmiddle") + " status feed", :controller =>"status_messages", :format => "atom" %></div>
+          <%= h @status.message%> --<%=@status.user.login%></div>
+        <% end %>
+        <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
+

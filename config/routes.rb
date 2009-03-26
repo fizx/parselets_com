@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :status_messages
+
+  map.resources :status_messages
+
   map.resources :favorites, :collection => { :toggle => :post }
   map.resources :ratings
 

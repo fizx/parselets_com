@@ -9,17 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090324233744) do
-
-  create_table "cached_pages", :force => true do |t|
-    t.string   "url"
-    t.text     "content",       :limit => 16777215
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "error_message"
-  end
-
-  add_index "cached_pages", ["url"], :name => "index_cached_pages_on_url"
+ActiveRecord::Schema.define(:version => 20090326230205) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
@@ -180,6 +170,14 @@ ActiveRecord::Schema.define(:version => 20090324233744) do
 
   add_index "sprigs", ["name"], :name => "index_sprigs_on_name"
   add_index "sprigs", ["user_id"], :name => "index_sprigs_on_user_id"
+
+  create_table "status_messages", :force => true do |t|
+    t.text     "message"
+    t.integer  "user_id"
+    t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "thumbnails", :force => true do |t|
     t.string   "url"
