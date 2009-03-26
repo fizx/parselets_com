@@ -63,17 +63,22 @@ class ApplicationController < ActionController::Base
       yield
     else
       session[:invite] = params[:invite] if params[:invite]
-      @invite ||= Invitation.find_by_code(session[:invite])
-      if @invite && @invite.usable?
-        User.send :with_scope, :create => {:invitation_id => @invite && @invite.id} do
-          yield
-        end
-      else
-        flash[:notice] = @invite.nil? ? 
-          "Please use an invitation code, or log in." : 
-          "Your invitation code has expired or has been used too many times."
-      
+      if session[:invite].nil?
+        flash[:notice] = "Please use an invite code!"
         access_denied
+      else
+        @invite ||= Invitation.find_by_code(session[:invite])
+        if @invite && @invite.usable?
+          User.send :with_scope, :create => {:invitation_id => @invite && @invite.id} do
+            yield
+          end
+        else
+          flash[:notice] = @invite.nil? ? 
+            "Your invitation code is not valid" : 
+            "Your invitation code has expired or has been used too many times."
+      
+          access_denied
+        end
       end
     end
   end
