@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   end
   
   def total_karma
-    base_karma + Karma.sum("value", :conditions => {:user_id => id})
+    base_karma + Karma.sum("value", :conditions => {:user_id => id}) + 1
   end
   
   def recalculate_base_karma
