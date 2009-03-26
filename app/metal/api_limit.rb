@@ -17,7 +17,7 @@ class ApiLimit
   CACHE = LRUCache.new(MAX_CACHE_ITEMS)
   
   def self.call(env)
-    if env["PATH_INFO"] =~ KEY_REGEX
+    if env["REQUEST_URI"] =~ KEY_REGEX
       key = $1
       if(CACHE[key] && Time.now - CACHE[key] < TIME_BETWEEN_REQUESTS)
         return HOLD
