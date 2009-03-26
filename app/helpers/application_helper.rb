@@ -148,7 +148,7 @@ module ApplicationHelper
     link ||= object if is_model
     link ? link_to(img, link) : img
   rescue
-    "broken thumb"
+    image_tag "/images/spacer.gif"
   end
   
   def comments(model, options = {})
