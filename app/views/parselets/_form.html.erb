@@ -64,7 +64,7 @@
   
   <script>
     jQuery(document).ready(function(){
-      jQuery('#simple_code').val(JSON.stringify(<%= @parselet.pretty_code %>, null, 2));
+      jQuery('#simple_code').val(JSON2.stringify(<%= @parselet.pretty_code %>, null, 2));
       var editor = new ParseletEditor(jQuery("#simple_code"), jQuery('#result'), jQuery('#helpful'), 
                                       jQuery('#parselet_form'), '/parse?format=json', $('#undo'), $('#redo'), 
                                       $('#result_loading_img'));

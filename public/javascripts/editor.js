@@ -82,7 +82,7 @@ ParseletEditor.prototype.showResult = function() {
 ParseletEditor.prototype.handleTransition = function() {
   if (this.mode == 'simple') {
     if (!this.simpleIsValid()) {
-      alert("Sorry, there appears to be an error in your JSON input.  Please fix it before continuing.");
+      alert("Sorry, there appears to be an error in your JSON2 input.  Please fix it before continuing.");
       return false;
     }
     
@@ -102,7 +102,7 @@ ParseletEditor.prototype.tryParselet = function() {
     var self = this;
     self.result_loading_img.show();
   	$.post(this.parseletUrl, this.form.serialize(), function(data) {
-  	  var pp = JSON.stringify(data, this.replacer, 2);
+  	  var pp = JSON2.stringify(data, this.replacer, 2);
   	  self.result.val(pp);
   	  self.showResultInHelpful(data, self.last_result_data);
       self.maybeShowErrors(data);
@@ -136,7 +136,7 @@ ParseletEditor.prototype.maybeShowErrors = function(data) {
 
 ParseletEditor.prototype.simpleIsValid = function() {
   try {
-    JSON.parse(this.simple.get(0).value);
+    JSON2.parse(this.simple.get(0).value);
     return true;
   } catch(e) {
     return false;
@@ -146,15 +146,15 @@ ParseletEditor.prototype.simpleIsValid = function() {
 ParseletEditor.prototype.simpleJson = function(json) {
   var simple = this.simple.get(0);
   if (json) {
-    simple.value = JSON.stringify(json, this.replacer, 2);
+    simple.value = JSON2.stringify(json, this.replacer, 2);
     return json;
   } else {
     if (simple.value.length == 0) return this.simpleJson({});
     try {
       simple.value = simple.value.replace(/((^|[^\\])(\\\\)*)\\n/g, '$1\\\\n').replace(/((^|[^\\])(\\\\)*)\\t/g, '$1\\\\t');
-      return JSON.parse(simple.value);
+      return JSON2.parse(simple.value);
     } catch(e) {
-      alert("Got bad JSON from text.");
+      alert("Got bad JSON2 from text.");
     }
   }
 };
@@ -435,7 +435,7 @@ ParseletEditor.prototype.replacer = function(key, value) {
 };
 
 ParseletEditor.prototype.thingsHaveChanged = function() {
-  return (this.json && JSON.stringify(this.json, this.replacer, 2) != JSON.stringify(this.simpleJson(), this.replacer, 2));
+  return (this.json && JSON2.stringify(this.json, this.replacer, 2) != JSON2.stringify(this.simpleJson(), this.replacer, 2));
 };
 
 ParseletEditor.prototype.historyTruncate = function() {
@@ -509,5 +509,5 @@ ParseletEditor.prototype.setUndoRedoButtons = function() {
 
   if (this.historyPointer + 1 < this.history.length) this.redo_button.removeClass('disabled');
   if (this.historyPointer > 0) this.undo_button.removeClass('disabled');
-  if (JSON.stringify(this.json, this.replacer, 2) != this.simple.get(0).value) this.undo_button.removeClass('disabled');
+  if (JSON2.stringify(this.json, this.replacer, 2) != this.simple.get(0).value) this.undo_button.removeClass('disabled');
 };

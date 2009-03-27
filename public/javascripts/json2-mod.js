@@ -1,17 +1,17 @@
 /*
-    http://www.JSON.org/json2.js
+    http://www.JSON2.org/json2.js
     2008-09-01
 
     Public Domain.
 
     NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
 
-    See http://www.JSON.org/js.html
+    See http://www.JSON2.org/js.html
 
-    This file creates a global JSON object containing two methods: stringify
+    This file creates a global JSON2 object containing two methods: stringify
     and parse.
 
-        JSON.stringify(value, replacer, space)
+        JSON2.stringify(value, replacer, space)
             value       any JavaScript value, usually an object or array.
 
             replacer    an optional parameter that determines how object
@@ -25,19 +25,19 @@
                         level. If it is a string (such as '\t' or '&nbsp;'),
                         it contains the characters used to indent at each level.
 
-            This method produces a JSON text from a JavaScript value.
+            This method produces a JSON2 text from a JavaScript value.
 
-            When an object value is found, if the object contains a toJSON
-            method, its toJSON method will be called and the result will be
-            stringified. A toJSON method does not serialize: it returns the
+            When an object value is found, if the object contains a toJSON2
+            method, its toJSON2 method will be called and the result will be
+            stringified. A toJSON2 method does not serialize: it returns the
             value represented by the name/value pair that should be serialized,
-            or undefined if nothing should be serialized. The toJSON method
+            or undefined if nothing should be serialized. The toJSON2 method
             will be passed the key associated with the value, and this will be
             bound to the object holding the key.
 
             For example, this would serialize Dates as ISO strings.
 
-                Date.prototype.toJSON = function (key) {
+                Date.prototype.toJSON2 = function (key) {
                     function f(n) {
                         // Format integers to have at least two digits.
                         return n < 10 ? '0' + n : n;
@@ -62,11 +62,11 @@
             that only members with keys listed in the replacer array are
             stringified.
 
-            Values that do not have JSON representations, such as undefined or
+            Values that do not have JSON2 representations, such as undefined or
             functions, will not be serialized. Such values in objects will be
             dropped; in arrays they will be replaced with null. You can use
-            a replacer function to replace those with JSON values.
-            JSON.stringify(undefined) returns undefined.
+            a replacer function to replace those with JSON2 values.
+            JSON2.stringify(undefined) returns undefined.
 
             The optional space parameter produces a stringification of the
             value that is filled with line breaks and indentation to make it
@@ -78,22 +78,22 @@
 
             Example:
 
-            text = JSON.stringify(['e', {pluribus: 'unum'}]);
+            text = JSON2.stringify(['e', {pluribus: 'unum'}]);
             // text is '["e",{"pluribus":"unum"}]'
 
 
-            text = JSON.stringify(['e', {pluribus: 'unum'}], null, '\t');
+            text = JSON2.stringify(['e', {pluribus: 'unum'}], null, '\t');
             // text is '[\n\t"e",\n\t{\n\t\t"pluribus": "unum"\n\t}\n]'
 
-            text = JSON.stringify([new Date()], function (key, value) {
+            text = JSON2.stringify([new Date()], function (key, value) {
                 return this[key] instanceof Date ?
                     'Date(' + this[key] + ')' : value;
             });
             // text is '["Date(---current time---)"]'
 
 
-        JSON.parse(text, reviver)
-            This method parses a JSON text to produce an object or array.
+        JSON2.parse(text, reviver)
+            This method parses a JSON2 text to produce an object or array.
             It can throw a SyntaxError exception.
 
             The optional reviver parameter is a function that can filter and
@@ -107,7 +107,7 @@
             // Parse the text. Values that look like ISO date strings will
             // be converted to Date objects.
 
-            myData = JSON.parse(text, function (key, value) {
+            myData = JSON2.parse(text, function (key, value) {
                 var a;
                 if (typeof value === 'string') {
                     a =
@@ -120,7 +120,7 @@
                 return value;
             });
 
-            myData = JSON.parse('["Date(09/09/2001)"]', function (key, value) {
+            myData = JSON2.parse('["Date(09/09/2001)"]', function (key, value) {
                 var d;
                 if (typeof value === 'string' &&
                         value.slice(0, 5) === 'Date(' &&
@@ -146,20 +146,20 @@
 
 /*jslint evil: true */
 
-/*global JSON */
+/*global JSON2 */
 
-/*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON, "\\", call,
+/*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON2, "\\", call,
     charCodeAt, getUTCDate, getUTCFullYear, getUTCHours, getUTCMinutes,
     getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length,
     parse, propertyIsEnumerable, prototype, push, replace, slice, stringify,
-    test, toJSON, toString, valueOf
+    test, toJSON2, toString, valueOf
 */
 
-// Create a JSON object only if one does not already exist. We create the
+// Create a JSON2 object only if one does not already exist. We create the
 // methods in a closure to avoid creating global variables.
 
-if (!this.JSON) {
-    JSON = {};
+if (!this.JSON2) {
+    JSON2 = {};
 }
 (function () {
 
@@ -168,9 +168,9 @@ if (!this.JSON) {
         return n < 10 ? '0' + n : n;
     }
 
-    if (typeof Date.prototype.toJSON !== 'function') {
+    if (typeof Date.prototype.toJSON2 !== 'function') {
 
-        Date.prototype.toJSON = function (key) {
+        Date.prototype.toJSON2 = function (key) {
 
             return this.getUTCFullYear()   + '-' +
                  f(this.getUTCMonth() + 1) + '-' +
@@ -180,9 +180,9 @@ if (!this.JSON) {
                  f(this.getUTCSeconds())   + 'Z';
         };
 
-        String.prototype.toJSON =
-        Number.prototype.toJSON =
-        Boolean.prototype.toJSON = function (key) {
+        String.prototype.toJSON2 =
+        Number.prototype.toJSON2 =
+        Boolean.prototype.toJSON2 = function (key) {
             return this.valueOf();
         };
     }
@@ -235,11 +235,11 @@ if (!this.JSON) {
             partial,
             value = holder[key];
 
-// If the value has a toJSON method, call it to obtain a replacement value.
+// If the value has a toJSON2 method, call it to obtain a replacement value.
 
         if (value && typeof value === 'object' &&
-                typeof value.toJSON === 'function') {
-            value = value.toJSON(key);
+                typeof value.toJSON2 === 'function') {
+            value = value.toJSON2(key);
         }
 
 // If we were called with a replacer function, then call the replacer to
@@ -257,7 +257,7 @@ if (!this.JSON) {
 
         case 'number':
 
-// JSON numbers must be finite. Encode non-finite numbers as null.
+// JSON2 numbers must be finite. Encode non-finite numbers as null.
 
             return isFinite(value) ? String(value) : 'null';
 
@@ -293,7 +293,7 @@ if (!this.JSON) {
                     !value.propertyIsEnumerable('length')) {
 
 // The object is an array. Stringify every element. Use null as a placeholder
-// for non-JSON values.
+// for non-JSON2 values.
 
                 length = value.length;
                 for (i = 0; i < length; i += 1) {
@@ -350,13 +350,13 @@ if (!this.JSON) {
         }
     }
 
-// If the JSON object does not yet have a stringify method, give it one.
+// If the JSON2 object does not yet have a stringify method, give it one.
 
-    if (typeof JSON.stringify !== 'function') {
-        JSON.stringify = function (value, replacer, space) {
+    if (typeof JSON2.stringify !== 'function') {
+        JSON2.stringify = function (value, replacer, space) {
 
 // The stringify method takes a value and an optional replacer, and an optional
-// space parameter, and returns a JSON text. The replacer can be a function
+// space parameter, and returns a JSON2 text. The replacer can be a function
 // that can replace values, or an array of strings that will select the keys.
 // A default replacer method can be provided. Use of the space parameter can
 // produce text that is more easily readable.
@@ -386,7 +386,7 @@ if (!this.JSON) {
             if (replacer && typeof replacer !== 'function' &&
                     (typeof replacer !== 'object' ||
                      typeof replacer.length !== 'number')) {
-                throw new Error('JSON.stringify');
+                throw new Error('JSON2.stringify');
             }
 
 // Make a fake root object containing our value under the key of ''.
@@ -397,13 +397,13 @@ if (!this.JSON) {
     }
 
 
-// If the JSON object does not yet have a parse method, give it one.
+// If the JSON2 object does not yet have a parse method, give it one.
 
-    if (typeof JSON.parse !== 'function') {
-        JSON.parse = function (text, reviver) {
+    if (typeof JSON2.parse !== 'function') {
+        JSON2.parse = function (text, reviver) {
 
 // The parse method takes a text and an optional reviver function, and returns
-// a JavaScript value if the text is a valid JSON text.
+// a JavaScript value if the text is a valid JSON2 text.
 
             var j;
 
@@ -442,13 +442,13 @@ if (!this.JSON) {
             }
 
 // In the second stage, we run the text against regular expressions that look
-// for non-JSON patterns. We are especially concerned with '()' and 'new'
+// for non-JSON2 patterns. We are especially concerned with '()' and 'new'
 // because they can cause invocation, and '=' because it can cause mutation.
 // But just to be safe, we want to reject all unexpected forms.
 
 // We split the second stage into 4 regexp operations in order to work around
 // crippling inefficiencies in IE's and Safari's regexp engines. First we
-// replace the JSON backslash pairs with '@' (a non-JSON character). Second, we
+// replace the JSON2 backslash pairs with '@' (a non-JSON2 character). Second, we
 // replace all simple value tokens with ']' characters. Third, we delete all
 // open brackets that follow a colon or comma or that begin the text. Finally,
 // we look to see that the remaining characters are only whitespace or ']' or
@@ -473,9 +473,9 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
                     walk({'': j}, '') : j;
             }
 
-// If the text is not JSON parseable, then a SyntaxError is thrown.
+// If the text is not JSON2 parseable, then a SyntaxError is thrown.
 
-            throw new SyntaxError('JSON.parse');
+            throw new SyntaxError('JSON2.parse');
         };
     }
 })();
