@@ -4,10 +4,7 @@ class HomeController < ApplicationController
   def index
     @users = User.find :all, :limit => 5, :order => "cached_karma DESC"
     @feed = "/parselets.atom"
-    respond_to do |format|
-      format.html {
-        @parselets = Parselet.find :all, :limit => 5, :order => "id DESC"
-      } 
-    end
+    # @parselets = Parselet.find :all, :limit => 5, :order => "id DESC"
+    @parselets = Parselet.advanced_find :paginate, { :per_page => 5, :page => 1, :favorite_user => current_user }, params
   end
 end
