@@ -15,7 +15,7 @@ class CachedPage < ActiveRecord::Base
       # page = new(:url => url) if page.updated_at && (page.updated_at < CACHE_TIME.ago)
       
       begin
-        Timeout::timeout(2) {
+        Timeout::timeout(10) {
           raise("Robots.txt disallowed: #{url}") unless ROBOTS.allowed?(url)
           page.content ||= URI.parse(url).open("User-Agent" => Parsley.user_agent).read
         }
