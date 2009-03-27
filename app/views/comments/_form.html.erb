@@ -1,4 +1,4 @@
-<% remote_form_for(comment) do |f| %>
+<% remote_form_for(comment, :url => "/comments") do |f| %>
   <%= f.error_messages %>
   <%= hidden_field_tag 'comments_page', params[:comments_page] %>
   <%= f.hidden_field :commentable_type %>
