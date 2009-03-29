@@ -1,16 +1,11 @@
 <p>
-  <b>Text:</b>
-  <%=h @message.text %>
+  <b>From:</b>
+  <%=h @message.from_user.login %>
 </p>
 
 <p>
-  <b>From user:</b>
-  <%=h @message.from_user_id %>
-</p>
-
-<p>
-  <b>To user:</b>
-  <%=h @message.to_user_id %>
+  <b>To:</b>
+  <%=h @message.to_user.login %>
 </p>
 
 <p>
@@ -19,10 +14,8 @@
 </p>
 
 <p>
-  <b>Deleted:</b>
-  <%=h @message.deleted %>
+  <b>Text:</b>
+  <%=h @message.text %>
 </p>
 
-
-<%= link_to 'Edit', edit_message_path(@message) %> |
 <%= link_to 'Back', messages_path %>

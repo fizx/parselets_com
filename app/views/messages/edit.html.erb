@@ -1,7 +1,7 @@
 <h1>Editing message</h1>
 
 <% form_for(@message) do |f| %>
-  <%= f.error_messages %>
+  <%= f.error_messages(:message => '') %>
 
   <p>
     <%= f.label :text %><br />
@@ -20,8 +20,8 @@
     <%= f.text_area :subject %>
   </p>
   <p>
-    <%= f.label :deleted %><br />
-    <%= f.datetime_select :deleted %>
+    <%= f.label :deleted_at %><br />
+    <%= f.datetime_select :deleted_at %>
   </p>
   <p>
     <%= f.submit 'Update' %>

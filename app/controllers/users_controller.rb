@@ -84,7 +84,7 @@ protected
       unless admin?
         redirect_to :action => 'edit', :id => current_user and return
       end
-      @admin_access = true
+      using_admin_access
     end
   end
 end

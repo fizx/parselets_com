@@ -1,8 +1,20 @@
 class MessagesController < ApplicationController
-  # GET /messages
-  # GET /messages.xml
+  before_filter :admin_required, :except => %w[index show new create]
+  layout "simple"
+
   def index
-    @messages = Message.all
+    if admin? && params[:user]
+      admin_override = params[:user]
+      using_admin_access
+    else
+      admin_override = nil
+    end
+    
+    if params[:view] == 'from_me'
+      @messages = Message.all :conditions => ['from_user_id = ? and deleted_at is null', admin_override || current_user.id]
+    else
+      @messages = Message.all :conditions => ['to_user_id = ? and deleted_at is null', admin_override || current_user.id]
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -10,10 +22,13 @@ class MessagesController < ApplicationController
     end
   end
 
-  # GET /messages/1
-  # GET /messages/1.xml
   def show
     @message = Message.find(params[:id])
+    return if bad_access_perms(@message)
+    
+    if current_user == @message.to_user && @message.read_at.nil?
+      @message.read!
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -21,8 +36,6 @@ class MessagesController < ApplicationController
     end
   end
 
-  # GET /messages/new
-  # GET /messages/new.xml
   def new
     @message = Message.new
 
@@ -32,15 +45,16 @@ class MessagesController < ApplicationController
     end
   end
 
-  # GET /messages/1/edit
   def edit
     @message = Message.find(params[:id])
   end
 
-  # POST /messages
-  # POST /messages.xml
   def create
+    params[:message][:from_user_id] = current_user.try(:id)
+    params[:message][:to_user_id] = User.find_by_login(params[:to].strip).try(:id)
+    
     @message = Message.new(params[:message])
+    return if bad_access_perms(@message)
 
     respond_to do |format|
       if @message.save
@@ -54,8 +68,6 @@ class MessagesController < ApplicationController
     end
   end
 
-  # PUT /messages/1
-  # PUT /messages/1.xml
   def update
     @message = Message.find(params[:id])
 
@@ -71,15 +83,28 @@ class MessagesController < ApplicationController
     end
   end
 
-  # DELETE /messages/1
-  # DELETE /messages/1.xml
   def destroy
     @message = Message.find(params[:id])
-    @message.destroy
+    return if bad_access_perms(@message)
+    @message.deleted_at = Time.now
+    @message.save!
 
     respond_to do |format|
       format.html { redirect_to(messages_url) }
       format.xml  { head :ok }
     end
+  end
+  
+protected
+
+  def bad_access_perms(message)
+    unless current_user && (message.from_user == current_user || message.to_user == current_user)
+      if admin?
+        using_admin_access
+      else
+        render :text => 'You cannot view this message.' and return true
+      end
+    end
+    return false
   end
 end

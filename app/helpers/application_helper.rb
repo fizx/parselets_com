@@ -140,6 +140,15 @@ module ApplicationHelper
       </li>
     STR
   end
+  
+  def user_bar_messages
+    message_count = current_user.unread_messages.count
+    if message_count > 0
+      "<strong>Messages (#{message_count})</strong>"
+    else
+      "Messages"
+    end
+  end
     
   def thumb(object, link = nil)
     is_model = object.is_a?(ActiveRecord::Base)

@@ -4,8 +4,9 @@ class CreateMessages < ActiveRecord::Migration
       t.text :text, :null => false
       t.integer :from_user_id, :null => false
       t.integer :to_user_id, :null => false
-      t.text :subject, :null => false
-      t.datetime :deleted, :default => nil
+      t.string :subject, :null => false
+      t.datetime :deleted_at, :default => nil
+      t.datetime :read_at, :default => nil
 
       t.timestamps
     end

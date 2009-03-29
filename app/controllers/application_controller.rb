@@ -64,6 +64,10 @@ class ApplicationController < ActionController::Base
   end
   helper_method :admin?
   
+  def using_admin_access
+    @admin_access = true
+  end
+  
   def invite_required
     if authorized?
       yield
@@ -119,7 +123,9 @@ protected
             Comment.send :with_scope, this_user do
               Rating.send :with_scope, this_user do
                 Favorite.send :with_scope, this_user do
-                  yield
+                  Message.send :with_scope, { :create => { :from_user_id => current_user && current_user.id } } do
+                    yield
+                  end
                 end
               end
             end

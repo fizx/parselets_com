@@ -93,11 +93,12 @@ ActiveRecord::Schema.define(:version => 20090329071817) do
   end
 
   create_table "messages", :force => true do |t|
-    t.text     "text"
-    t.integer  "from_user_id"
-    t.integer  "to_user_id"
-    t.text     "subject"
-    t.datetime "deleted"
+    t.text     "text",         :null => false
+    t.integer  "from_user_id", :null => false
+    t.integer  "to_user_id",   :null => false
+    t.string   "subject",      :null => false
+    t.datetime "deleted_at"
+    t.datetime "read_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
