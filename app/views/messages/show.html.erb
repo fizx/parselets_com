@@ -1,21 +1,23 @@
-<p>
-  <b>From:</b>
-  <%=h @message.from_user.login %>
-</p>
+<div class="shift">
+  <p>
+    <b>From:</b>
+    <%=h @message.from_user.login %>
+  </p>
 
-<p>
-  <b>To:</b>
-  <%=h @message.to_user.login %>
-</p>
+  <p>
+    <b>To:</b>
+    <%=h @message.to_user.login %>
+  </p>
 
-<p>
-  <b>Subject:</b>
-  <%=h @message.subject %>
-</p>
+  <p>
+    <b>Subject:</b>
+    <%=h @message.subject %>
+  </p>
 
-<p>
-  <b>Text:</b>
-  <%=h @message.text %>
-</p>
+  <p>
+    <b>Text:</b>
+    <%=h @message.text %>
+  </p>
 
-<%= link_to 'Back', messages_path %>
+  <%= link_to 'Back', messages_path %>
+</div>

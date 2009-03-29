@@ -6,8 +6,8 @@ class User < ActiveRecord::Base
   attr_accessible :allow_user_contact
   has_many :parselets, :group => 'name'
   has_many :favorites, :order => "created_at DESC"
-  has_many :messages, :foreign_key => 'to_user_id'
-  has_many :unread_messages, :foreign_key => 'to_user_id', :class_name => 'Message', :conditions => ['read_at is null']
+  has_many :messages, :foreign_key => 'to_user_id', :conditions => ['deleted_at is null']
+  has_many :unread_messages, :foreign_key => 'to_user_id', :class_name => 'Message', :conditions => ['read_at is null and deleted_at is null']
   has_many :sent_messages, :foreign_key => 'from_user_id', :class_name => 'Message'
   belongs_to :invitation
   

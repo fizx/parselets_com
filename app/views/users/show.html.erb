@@ -1,28 +1,30 @@
-<div style="float: right; margin-right: 8px">
-  <%= gravatar(@user.email) %>
-</div>
-
-<h1>
-  <%= @user.login %>
-</h1>
-
-<div style="margin-left: 10px">
-  <div>
-    <% if @user.parselets.empty? %>
-      ...doesn't have any parselets yet.
-    <% else %>
-      ...has worked on <%= @user.parselet_count.to_s %> parselets.  
-      <%= link_to "Check them out!", :controller => 'search', :action => 'index', :q => @user.login, :classes => "Parselet" %>
-    <% end %>
+<div class="shift">
+  <div style="float: right; margin-right: 8px">
+    <%= gravatar(@user.email) %>
   </div>
-  <div>
-      ...has been a member for <%=time_ago_in_words @user.created_at %>.
-  </div>
-  <div>
-    <% if @user.allow_user_contact? %>
-      ...would love to hear from you!
-    <% else %>
-      ...would prefer not to be contacted by other users at this time.
-    <% end %>
+
+  <h1>
+    <%= @user.login %>
+  </h1>
+
+  <div style="margin-left: 10px">
+    <div>
+      <% if @user.parselets.empty? %>
+        ...doesn't have any parselets yet.
+      <% else %>
+        ...has worked on <%= @user.parselet_count.to_s %> parselets.  
+        <%= link_to "Check them out!", :controller => 'search', :action => 'index', :q => @user.login, :classes => "Parselet" %>
+      <% end %>
+    </div>
+    <div>
+        ...has been a member for <%=time_ago_in_words @user.created_at %>.
+    </div>
+    <div>
+      <% if @user.allow_user_contact? %>
+        ...would love to <%= link_to "hear from you", :controller => 'messages', :action => 'new', :to => @user.login %>!
+      <% else %>
+        ...would prefer not to be contacted by other users at this time.
+      <% end %>
+    </div>
   </div>
 </div>

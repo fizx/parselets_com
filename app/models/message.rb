@@ -6,6 +6,10 @@ class Message < ActiveRecord::Base
     record.errors.add attribute, 'is not a valid user.' unless value && User.find_by_id(value)
   end
   
+  validates_each :to_user_id do |record, attribute, value|
+    record.errors.add attribute, 'has elected not to receive user messages.' unless value && User.find_by_id(value).try(:allow_user_contact?)
+  end
+  
   validates_length_of :subject, :within => 2...100
   validates_length_of :text, :within => 1...1024
   

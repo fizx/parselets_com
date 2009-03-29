@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_filter :admin_required, :except => %w[index show new create]
+  before_filter :admin_required, :except => %w[index show new create destroy]
   layout "simple"
 
   def index

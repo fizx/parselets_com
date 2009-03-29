@@ -1,26 +1,30 @@
-<h1>Your messages</h1>
+<div class="shift">
+  <h1>Your Messages</h1>
 
-<% if @messages.length == 0 %>
-  No messages, but you can <%= link_to 'send a message', new_message_path %>.
-<% else %>
-
-  <table>
-    <tr>
-      <th>From</th>
-      <th>Subject</th>
-    </tr>
-
-  <% @messages.each do |message| %>
-    <tr>
-      <td><%=h message.from_user.login %></td>
-      <td><%= h(truncate(message.subject)) %></td>
-      <td><%= link_to 'Show', message %></td>
-      <td><%= link_to 'Delete', message, :confirm => 'Are you sure?', :method => :delete %></td>
-    </tr>
+  <% if @messages.length == 0 %>
+    No messages, but you can <%= link_to 'send a message', new_message_path %>.
+  <% else %>
+    <table border=0 cellpadding=5 width=600>
+      <tr>
+        <th align=left>From</th>
+        <th align=left>Subject</th>
+        <th align=left>When</th>
+      <% @messages.each do |message| %>
+        <tr>
+          <td>
+            <%= link_to h(message.from_user.login), user_path(message.from_user) %>
+          </td>
+          <td>
+            <%= link_to h(truncate(message.subject)), message %>
+          </td>
+          <td>
+            <%= time_ago_in_words message.created_at %> ago
+          </td>
+          <td>
+            <%= link_to 'Delete', message, :confirm => 'Are you sure?', :method => :delete %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
   <% end %>
-  </table>
-
-  <%= link_to 'Send a message', new_message_path %>
-
-<% end %>
-
+</div>
