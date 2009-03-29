@@ -599,6 +599,11 @@ div.desc {
   padding: 5px 8px;
 }
 
+.heart {
+  position: relative;
+  top: 1px;
+}
+
 #user-nav a {
   color: #528DC0;
 }

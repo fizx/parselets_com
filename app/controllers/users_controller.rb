@@ -16,23 +16,24 @@ class UsersController < ApplicationController
       format.xml  { render :xml => @users }
     end
   end
-    
+  
   # render new.rhtml
   def new
     @user = User.new
   end
   
   def show
-    if @user = User.find_by_login(params[:id])
-      if @user.parselets.empty?
-        flash[:notice] = "This user hasn't created any parselets yet.  We haven't yet implemented user profiles (Should we???), so there's really nothing to see here."
-      else
-        redirect_to :controller => 'search', :action => 'index', :q => params[:id], :classes => "Parselet" and return
-      end
-    else
-      flash[:notice] = "We couldn't find that user."
-    end
-    redirect_to users_url
+    @user = User.find_by_login(params[:id])
+    # if @user = User.find_by_login(params[:id])
+    #   if @user.parselets.empty?
+    #     flash[:notice] = "This user hasn't created any parselets yet.  We haven't yet implemented user profiles (Should we???), so there's really nothing to see here."
+    #   else
+    #     redirect_to :controller => 'search', :action => 'index', :q => params[:id], :classes => "Parselet" and return
+    #   end
+    # else
+    #   flash[:notice] = "We couldn't find that user."
+    # end
+    # redirect_to users_url
   end
   
   def edit

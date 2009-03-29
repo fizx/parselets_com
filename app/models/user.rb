@@ -3,6 +3,7 @@ require "digest"
 
 class User < ActiveRecord::Base
   has_many :sprigs
+  attr_accessible :allow_user_contact
   has_many :parselets, :group => 'name'
   has_many :favorites, :order => "created_at DESC"
   belongs_to :invitation

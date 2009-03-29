@@ -1,4 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :messages
+
+  map.resources :messages
+
+  map.resources :messages
+
   map.resources :status_messages
 
   map.resources :status_messages

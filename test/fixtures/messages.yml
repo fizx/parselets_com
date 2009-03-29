@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  text: MyText
+  from_user_id: 1
+  to_user_id: 1
+  subject: MyText
+  deleted: 2009-03-29 00:18:17
+
+two:
+  text: MyText
+  from_user_id: 1
+  to_user_id: 1
+  subject: MyText
+  deleted: 2009-03-29 00:18:17

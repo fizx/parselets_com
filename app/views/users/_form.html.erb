@@ -35,8 +35,17 @@
         </div>
         
       <% end %>
+      
+      <div class="section_row">
+        <%= label_tag '' %>
+        <div style='float: left; clear: left; width: 300px; font-weight: bold; font-size: 0.9em'>
+          <%= f.check_box :allow_user_contact, :style => 'position: relative; top: 2px' %> Allow users to contact me
+        </div>
+        <span class="section_info">Your real email address will not be displayed.</span>
+      </div>
+      
     </div>
-  </div>
+  </div>  
   
   <div class='section'>
     <h3>Password</h3>

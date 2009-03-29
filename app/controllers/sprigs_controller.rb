@@ -1,5 +1,6 @@
 class SprigsController < ApplicationController
   layout "simple"
+  before_filter :admin_required
   around_filter :dynamic_scope
   
   def code
