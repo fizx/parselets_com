@@ -2,7 +2,7 @@ namespace :parselet do
   desc "Check all parselets"
   task :check do
     require "config/environment"
-    Parselet.find(:all).each do |i|
+    Parselet.each do |i|
       begin
         i.check
       rescue Exception => e

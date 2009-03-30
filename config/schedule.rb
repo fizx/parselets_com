@@ -11,6 +11,10 @@ every 1.day, :at => "12 am" do
 end
 
 every 1.minute do
+  rake "parselet:check"
+end
+
+every 1.minute do
   rake "ultrasphinx:index:delta"
 end
 
