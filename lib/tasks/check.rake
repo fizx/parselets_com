@@ -2,7 +2,7 @@ namespace :parselet do
   desc "Check all parselets"
   task :check do
     require "config/environment"
-    Parselet.each do |i|
+    Parselet.each("checked_at IS NULL OR checked_at < SUBDATE(NOW(), 1 DAY)") do |i|
       begin
         i.check
       rescue Exception => e

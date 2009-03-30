@@ -6,12 +6,7 @@
 set :cron_log, "/var/www/parselets/shared/log/whenever.log"
 
 every 1.day, :at => "12 am" do
-  rake "parselet:check"
   rake "ultrasphinx:index"
-end
-
-every 1.minute do
-  rake "parselet:check"
 end
 
 every 1.minute do
@@ -20,4 +15,5 @@ end
 
 every 1.hour do
   rake "update_karma"
+  rake "parselet:check"
 end
