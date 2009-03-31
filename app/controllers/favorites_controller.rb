@@ -1,5 +1,4 @@
 class FavoritesController < ApplicationController
-
   before_filter :admin_required, :except => %w[toggle index]
   before_filter :login_required
 

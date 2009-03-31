@@ -34,7 +34,6 @@ kyle:
   crypted_password: 637f1cbc5b8452514abce35fed364a6edd87e471
   remember_token_expires_at: 
   admin: true
-  invitation_id: 
   id: 15
   remember_token: 
   login: kyle

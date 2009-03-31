@@ -72,7 +72,10 @@ module AuthenticatedSystem
     #   skip_before_filter :login_required
     #
     def login_required
-      params[:format] == "atom" || authorized? || access_denied
+      # NOTE: We used to have params[:format] == "atom" in here, but that is a security hole because then some actions will do
+      # stuff that should only be done for a logged in user.  Even if they then fail to render, they still may 
+      # have performed business logic.
+      authorized? || access_denied 
     end
 
     # Redirect as appropriate when an access request fails.
@@ -83,10 +86,15 @@ module AuthenticatedSystem
     # behavior in case the user is not authorized
     # to access the requested action.  For example, a popup window might
     # simply close itself.
-    def access_denied
+    def access_denied(not_an_admin_error = false)
       respond_to do |format|
         format.html do
           store_location
+          if not_an_admin_error
+            flash[:notice] = "Sorry, you cannot do that."
+          else
+            flash[:notice] = "Please login to use this feature."
+          end
           redirect_to new_session_path
         end
         # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987

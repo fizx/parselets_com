@@ -13,8 +13,6 @@ ActionController::Routing::Routes.draw do |map|
   map.search '/search', :controller => 'search', :action => 'index'
   map.search '/search.:format', :controller => 'search', :action => 'index'
   
-  map.sprig_code "/sprig_code", :controller => 'parselets', :action => 'code'
-  
   map.rate "/rate", :controller => 'ratings', :action => 'create'
   
   map.connect "/parse", :controller => 'parselets', :action => 'parse', :for_editor => true
@@ -33,16 +31,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :comments
   map.resources :password_requests
   map.resources :cached_pages
-  map.resources :invitation_requests
-  map.resources :invitations
   map.resources :parselets, :member => { :parse => :get } do |p|
     p.resources :comments
     p.resources :ratings
   end
   map.resources :users, :member => { :reset_api_key => :post }
-  map.resources :sprigs do |s|
-    s.resources :comments
-  end
   map.resources :domains
   map.resource  :session
   

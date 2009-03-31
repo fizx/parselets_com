@@ -49,6 +49,6 @@ class UsersControllerTest < ActionController::TestCase
     def create_user(options = {})
       params = {:user => { :login => 'quire', :email => 'quire@example.com',
         :password => 'quire69', :password_confirmation => 'quire69' }.merge(options)}
-      post :create, params, :invite => invitations(:unlimited).code
+      post :create, params
     end
 end

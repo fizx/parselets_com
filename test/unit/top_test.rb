@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class TopTest < ActiveSupport::TestCase
-  KLASSES = [Parselet, Sprig, User, Domain]
+  KLASSES = [Parselet, User, Domain]
   
   def test_models_define_top
     KLASSES.each do |klass|

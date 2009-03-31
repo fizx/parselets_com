@@ -8,6 +8,8 @@ class ParseletsController < ApplicationController
   before_filter :include_editor, :only => [:new, :edit]
   before_filter :admin_required, :only => :destroy
   skip_before_filter :reject_api_requests, :only => %w[index parse show versions]
+  before_filter :login_required, :only => [:destroy, :update, :create, :edit, :new]
+  
   
   def index
     @parselets = Parselet.advanced_find :paginate, { :show_broken => true, :page => 1, :favorite_user => current_user }, params
@@ -135,8 +137,6 @@ class ParseletsController < ApplicationController
     end
   end
 
-  # DELETE /parselets/1
-  # DELETE /parselets/1.xml
   def destroy
     @parselet = find_parselet_by_params
     @parselet.destroy

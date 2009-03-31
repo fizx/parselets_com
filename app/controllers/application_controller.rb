@@ -17,7 +17,6 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
   
-  before_filter :login_required
   before_filter :fix_domain
   before_filter :reject_api_requests
   before_filter :show_status
@@ -49,7 +48,7 @@ class ApplicationController < ActionController::Base
         
   def admin_required
     unless authorized? && admin?
-      access_denied
+      access_denied(not_an_admin_error = true)
     else
       @admin_access = true
     end
@@ -63,32 +62,7 @@ class ApplicationController < ActionController::Base
     current_user && current_user.admin?
   end
   helper_method :admin?
-  
-  def invite_required
-    if authorized?
-      yield
-    else
-      session[:invite] = params[:invite] if params[:invite]
-      if session[:invite].nil?
-        flash[:notice] = "Please use an invite code!"
-        access_denied
-      else
-        @invite ||= Invitation.find_by_code(session[:invite])
-        if @invite && @invite.usable?
-          User.send :with_scope, :create => {:invitation_id => @invite && @invite.id} do
-            yield
-          end
-        else
-          flash[:notice] = @invite.nil? ? 
-            "Your invitation code is not valid" : 
-            "Your invitation code has expired or has been used too many times."
-      
-          access_denied
-        end
-      end
-    end
-  end
-  
+    
 protected
 
   # Scopes to user_id={kyle's user id} when query like ?user=kyle.
@@ -104,24 +78,18 @@ protected
     end
     
     Parselet.send(:with_scope, :find => scope) do
-      Sprig.send(:with_scope, :find => scope) do
-        yield
-      end
+      yield
     end
   end
   
   def user_scope
     this_user = {:create => {:user_id => current_user && current_user.id}}
-    Invitation.send :with_scope, this_user do
-      StatusMessage.send :with_scope, this_user do
-        Parselet.send :with_scope, this_user do
-          Sprig.send :with_scope, this_user do
-            Comment.send :with_scope, this_user do
-              Rating.send :with_scope, this_user do
-                Favorite.send :with_scope, this_user do
-                  yield
-                end
-              end
+    StatusMessage.send :with_scope, this_user do
+      Parselet.send :with_scope, this_user do
+        Comment.send :with_scope, this_user do
+          Rating.send :with_scope, this_user do
+            Favorite.send :with_scope, this_user do
+              yield
             end
           end
         end

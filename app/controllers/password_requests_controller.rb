@@ -1,6 +1,6 @@
 class PasswordRequestsController < ApplicationController
   layout "simple"
-  skip_before_filter :login_required, :only => %w[new create]
+  before_filter :login_required, :except => %w[new create]
   before_filter :admin_required, :except => %w[new create]
 
   def index

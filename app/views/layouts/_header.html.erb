@@ -184,5 +184,5 @@
             <div style="float:right"><%=link_to image_tag("/images/icons/feed.png", :border => 0, :align =>"absmiddle") + " status feed", :controller =>"status_messages", :format => "atom" %></div>
           <%= h @status.message%> --<%=@status.user.login%></div>
         <% end %>
-        <%= %[<div id="notice">#{h flash[:notice]}</div>] if flash[:notice] %>
+        <%= %[<div id="notice">#{h(flash[:notice] || flash[:error])}</div>] if flash[:notice] || flash[:error] %>
 

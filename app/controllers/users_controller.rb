@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   layout "simple"
-  skip_before_filter :login_required, :only => %w[new create]
-  around_filter :invite_required, :only => %w[new create]
+  before_filter :login_required, :except => %w[index new create show]
   before_filter :redirect_unless_owner_or_admin, :only => %w[edit update reset_api_key]
   
   def index
@@ -23,16 +22,7 @@ class UsersController < ApplicationController
   end
   
   def show
-    if @user = User.find_by_login(params[:id])
-      if @user.parselets.empty?
-        flash[:notice] = "This user hasn't created any parselets yet.  We haven't yet implemented user profiles (Should we???), so there's really nothing to see here."
-      else
-        redirect_to :controller => 'search', :action => 'index', :q => params[:id], :classes => "Parselet" and return
-      end
-    else
-      flash[:notice] = "We couldn't find that user."
-    end
-    redirect_to users_url
+    @user = User.find_by_login(params[:id])
   end
   
   def edit
@@ -43,7 +33,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update_attributes(params[:user])
         flash[:notice] = 'Profile was successfully updated.'
-        format.html { redirect_to(@user) }
+        format.html { redirect_to(edit_user_path(@user)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -54,6 +44,7 @@ class UsersController < ApplicationController
   
   def reset_api_key
     @user.reset_api_key
+    flash[:notice] = "Your API key was reset to a new random value."
     redirect_to edit_user_path(@user)
   end
  
@@ -70,7 +61,6 @@ class UsersController < ApplicationController
       redirect_back_or_default('/')
       flash[:notice] = "Thanks for signing up!"
     else
-      flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
       render :action => 'new'
     end
   end

@@ -1,9 +1,0 @@
-<h1>Request an invitation code</h1>
-
-<% form_for(@invitation_request) do |f| %>
-  <%= f.error_messages %>
-  <p>
-    <%= f.label :email %><br />
-    <%= f.text_field :email %><%= f.submit "Send request" %>
-  </p>
-<% end %>

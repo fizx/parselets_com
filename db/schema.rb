@@ -92,6 +92,17 @@ ActiveRecord::Schema.define(:version => 20090326230205) do
     t.datetime "updated_at"
   end
 
+  create_table "messages", :force => true do |t|
+    t.text     "text",         :null => false
+    t.integer  "from_user_id", :null => false
+    t.integer  "to_user_id",   :null => false
+    t.string   "subject",      :null => false
+    t.datetime "deleted_at"
+    t.datetime "read_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "parselets", :force => true do |t|
     t.string   "name"
     t.text     "description"

@@ -40,7 +40,7 @@ protected
   end
 
   def do_search(options = {})
-    class_names = options[:class_names] || (params[:classes] || "Parselet,Sprig,User,Domain").split(",")
+    class_names = options[:class_names] || (params[:classes] || "Parselet,User,Domain").split(",")
     @search = Ultrasphinx::Search.new(:query => preprocess(params[:q]), 
       :class_names => class_names, 
       :page => params[:page] || 1,

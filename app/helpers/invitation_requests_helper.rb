@@ -1,2 +1,0 @@
-module InvitationRequestsHelper
-end
