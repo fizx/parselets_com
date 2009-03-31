@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
         
   def admin_required
     unless authorized? && admin?
-      access_denied
+      access_denied(not_an_admin_error = true)
     else
       @admin_access = true
     end

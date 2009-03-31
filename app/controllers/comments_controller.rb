@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_filter :admin_required, :only => %w[update destroy]
+  before_filter :admin_required, :only => %w[update edit destroy]
   
   unless filter_chain.any?{|filter| filter.method == :login_required}
     before_filter :login_required, :only => %w[create]

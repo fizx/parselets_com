@@ -86,11 +86,15 @@ module AuthenticatedSystem
     # behavior in case the user is not authorized
     # to access the requested action.  For example, a popup window might
     # simply close itself.
-    def access_denied
+    def access_denied(not_an_admin_error = false)
       respond_to do |format|
         format.html do
           store_location
-          flash[:notice] = "Please login in order to use this feature."
+          if not_an_admin_error
+            flash[:notice] = "Sorry, you cannot do that."
+          else
+            flash[:notice] = "Please login to use this feature."
+          end
           redirect_to new_session_path
         end
         # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987

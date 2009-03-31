@@ -110,7 +110,7 @@ protected
       respond_to do |format|
         format.js do
           render :update do |page|
-            page << "alert('Please login in order to be able to create ratings.');"
+            page << "alert('Please login to be able to create ratings.');"
           end
           return
         end
