@@ -22,6 +22,21 @@ class ParseletsController < ApplicationController
       format.xml  { render :xml => @parselets }
     end
   end
+  
+  def broken
+    respond_to do |format|
+      format.atom {
+        sql = <<-SQL
+          SELECT parselets.*, name AS group_name, 
+          (version - (SELECT max(version) FROM parselets WHERE name=group_name)) AS distance_from_current 
+            FROM parselets WHERE NOT works HAVING distance_from_current = 0
+            ORDER BY checked_at DESC LIMIT 30;
+        SQL
+        @parselets = Parselet.find_by_sql sql
+        render :action => "index"
+      }
+    end
+  end
 
   def parse
     if params[:for_editor]
