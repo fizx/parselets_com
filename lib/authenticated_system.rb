@@ -72,7 +72,7 @@ module AuthenticatedSystem
     #   skip_before_filter :login_required
     #
     def login_required
-      params[:format] == "atom" || authorized? || access_denied
+      authorized? || access_denied # params[:format] == "atom" || 
     end
 
     # Redirect as appropriate when an access request fails.
@@ -87,6 +87,7 @@ module AuthenticatedSystem
       respond_to do |format|
         format.html do
           store_location
+          flash[:notice] = "Please login in order to use this feature."
           redirect_to new_session_path
         end
         # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987

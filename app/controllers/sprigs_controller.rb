@@ -1,6 +1,8 @@
 class SprigsController < ApplicationController
   layout "simple"
   around_filter :dynamic_scope
+  before_filter :admin_required
+  
   
   def code
     @sprig = Sprig.tmp_from_params(params)

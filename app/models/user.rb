@@ -5,17 +5,10 @@ class User < ActiveRecord::Base
   has_many :sprigs
   has_many :parselets, :group => 'name'
   has_many :favorites, :order => "created_at DESC"
-  belongs_to :invitation
   
   is_indexed :fields => %w[login name], :delta => true
   
   before_save :update_karma
-  
-  validates_each :invitation, :on => :create do |record, _, _|
-    unless record.invitation_usable?
-      record.errors.add :invitation, "is no longer valid"
-    end
-  end
   
   validates_format_of :login, :with => /[^0-9]/, :message => "cannot be entirely numeric"
   
@@ -45,10 +38,6 @@ class User < ActiveRecord::Base
   
   def to_param
     login
-  end
-  
-  def invitation_usable?
-    invitation && invitation.usable?
   end
   
   def key

@@ -1,8 +1,6 @@
 class DevController < ApplicationController
   layout "simple"
 
-  #skip_before_filter :login_required, :only   => %w[index]
-  
   before_filter :find_parselet, :only => %w[ruby python]
 
   def index

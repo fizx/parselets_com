@@ -1,6 +1,6 @@
 class RatingsController < ApplicationController
   before_filter :admin_required, :except => "create"
-  before_filter :login_required, :only => "create"
+  before_filter :js_friendly_login_required
   
   # GET /ratings
   # GET /ratings.xml
@@ -100,6 +100,22 @@ class RatingsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(ratings_url) }
       format.xml  { head :ok }
+    end
+  end
+  
+protected
+
+  def js_friendly_login_required
+    if !authorized?
+      respond_to do |format|
+        format.js do
+          render :update do |page|
+            page << "alert('Please login in order to be able to create ratings.');"
+          end
+          return
+        end
+      end
+      redirect_to :controller => 'sessions', :action => 'new'
     end
   end
 end

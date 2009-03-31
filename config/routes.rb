@@ -33,8 +33,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :comments
   map.resources :password_requests
   map.resources :cached_pages
-  map.resources :invitation_requests
-  map.resources :invitations
   map.resources :parselets, :member => { :parse => :get } do |p|
     p.resources :comments
     p.resources :ratings

@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
       note_failed_signin
       @login       = params[:login]
       @remember_me = params[:remember_me]
-      render :action => 'new'
+      redirect_to :action => 'new'
     end
   end
 
@@ -34,7 +34,7 @@ class SessionsController < ApplicationController
     flash[:notice] = "You have been logged out."
     # logger.warn "resetting session...."
     # reset_session # excessive and manual
-    redirect_to new_session_url
+    redirect_to "/"
   end
 
 protected
