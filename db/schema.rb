@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090329071817) do
+ActiveRecord::Schema.define(:version => 20090326230205) do
 
   create_table "cached_pages", :force => true do |t|
     t.string   "url"
@@ -224,7 +224,6 @@ ActiveRecord::Schema.define(:version => 20090329071817) do
     t.string   "api_key"
     t.integer  "base_karma",                               :default => 0
     t.integer  "cached_karma",                             :default => 0
-    t.boolean  "allow_user_contact",                       :default => true
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
