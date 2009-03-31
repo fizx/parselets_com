@@ -19,5 +19,9 @@
     <div>
         ...has been a member for <%=time_ago_in_words @user.created_at %>.
     </div>
+    <div>
+        ...has a karma score of 
+        <%= image_tag("/images/medal_bronze_1.png", :align => "absmiddle", :width => "12", :style => "position:relative;top:-1px") %><%= @user.total_karma %>.
+    </div>
   </div>
 </div>
