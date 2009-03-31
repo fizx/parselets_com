@@ -78,9 +78,7 @@ protected
     end
     
     Parselet.send(:with_scope, :find => scope) do
-      Sprig.send(:with_scope, :find => scope) do
-        yield
-      end
+      yield
     end
   end
   
@@ -88,12 +86,10 @@ protected
     this_user = {:create => {:user_id => current_user && current_user.id}}
     StatusMessage.send :with_scope, this_user do
       Parselet.send :with_scope, this_user do
-        Sprig.send :with_scope, this_user do
-          Comment.send :with_scope, this_user do
-            Rating.send :with_scope, this_user do
-              Favorite.send :with_scope, this_user do
-                yield
-              end
+        Comment.send :with_scope, this_user do
+          Rating.send :with_scope, this_user do
+            Favorite.send :with_scope, this_user do
+              yield
             end
           end
         end
