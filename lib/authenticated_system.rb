@@ -72,7 +72,10 @@ module AuthenticatedSystem
     #   skip_before_filter :login_required
     #
     def login_required
-      authorized? || access_denied # params[:format] == "atom" || 
+      # NOTE: We used to have params[:format] == "atom" in here, but that is a security hole because then some actions will do
+      # stuff that should only be done for a logged in user.  Even if they then fail to render, they still may 
+      # have performed business logic.
+      authorized? || access_denied 
     end
 
     # Redirect as appropriate when an access request fails.
