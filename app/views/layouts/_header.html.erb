@@ -17,6 +17,8 @@
 		  var setup_favorites = null;
 		  var get_unique_id = null;
 			$(document).ready(function(e) {
+			  if ($.browser.msie) $('#browser_warning').show();
+        
 			  var differ = new diff_match_patch();
 			  
 			  $('a[rel*=facebox]').live('mouseover', function() {
@@ -154,6 +156,10 @@
     <% if @admin_access %>
       <div id='admin_notice'>Using Admin Access</div>
     <% end %>
+    
+    <div id="browser_warning" style="display: none">
+      This website requires a standards compliant browser in order to work correctly.  We suggest that you try <a href="http://www.mozilla.com/firefox/">Firefox</a>.
+    </div>
     
     <div id="header">
       <div class="content">

@@ -1165,3 +1165,12 @@ h2.homepage  {
 #errorExplanation ul {
   margin-top: 20px;
 }
+
+#browser_warning {
+  margin: 10px auto;
+  font-size: 1.2em;
+  color: red;
+  border: 1px solid red;
+  padding: 10px;
+  text-align: center;
+}
