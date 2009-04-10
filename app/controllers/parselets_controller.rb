@@ -5,7 +5,7 @@ require "rubygems"
 class ParseletsController < ApplicationController
   layout "simple"
   around_filter :dynamic_scope
-  before_filter :include_editor, :only => [:new, :edit]
+  before_filter :include_editor, :only => [:new, :edit, :create, :update]
   before_filter :admin_required, :only => :destroy
   skip_before_filter :reject_api_requests, :only => %w[index parse show versions]
   before_filter :login_required, :only => [:destroy, :update, :create, :edit, :new]
