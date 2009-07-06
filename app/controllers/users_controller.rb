@@ -22,7 +22,8 @@ class UsersController < ApplicationController
   end
   
   def show
-    @user = User.find_by_login(params[:id])
+    @user = User.find_by_id(params[:id]) 
+    render_404 unless @user
   end
   
   def edit

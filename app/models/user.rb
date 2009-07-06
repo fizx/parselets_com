@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
   end
   
   def to_param
-    login
+    "#{id}-#{login}"
   end
   
   def key

@@ -21,6 +21,10 @@ class ApplicationController < ActionController::Base
   before_filter :reject_api_requests
   before_filter :show_status
   
+  def render_404
+    render :text => File.read(RAILS_ROOT + "/public/404.html"), :status => 404
+  end
+  
   def show_status
     @status = StatusMessage.find :first, :order => "id DESC"
     @status = nil unless @status && @status.active?
