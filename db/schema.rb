@@ -33,16 +33,6 @@ ActiveRecord::Schema.define(:version => 20090326230205) do
   add_index "comments", ["commentable_id", "commentable_type", "created_at"], :name => "commentable_poly"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
-  create_table "domain_usages", :force => true do |t|
-    t.integer  "domain_id"
-    t.string   "usage_type"
-    t.integer  "usage_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "domain_usages", ["domain_id", "usage_id", "usage_type"], :name => "domain_usages_ids", :unique => true
-
   create_table "domains", :force => true do |t|
     t.string   "name"
     t.text     "variations"
@@ -88,17 +78,6 @@ ActiveRecord::Schema.define(:version => 20090326230205) do
     t.integer  "user_id"
     t.integer  "value"
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "messages", :force => true do |t|
-    t.text     "text",         :null => false
-    t.integer  "from_user_id", :null => false
-    t.integer  "to_user_id",   :null => false
-    t.string   "subject",      :null => false
-    t.datetime "deleted_at"
-    t.datetime "read_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -161,22 +140,7 @@ ActiveRecord::Schema.define(:version => 20090326230205) do
     t.datetime "updated_at"
   end
 
-  add_index "sprig_usages", ["sprig_id", "sprig_version_id", "parselet_id", "parselet_version_id"], :name => "sprig_usages_ids", :unique => true
-
-  create_table "sprig_versions", :force => true do |t|
-    t.integer  "sprig_id"
-    t.integer  "version"
-    t.string   "name"
-    t.text     "description"
-    t.text     "code"
-    t.integer  "user_id"
-    t.datetime "deleted_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "sprig_versions", ["name"], :name => "index_sprig_versions_on_name"
-  add_index "sprig_versions", ["sprig_id", "version"], :name => "index_sprig_versions_on_sprig_id_and_version", :unique => true
-  add_index "sprig_versions", ["user_id"], :name => "index_sprig_versions_on_user_id"
+  add_index "sprig_usages", ["sprig_id", "parselet_id"], :name => "sprig_usages_ids", :unique => true
 
   create_table "sprigs", :force => true do |t|
     t.string   "name"

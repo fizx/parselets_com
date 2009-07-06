@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/user/auth'
 require "digest"
+require "cgi"
 
 class User < ActiveRecord::Base
   has_many :parselets, :group => 'name'
@@ -36,7 +37,7 @@ class User < ActiveRecord::Base
   end
   
   def to_param
-    "#{id}-#{login}"
+    "#{id}-#{login.gsub(/[^a-z0-9]+/i, '-')}"
   end
   
   def key
@@ -66,15 +67,11 @@ class User < ActiveRecord::Base
   end
 
   def self.find_by_key(key)
-    find_by_login(key)
+    find_by_id(key)
   end
   
   def self.find_by_params(params)
     id = params[:user] || params[:user_id] || params[:id]
-    if id =~ /\A\d+\Z/
-      find_by_id(id)
-    else
-      find_by_login(id)
-    end
+    find_by_id(id)
   end
 end
