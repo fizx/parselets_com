@@ -5,6 +5,7 @@ set :scm, :git
 set :branch, "master"
 set :user, "www-data"
 set :use_sudo, false
+set :deploy_via, :remote_cache
 
 SERVER = "parselets.org"
 
