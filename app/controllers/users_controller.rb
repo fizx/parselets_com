@@ -69,7 +69,7 @@ class UsersController < ApplicationController
 protected
 
   def redirect_unless_owner_or_admin
-    @user = User.find_by_login(params[:id])
+    @user = User.find_by_id(params[:id])
     if @user != current_user
       unless admin?
         redirect_to :action => 'edit', :id => current_user and return
