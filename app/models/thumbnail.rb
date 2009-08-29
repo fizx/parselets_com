@@ -60,11 +60,13 @@ class Thumbnail < ActiveRecord::Base
     azon_url << "&Url=" +  url
     azon_url << "&Size=Small"
 
-    # begin
-      doc = open(azon_url).read
-    # rescue
-    #   return nil
-    # end
+    begin
+      Timeout.timeout(2) do 
+        doc = open(azon_url).read
+      end
+    rescue Timeout::Error
+      return nil
+    end
 
     m = doc.match(/\<aws:thumbnail[^\>]+exists=\"true\"\>(.+?)\<\//i)
 
