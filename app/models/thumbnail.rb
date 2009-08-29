@@ -13,13 +13,15 @@ class Thumbnail < ActiveRecord::Base
   MAX_TRIES = 5
   
   def self.path_for(url)
-    if !thumbnail_service_ready?
-      return (RAILS_ENV == 'development') ? DEBUG_PATH : DEFAULT_PATH
-    end
-
-    File.exists?(filesystem_path(url)) ? 
-      relative_path(url) : 
-      try_url(url)
+    "http://open.thumbshots.org/image.aspx?url="+URI::escape(url)
+    
+    # if !thumbnail_service_ready?
+    #   return (RAILS_ENV == 'development') ? DEBUG_PATH : DEFAULT_PATH
+    # end
+    # 
+    # File.exists?(filesystem_path(url)) ? 
+    #   relative_path(url) : 
+    #   try_url(url)
   end
   
   def self.try_url(url, force = false)
